@@ -19,11 +19,11 @@
         			</li>
         			<li class="userlinks">
         				<ul class="dropdown-menu">
-        					<li><a href="#">Edit Profile <i class="pull-right icon-pencil"></i></a></li>
+<!--        					<li><a href="#">Edit Profile <i class="pull-right icon-pencil"></i></a></li>
         					<li><a href="#">Account <i class="pull-right icon-cog"></i></a></li>
-        					<li><a href="#">Help <i class="pull-right icon-question-sign"></i></a></li>
-        					<li class="divider"></li>
-        					<li><a href="sair.php" class="text-right">Sair</a></li>
+        					<li><a href="#">Help <i class="pull-right icon-question-sign"></i></a></li>-->
+        					
+        					<li><a href="../sair.php" class="text-right">Sair</a></li>
         				</ul>
         			</li>
         		</ul>
