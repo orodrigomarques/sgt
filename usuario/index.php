@@ -178,8 +178,8 @@
                                                                 <td style="width:40%" class="center">
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($usuario['id_usuario']);?>')" class="btn btn-primary"><i class="icon-trash">&nbsp;&nbsp;Editar</i> </a>
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=visualisar"onClick="buscaPessoa('<?php echo($usuario['id_usuario']);?>')" class="btn btn-success"><i class="icon-trash">&nbsp;&nbsp;Visualizar</i> </a>
-<!--                                                                    <a onClick="if(confirm('Tem certeza que deseja excluir este registro?')){location.hrer='gerencia.php'}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>-->
-                                                                    <a onClick="if(confirm('Tem certeza que deseja excluir este usuario?')){location.hrer='gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=excluir';}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
+                                                                    <a href="excluir.php?id_usuario=<?php echo $usuario['id_usuario']; ?>" onClick="if(confirm('Tem certeza que deseja excluir este registro?')){location.hrer='gerencia.php'}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
+ <!--                                                                   <a onClick="if(confirm('Tem certeza que deseja excluir este usuario?')){location.hrer='gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=excluir';}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a> -->
                                                                     
                                                                 </td>
                                                         </tr>
