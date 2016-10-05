@@ -1,8 +1,47 @@
 <?php 
     include '../include/head.php';
-
     include '../include/funcoes.php';
+    include '../include/conexao/conecta.php';
     validaAcesso();
+    
+
+    
+    if($_GET['acao'] == 'excluir'){
+        $id = $_GET['id_usuario'];
+        if($_SESSION['cdUsuario'] == $id){
+            echo "<script>alert('Não é posivel deletar seu próprio usuario!');
+            location.href=\"index.php\"</script>";
+        }else{
+
+            $deleta = mysqli_query($conexao,"DELETE FROM usuario WHERE id_usuario = '$id'");
+
+            if($deleta == ''){
+            echo "<script>alert('Houve um erro ao deletar!');
+            location.href=\"index.php\"</script>";
+            }else{
+               echo "<script>alert('Registro excluido com sucesso!');
+               location.href=\"index.php\"</script>";
+            }
+
+        }
+    
+    }
+  
+    if(isset($_GET['acao']) && $_GET['acao'] != ''){        
+           
+                
+                
+//                if(ale('Tem certeza que deseja excluir este usuario?')){
+//                    $codigo_usuario = base64_decode($_GET['id']);		
+//                    $sql = "DELETE FROM usuario WHERE id_usuario = '$codigo_pessoa'";
+//                    $resultado = mysql_query($sql, $conexao) or die(mysql_error());	
+//                    header('Location: index.php');
+//                    exit;
+//                }
+           
+	}	
+    
+    
 ?>
 
 <body class="">
