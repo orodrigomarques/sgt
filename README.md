@@ -2,7 +2,7 @@
 #Tutorial para configuração da Vm no Vagrant
 
 #Instale em sua maquina local os seguintes softwares:
-Oracle VirtualBox -  disponivel em https://www.virtualbox.org/wiki/Downloads
+Oracle VirtualBox -  disponivel em https://www.virtualbox.org/wiki/Downloads .
 Vagrant - https://www.vagrantup.com/downloads.html
 SSH no Windows: https://winscp.net/eng/download.php ou http://www.putty.org/
 SSH no Linux:  sudo apt-get install openssh-server -y
