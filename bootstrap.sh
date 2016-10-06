@@ -62,13 +62,14 @@ sudo add-apt-repository ppa:webupd8team/sublime-text-3 -y && sudo apt-get update
 sudo add-apt-repository ppa:webupd8team/java -y && sudo update && sudo apt-get install oracle-java8-installer -y
 
 #instalando netbeans
-wget http://download.netbeans.org/netbeans/8.2/final/bundles/netbeans-8.2-javase-linux.sh -O netbeans-linux.sh
-chmod +x netbeans-linux.sh
-./netbeans-linux.sh
+sudo wget http://download.netbeans.org/netbeans/8.2/final/bundles/netbeans-8.2-javase-linux.sh -O netbeans-linux.sh
+sudo chmod +x netbeans-linux.sh
+sudo sh netbeans-linux.sh
 
 #baixando o projeto
-cd /var/www/html
-git clone https://github.com/rmark3z/sgt.git
+sudo cd /var/www/html
+sudo git clone https://github.com/rmark3z/sgt.git
+
 
 
 
