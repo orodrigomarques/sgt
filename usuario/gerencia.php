@@ -124,7 +124,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li class='active'><a href="../home.php">Home</a> > <a href="index.php">Usuarios</a> > novo usuario</li>
+                <li class='active'><a href="../home.php">Home</a> > <a href="index.php">Usuarios</a> > <?php echo $acao?></li>
                 
             </ol>
             <h1>Usuarios</h1>            
