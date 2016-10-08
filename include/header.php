@@ -9,11 +9,11 @@
 
         <ul class="nav navbar-nav pull-right toolbar">
         	<li class="dropdown">
-        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs"><?php echo $_SESSION['nomeUsuario'] ?><i class="icon-caret-down icon-scale"></i></span><img src="../assets/demo/avatar/dangerfield.png" alt="Dangerfield" /></a>
+        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs"><?php echo $_SESSION['nomeUsuario'] ?><i class="icon-caret-down icon-scale"></i></span></a>
         		<ul class="dropdown-menu userinfo arrow">
         			<li class="username">
                         <a href="#">
-        				    <div class="pull-left"><img class="userimg" src="../assets/demo/avatar/dangerfield.png" alt="Jeff Dangerfield" /></div>
+<!--        				    <div class="pull-left"><img class="userimg" src="../assets/demo/avatar/dangerfield.png" alt="Jeff Dangerfield" /></div>-->
         				    <div class="pull-right"><h5>Olá, <?php echo $_SESSION['nomeUsuario'] ?>!</h5><small>Logged in as <span>john275</span></small></div>
                         </a>
         			</li>
@@ -28,7 +28,7 @@
         			</li>
         		</ul>
         	</li>
-        	<li class="dropdown">
+<!--        	<li class="dropdown">
         		<a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><i class="icon-envelope"></i><span class="badge">1</span></a>
         		<ul class="dropdown-menu messeges arrow">
         			<li>
@@ -57,11 +57,11 @@
         			</a></li>
         			<li><a class="dd-viewall" href="#">View All Messages</a></li>
         		</ul>
-        	</li>
+        	</li>-->
         	
-            <li>
+<!--            <li>
                 <a href="#" id="headerbardropdown"><span><i class="icon-level-down"></i></span></a>
-            </li>
+            </li>-->
             
 		</ul>
     </header>   
