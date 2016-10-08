@@ -2,47 +2,116 @@
     include '../include/head.php';
     include '../include/funcoes.php';
     include '../include/conexao/conecta.php';
-    validaAcesso();
-    
+    validaAcesso();  
+        
 
-    
-    if($_GET['acao'] == 'excluir'){
-        $id = $_GET['id_usuario'];
-        if($_SESSION['cdUsuario'] == $id){
-            echo "<script>alert('Não é posivel deletar seu próprio usuario!');
-            location.href=\"index.php\"</script>";
-        }else{
-
-            $deleta = mysqli_query($conexao,"DELETE FROM usuario WHERE id_usuario = '$id'");
-
-            if($deleta == ''){
-            echo "<script>alert('Houve um erro ao deletar!');
-            location.href=\"index.php\"</script>";
+    if(isset($_GET['acao']) && $_GET['acao'] != ''){
+        
+        $acao = $_GET['acao'];
+        
+        $id = (isset($_GET['id']) && !empty($_GET['id'])) ? $_GET['id'] : 0;
+        $id = base64_decode($id);
+        
+        if($acao == 'excluir'){
+            
+            if($_SESSION['cdUsuario'] == $id){
+                echo "<script>alert('Não é posivel deletar seu próprio usuario!');
+                location.href=\"index.php\"</script>";
             }else{
-               echo "<script>alert('Registro excluido com sucesso!');
-               location.href=\"index.php\"</script>";
-            }
 
+                $deleta = mysqli_query($conexao,"DELETE FROM usuario WHERE id_usuario = '$id'");
+
+                if($deleta == ''){
+                echo "<script>alert('Houve um erro ao deletar!');
+                location.href=\"index.php\"</script>";
+                }else{
+                   echo "<script>alert('Registro excluido com sucesso!');
+                   location.href=\"index.php\"</script>";
+                }
+            }        
+        }        
+                
+        if($acao == 'visualizar' || $acao  == 'editar'){
+            $sql = "SELECT * FROM usuario WHERE id_usuario = ".$id;
+            $linha = mysqli_query($conexao, $sql);
+            $usuario = mysqli_fetch_assoc($linha) or die(mysql_error());
+
+            $id = $usuario['id_usuario'];
+            $nome = $usuario['nm_usuario'];
+            $ativo = $usuario['ds_ativo'];
+            $permissao = $usuario['ds_permissao'];
         }
-    
-    }
-  
-    if(isset($_GET['acao']) && $_GET['acao'] != ''){        
-           
-                
-                
-//                if(ale('Tem certeza que deseja excluir este usuario?')){
-//                    $codigo_usuario = base64_decode($_GET['id']);		
-//                    $sql = "DELETE FROM usuario WHERE id_usuario = '$codigo_pessoa'";
-//                    $resultado = mysql_query($sql, $conexao) or die(mysql_error());	
-//                    header('Location: index.php');
-//                    exit;
-//                }
-           
-	}	
-    
-    
+        
+        if($acao == 'novo' ){
+            
+            $id = 0;
+            $nome = "";
+            $ativo = 0;
+            $permissao = 0;
+        }    
+    }   
+        
+    if(isset($_POST['idUsuario']) && $_POST['idUsuario'] != ''){
+        
+        $id = $_POST['idUsuario'];
+        $ativo = isset($_POST['ativo']) ? '1' : '0';
+        $permissao = $_POST['permissao'];
+        $usuario = addslashes($_POST['usuario']);        
+        
+        
+        //$senhaAtual = md5(addslashes($_POST['senhaAtual']));
+        $novaSenha = md5(addslashes($_POST['novaSenha']));
+        $confSenha = md5(addslashes($_POST['confSenha']));
+        
+        
+        if(empty($id)){
+            if($novaSenha == $confSenha){ 
+                $sqlUsuario = "INSERT INTO usuario (nm_usuario, ds_senha, ds_ativo, ds_permissao) "
+                                ."VALUES ('".$usuario."', '".$novaSenha."', ".$ativo.", ".$permissao.")"; 
+                echo $sqlUsuario;
+                $res = mysqli_query($conexao, $sqlUsuario) or die(mysqli_error($conexao));
+                $retorno='inserido';
+            }else{
+                 header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&erro=invalido');
+            }
+        }else{            
+            $sqlUsuario = "UPDATE usuario SET nm_usuario = '".$usuario."', ds_ativo = ".$ativo.", ds_permissao = ".$permissao." "
+                        . "WHERE id_usuario = ".$id ; 
+                                
+            $res = mysqli_query($conexao, $sqlUsuario) or die(mysqli_error());
+            $retorno='alterado';
+
+            if(!empty($novaSenha)){
+
+                $linha = mysqli_query($conexao, "SELECT ds_senha FROM usuario WHERE id_usuario = ".$id);
+                $senha = mysqli_fetch_assoc($linha);
+
+               $senhaAtual = md5(addslashes($_POST['senhaAtual']));
+
+
+                if($senha['ds_senha'] == $senhaAtual && $novaSenha == $confSenha){
+
+                    $sqlSenha = "UPDATE usuario SET ds_senha = '".$novaSenha."' WHERE id_usuario = ".$id;
+                    $res = mysqli_query($conexao, $sqlSenha) or die(mysqli_error());
+                    $retorno='alterado';
+                    
+
+                }else{
+                    header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&retorno=invalido');
+                    exit();
+                }
+            }
+        
+        }  
+        if($retorno){
+            header('Location: index.php?retorno='.$retorno);
+        }else{
+            header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&retorno=invalido');
+        }
+    } 
 ?>
+<script>alertaSucesso("a", "a", "a")</script>
+
 
 <body class="">
     <?php include '../include/header.php';?>
@@ -70,12 +139,13 @@
         
     </div>
     <div class="panel-body collapse in">
-        <form action="" class="form-horizontal" />
+        <form id="formUsuario" name="formUsuario" method="post"  class="form-horizontal" />
+            <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo($id);?>">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Ativo</label>
                 <div class="col-sm-4">
                     <label class="checkbox-inline">
-                      <input type="checkbox" id="inlinecheckbox1" value="option1" /> 
+                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : '';?> type="checkbox" value="1"> 
                     </label>
                     
                 </div>
@@ -83,41 +153,77 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Perfil</label>
                 <div class="col-sm-4">
-                    <select name="ds_permissao" id="ds_permissao" class="form-control">
+                    <select name="permissao" id="permissao" class="form-control">
                         <option value=''>Perfil...</option>
-                        <option value='1' onClick>Administrador</option>
-                        <option value='2' onClick>Gerente</option>
-                        <option value='3' onClick>Funcionario</option>                                                    
+                        <option value="1" <?php echo($permissao == '1') ? 'selected' : '';?>>Administrador</option>
+                        <option value="2" <?php echo($permissao == '2') ? 'selected' : '';?>>Gerente</option>
+                        <option value="3" <?php echo($permissao == '3') ? 'selected' : '';?>>Funcionario</option>
+                        
                     </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Usuario</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control"  value="Usuario"/>
                 </div>
             </div>
         
             <div class="form-group">
+                <label class="col-sm-2 control-label">Pessoa</label>
+                <div class="col-sm-4">
+                    <input name="pessoa" id="pessoa" type="text" class="form-control"  value="<?php echo $nome?>"  readonly="readonly"/>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Usuario</label>
+                <div class="col-sm-4">
+                    <input name="usuario" id="usuario" type="text" class="form-control"  value="<?php echo $nome?>"/>
+                </div>
+            </div>
+        <?php if(isset($_GET['retorno']) && $_GET['retorno'] == 'invalido'){?>
+            <div class="form-group ">   
+                <label class="col-sm-2 control-label"></label>
+                <div class="alert alert-dismissable alert-danger col-sm-4 ">
+                    <strong>Senhas digitadas não conferem</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                </div>
+            </div>
+        <?php }
+            if($acao != 'visualizar'){
+                if(!empty($id) && $_GET['acao'] == 'editar'){?>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Senha Atual</label>
+                <div class="col-sm-4">
+                    <input name="senhaAtual" id="senhaAtual" type="password" class="form-control" />
+                </div>
+            </div>
+            <?php } ?>
+        
+            <div class="form-group">
                 <label class="col-sm-2 control-label">Senha</label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" />
+                    <input name="novaSenha" id="novaSenha" type="password" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Confirmar senha</label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" />
+                    <input name="confSenha" id="confSenha" type="password" class="form-control" />
                 </div>
-            </div>
+            </div> 
+        <?php } ?>
+        
         
         </form>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="btn-toolbar">
-                        <button class="btn-primary btn">Alterar</button>
-                        <button class="btn-default btn">Cancelar</button>
+                    <?php 
+                        if($acao  == 'visualizar'){?>
+                            <button class="btn-primary btn" onClick="location.href='index.php'">Voltar</button>
+                    <?php 
+                        }else{?>
+                            <button class="btn-primary btn" id="btn_gravar" onClick="$('#formUsuario').submit();">Gravar</button>
+                            <button class="btn-default btn" onClick="location.href='index.php'">Cancelar</button>
+                    <?php 
+                        }?>
                     </div>
                 </div>
             </div>
@@ -142,29 +248,30 @@
 <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="assets/js/jqueryui-1.10.3.min.js'))</script>
 -->
 
-<script type='text/javascript' src='assets/js/jquery-1.10.2.min.js'></script> 
-<script type='text/javascript' src='assets/js/jqueryui-1.10.3.min.js'></script> 
-<script type='text/javascript' src='assets/js/bootstrap.min.js'></script> 
-<script type='text/javascript' src='assets/js/enquire.js'></script> 
-<script type='text/javascript' src='assets/js/jquery.cookie.js'></script> 
-<script type='text/javascript' src='assets/js/jquery.touchSwipe.min.js'></script> 
-<script type='text/javascript' src='assets/js/jquery.nicescroll.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/codeprettifier/prettify.js'></script> 
-<script type='text/javascript' src='assets/plugins/easypiechart/jquery.easypiechart.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/sparklines/jquery.sparklines.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-toggle/toggle.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-wysihtml5/wysihtml5-0.3.0.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-wysihtml5/bootstrap-wysihtml5.js'></script> 
-<script type='text/javascript' src='assets/plugins/fullcalendar/fullcalendar.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-daterangepicker/daterangepicker.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-daterangepicker/moment.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.resize.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.orderBars.min.js'></script> 
-<script type='text/javascript' src='assets/demo/demo-index.js'></script> 
-<script type='text/javascript' src='assets/js/placeholdr.js'></script> 
-<script type='text/javascript' src='assets/js/application.js'></script> 
-<script type='text/javascript' src='assets/demo/demo.js'></script> 
+<script type='text/javascript' src='../assets/js/jquery-1.10.2.min.js'></script> 
+<script type='text/javascript' src='../assets/js/alertas.js'></script> 
+<script type='text/javascript' src='..assets/js/jqueryui-1.10.3.min.js'></script> 
+<script type='text/javascript' src='../assets/js/bootstrap.min.js'></script> 
+<script type='text/javascript' src='../assets/js/enquire.js'></script> 
+<script type='text/javascript' src='../assets/js/jquery.cookie.js'></script> 
+<script type='text/javascript' src='../assets/js/jquery.touchSwipe.min.js'></script> 
+<script type='text/javascript' src='../assets/js/jquery.nicescroll.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/codeprettifier/prettify.js'></script> 
+<script type='text/javascript' src='../assets/plugins/easypiechart/jquery.easypiechart.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/sparklines/jquery.sparklines.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/form-toggle/toggle.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/form-wysihtml5/wysihtml5-0.3.0.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/form-wysihtml5/bootstrap-wysihtml5.js'></script> 
+<script type='text/javascript' src='../assets/plugins/fullcalendar/fullcalendar.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/form-daterangepicker/daterangepicker.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/form-daterangepicker/moment.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/charts-flot/jquery.flot.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/charts-flot/jquery.flot.resize.min.js'></script> 
+<script type='text/javascript' src='../assets/plugins/charts-flot/jquery.flot.orderBars.min.js'></script> 
+<script type='text/javascript' src='../assets/demo/demo-index.js'></script> 
+<script type='text/javascript' src='../assets/js/placeholdr.js'></script> 
+<script type='text/javascript' src='../assets/js/application.js'></script> 
+<script type='text/javascript' src='../assets/demo/demo.js'></script> 
 
 </body>
 </html>
