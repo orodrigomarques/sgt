@@ -4,6 +4,10 @@
     include '../include/funcoes.php';
     validaAcesso();
     
+    if(isset($_GET['retorno']) && $_GET['retorno'] == 'inserido'){
+        echo "<script>alert('Usuario inserido com sucesso!');</script>";
+    }
+    
     //WHERE
     $where = '';
     $nome = '';
@@ -54,32 +58,7 @@
 
     
 ?>
-<script type="text/javascript">
-		
-	function buscaUsuario(ref){
-	
-            $.getJSON('buscaUsuario.php?ref=' + ref, null, function(data) {
 
-                if(data.usuario.length == 0){
-                    $('#nome').val('Nenhum usuario encontrado');
-                }else{			
-                    $('#codigo_usuario').val(data.usuario[0].codigo_usuario);
-                    $('#nome').val(data.usuario[0].nome);
-                    $('#ativo').val(data.usuario[0].ativo);
-                    $('#permicao').val(data.usuario[0].permicao);
-                }
-            });
-	}
-	
-	function novoUsuario(){
-	
-		$('#codigo_usuario').val('0');
-		$('#nome').val('');
-		$('#ativo').val('0');
-		$('#permissao').val('0');
-	}
-	
-</script>
 
 <body class="">
     <?php include '../include/header.php';?>
@@ -97,7 +76,7 @@
             <h1>Usuarios</h1>  
             <div class="options">
                 <div class="btn-toolbar">
-                    <a data-toggle="modal" href="gerencia.php" onclick="novoUsuario()" class="btn btn-primary"><i class="icon-user"></i>&nbsp;&nbsp;Novo Usuario</a>
+                    <a href="gerencia.php?acao=novo"  class="btn btn-primary"><i class="icon-user"></i>&nbsp;&nbsp;Novo Usuario</a>
                 </div>
             </div>
         </div>      
@@ -177,10 +156,9 @@
                                                                 <td style="width:10%" class=""><?php echo $Ativo;?></td>
                                                                 <td style="width:40%" class="center">
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($usuario['id_usuario']);?>')" class="btn btn-primary"><i class="icon-trash">&nbsp;&nbsp;Editar</i> </a>
-                                                                    <a href="gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=visualisar"onClick="buscaPessoa('<?php echo($usuario['id_usuario']);?>')" class="btn btn-success"><i class="icon-trash">&nbsp;&nbsp;Visualizar</i> </a>
-                                                                    <a  onClick="if(confirm('Tem certeza que deseja excluir este registro?')){location.href='gerencia.php?acao=excluir&id_usuario=<?php echo $usuario['id_usuario']; ?>'}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
- <!--                                                                   <a onClick="if(confirm('Tem certeza que deseja excluir este usuario?')){location.hrer='gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=excluir';}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a> -->
-                                                                    
+                                                                    <a href="gerencia.php?id=<?php echo base64_encode($usuario['id_usuario']); ?>&acao=visualizar" onClick="buscaPessoa('<?php echo($usuario['id_usuario']);?>')" class="btn btn-success"><i class="icon-trash">&nbsp;&nbsp;Visualizar</i> </a>
+<!--                                                                    <a onClick="buscaUsuario('<?php echo($usuario['id_usuario']);?>');location.href='gerencia.php?acao=visualizar&id_usuario=<?php echo $usuario['id_usuario']; ?>'" class="btn btn-success"><i class="icon-trash">&nbsp;&nbsp;Visualizar</i> </a>-->
+                                                                    <a onClick="if(confirm('Tem certeza que deseja excluir este registro?')){location.href='gerencia.php?acao=excluir&id=<?php echo base64_encode($usuario['id_usuario']); ?>'}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
                                                                 </td>
                                                         </tr>
                                                 <?php }?>
@@ -271,16 +249,6 @@
 <script type='text/javascript' src='../assets/js/placeholdr.js'></script> 
 <script type='text/javascript' src='../assets/js/application.js'></script> 
 <script type='text/javascript' src='../assets/demo/demo.js'></script> 
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>
