@@ -136,7 +136,7 @@
             
                     <div class="panel-heading">
         <h4>Dados do usuario</h4>
-        
+       
     </div>
     <div class="panel-body collapse in">
         <form id="formUsuario" name="formUsuario" method="post"  class="form-horizontal" />
@@ -145,7 +145,7 @@
                 <label class="col-sm-2 control-label">Ativo</label>
                 <div class="col-sm-4">
                     <label class="checkbox-inline">
-                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : '';?> type="checkbox" value="1"> 
+                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : '';?> <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> type="checkbox" value="1"> 
                     </label>
                     
                 </div>
@@ -153,7 +153,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Perfil</label>
                 <div class="col-sm-4">
-                    <select name="permissao" id="permissao" class="form-control">
+                    <select name="permissao" id="permissao" class="form-control" <?php if($acao == 'visualizar'){?>disabled="disabled" <?php };?>>
                         <option value=''>Perfil...</option>
                         <option value="1" <?php echo($permissao == '1') ? 'selected' : '';?>>Administrador</option>
                         <option value="2" <?php echo($permissao == '2') ? 'selected' : '';?>>Gerente</option>
@@ -173,15 +173,16 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Usuario</label>
                 <div class="col-sm-4">
-                    <input name="usuario" id="usuario" type="text" class="form-control"  value="<?php echo $nome?>"/>
+                    <input name="usuario" id="usuario" type="text" class="form-control"  value="<?php echo $nome?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
                 </div>
             </div>
-        <?php if(isset($_GET['retorno']) && $_GET['retorno'] == 'invalido'){?>
+        <?php if(isset($_GET['retorno']) && $_GET['retorno'] == 'invalido'){ ?>
             <div class="form-group ">   
                 <label class="col-sm-2 control-label"></label>
                 <div class="alert alert-dismissable alert-danger col-sm-4 ">
                     <strong>Senhas digitadas não conferem</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                
                 </div>
             </div>
         <?php }
