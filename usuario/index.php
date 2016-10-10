@@ -5,9 +5,16 @@
     validaAcesso();
     
     if(isset($_GET['retorno']) && $_GET['retorno'] == 'inserido'){
-        echo "<script>alert('Usuario inserido com sucesso!');</script>";
+       
+       echo "<script>alert('Usuario inserido com sucesso!');
+                   location.href=\"index.php\"</script>";
     }
     
+     if(isset($_GET['retorno']) && $_GET['retorno'] == 'alterado'){
+       
+       echo "<script>alert('Usuario alterado com sucesso!');
+                   location.href=\"index.php\"</script>";
+    }
     //WHERE
     $where = '';
     $nome = '';
