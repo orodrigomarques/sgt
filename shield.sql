@@ -38,7 +38,7 @@ dt_data DATE NOT NULL ,
 hr_hora VARCHAR( 5 ) NOT NULL ,
 dt_vencimento DATE NOT NULL ,
 vl_infracao DOUBLE NOT NULL ,
---PRIMARY KEY ( cd_infracao, cd_ait ) ,
+--
 CHECK (
 vl_infracao >0
 ),
@@ -60,7 +60,7 @@ dt_relato_denuncia DATE NOT NULL,
 dt_apresentacao_defesa DATE ,
 dt_apresentacao_relatorio DATE ,
 dt_inicio_julgamento DATE ,
-dt_julgado ,
+dt_julgado DATE ,
 ds_resultado VARCHAR( 30 ) ,
 dt_notificacao DATE  ,
 ds_observacoes_processos VARCHAR( 100 ),
@@ -68,7 +68,7 @@ cd_recurso INT ,
 aa_recurso DATE ,
 dt_transito_julgado DATE  ,
 dt_inicio_julgamento_recurso DATE ,
-dt_julgado_recurso ,
+dt_julgado_recurso DATE,
 ds_resultado_recurso VARCHAR( 30 ) ,
 dt_notificacao_recurso DATE  ,
 dt_arquivo_deprot DATE ,
@@ -82,7 +82,7 @@ CREATE TABLE veiculo(
     cd_tipo_pessoa INT NOT NULL, 
     cd_ait INT NOT NULL, 
     cd_modalidade INT NOT NULL, 
-    cd_associcao INT NOT NULL, 
+    cd_associacao INT NOT NULL, 
     cd_placa VARCHAR (8) NOT NULL, 
     cd_prefixo VARCHAR (10) NOT NULL,
     nm_fabricante VARCHAR(30) NOT NULL,
@@ -100,12 +100,10 @@ CREATE TABLE veiculo(
     dt_emissao_alvara DATE, 
     dt_validade_alvara DATE ,
                     
-   CONSTRAINT fkcd_pessoa FOREIGN KEY (cd_pessoa) REFERENCES pessoa (cd_pessoa),
-    CONSTRAINT fkcd_documento FOREIGN KEY (cd_documento) REFERENCES pessoa (cd_documento),
- CONSTRAINT fkcd_tipo_pessoa FOREIGN KEY (cd_tipo_pessoa) REFERENCES pessoa (cd_tipo_pessoa),
- CONSTRAINT fkcd_ait FOREIGN KEY (cd_ait) REFERENCES multa (cd_ait),
+
+                      CONSTRAINT fkveiculo_cd_ait FOREIGN KEY (cd_ait) REFERENCES multa (cd_ait),
                       CONSTRAINT fkcd_modalidade FOREIGN KEY (cd_modalidade) REFERENCES tipoVeiculo (cd_modalidade), 
-                      CONSTRAINT fkcd_associcao FOREIGN KEY (cd_associcao) REFERENCES associacao (cd_associcao)
+                      CONSTRAINT fkcd_associacao FOREIGN KEY (cd_associacao) REFERENCES associacao (cd_associacao)
     
  
 )
@@ -124,7 +122,7 @@ ds_complemento VARCHAR( 15 ) ,
 cd_cep INT NOT NULL ,
 nm_bairro VARCHAR( 10 ) NOT NULL ,
 nm_municipio VARCHAR( 15 ) NOT NULL ,
-nm_UFCHAR( 2 ) NOT NULL ,
+nm_UF CHAR( 2 ) NOT NULL ,
 cd_telefone VARCHAR( 13 ) NOT NULL ,
 nm_email VARCHAR( 25 ) NOT NULL ,
 nm_linha VARCHAR( 15 ) NOT NULL ,
