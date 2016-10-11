@@ -8,17 +8,17 @@
 
 
 CREATE TABLE documento(
-cd_documento INT PRIMARY KEY NOT NULL ,
+cd_documento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 nm_documento VARCHAR( 20 )
 )
 
 CREATE TABLE tipoPessoa(
-cd_tipo_pessoa INT PRIMARY KEY NOT NULL ,
+cd_tipo_pessoa INT PRIMARY KEY NOT NULL,
 nm_pessoa VARCHAR( 30 )
 )
 
 CREATE TABLE multa(
-cd_ait INT NOT NULL PRIMARY KEY ,
+cd_ait INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 dt_infracao DATE NOT NULL ,
 hr_infracao VARCHAR( 5 ) NOT NULL ,
 dt_vencimento_infracao DATE NOT NULL ,
@@ -29,7 +29,7 @@ dt_pagamento_multa DATE
 
 
 CREATE TABLE infracao(
-cd_infracao INT NOT NULL ,
+cd_infracao INT NOT NULL AUTO_INCREMENT,
 cd_ait INT,
 nm_infracao VARCHAR( 20 ) NOT NULL ,
 ds_infracao VARCHAR( 100 ) NOT NULL ,
@@ -46,13 +46,13 @@ CONSTRAINT fkcd_ait FOREIGN KEY ( cd_ait ) REFERENCES multa( cd_ait )
 )
 
 CREATE TABLE tipoVeiculo(
-cd_modalidade INT NOT NULL PRIMARY KEY ,
+cd_modalidade INT NOT NULL PRIMARY KEY,
 nm_modalidade VARCHAR( 30 )
 )
 
 
 CREATE TABLE associacao(
-cd_associacao INT NOT NULL PRIMARY KEY ,
+cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 nm_razao_social VARCHAR( 40 ) NOT NULL ,
 nm_logradouro VARCHAR( 30 ) NOT NULL ,
 nm_local VARCHAR( 20 ) NOT NULL ,
