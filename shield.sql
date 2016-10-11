@@ -75,6 +75,95 @@ dt_arquivo_deprot DATE ,
 ds_observacao_recurso VARCHAR( 100 )
 )
 
+
+ 
+               
+
+
+  
+CREATE TABLE associacao(
+cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nm_razao_social VARCHAR( 40 ) NOT NULL ,
+nm_logradouro VARCHAR( 30 ) NOT NULL ,
+nm_local VARCHAR( 20 ) NOT NULL ,
+ds_numero INT NOT NULL ,
+ds_complemento VARCHAR( 15 ) ,
+cd_cep INT NOT NULL ,
+nm_bairro VARCHAR( 10 ) NOT NULL ,
+nm_municipio VARCHAR( 15 ) NOT NULL ,
+nm_UF CHAR( 2 ) NOT NULL ,
+cd_telefone VARCHAR( 13 ) NOT NULL ,
+nm_email VARCHAR( 25 ) NOT NULL ,
+nm_linha VARCHAR( 15 ) NOT NULL ,
+CONSTRAINT cnm_UF CHECK (
+nm_UF IN (
+'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PR','PB','PA'
+'PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'
+)
+)
+)
+
+
+CREATE TABLE pessoa(  
+    cd_pessoa INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    cd_documento INT NOT NULL, 
+    cd_tipo_pessoa INT NOT NULL, 
+    cd_ait INT , 
+    nm_pessoa VARCHAR (50) NOT NULL,
+    nm_associacao VARCHAR (30) ,
+    nm_logradouro VARCHAR(50) NOT NULL,
+    cd_endereco INT NOT NULL,
+    ds_complemento VARCHAR(20),
+    cd_cep INT NOT NULL,
+    nm_bairro VARCHAR(15) NOT NULL,
+    nm_municipio VARCHAR(15) NOT NULL,
+    nm_UF CHAR (2) NOT NULL,
+    cd_telefone VARCHAR( 13 ) NOT NULL ,
+    cd_celular VARCHAR( 14 ) NOT NULL ,
+    nm_email VARCHAR( 25 ) NOT NULL ,
+    cd_rg VARCHAR (12) NOT NULL,
+    nm_uf_rg CHAR (2) NOT NULL,
+    cd_cpf INT NOT NULL,
+    cd_titulo_eleitor INT NOT NULL,
+    cd_zona INT NOT NULL,
+    cd_secao_eleitoral INT NOT NULL,
+    dt_nascimento DATE NOT NULL,
+    cd_certidao_reservista VARCHAR(10),
+    cd_serie CHAR(1),
+    dt_atestado_antecedente_criminais DATE,
+    cd_cnh INT,
+    nm_categoria CHAR(1),
+    dt_expedicao_cnh DATE,
+    dt_renovacao_cnh DATE,
+    dt_direcao_defensiva DATE,
+    cd_gerenciamento_detran INT,
+    dt_credenciamento_detran DATE,
+    cd_carteirinha INT,
+    dt_validade_carteirinha DATE,
+    cd_inscricao_iss VARCHAR(15),
+    ds_carteira VARCHAR (50),
+    dt_inicio DATE,
+    ds_inativo INT(11),
+    
+
+                      CONSTRAINT fkcd_documento FOREIGN KEY (cd_documento) REFERENCES documento (cd_documento),
+                      CONSTRAINT fkcd_tipo_pessoa FOREIGN KEY (cd_tipo_pessoa) REFERENCES tipoPessoa (cd_tipo_pessoa), 
+    
+    CONSTRAINT cnm_UF CHECK (
+nm_UF IN (
+'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PR','PB','PA'
+'PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'
+)
+),
+    
+ CONSTRAINT cnm_uf_rg CHECK (
+nm_uf_rg IN (
+'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PR','PB','PA'
+'PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'
+)
+) 
+)
+
 CREATE TABLE veiculo( 
     cd_veiculo INT NOT NULL PRIMARY KEY, 
     cd_pessoa INT NOT NULL, 
@@ -103,34 +192,12 @@ CREATE TABLE veiculo(
 
                       CONSTRAINT fkveiculo_cd_ait FOREIGN KEY (cd_ait) REFERENCES multa (cd_ait),
                       CONSTRAINT fkcd_modalidade FOREIGN KEY (cd_modalidade) REFERENCES tipoVeiculo (cd_modalidade), 
-                      CONSTRAINT fkcd_associacao FOREIGN KEY (cd_associacao) REFERENCES associacao (cd_associacao)
+                      CONSTRAINT fkcd_associacao FOREIGN KEY (cd_associacao) REFERENCES associacao (cd_associacao),
     
- 
-)
- 
-               
-
-
-  
-CREATE TABLE associacao(
-cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-nm_razao_social VARCHAR( 40 ) NOT NULL ,
-nm_logradouro VARCHAR( 30 ) NOT NULL ,
-nm_local VARCHAR( 20 ) NOT NULL ,
-ds_numero INT NOT NULL ,
-ds_complemento VARCHAR( 15 ) ,
-cd_cep INT NOT NULL ,
-nm_bairro VARCHAR( 10 ) NOT NULL ,
-nm_municipio VARCHAR( 15 ) NOT NULL ,
-nm_UF CHAR( 2 ) NOT NULL ,
-cd_telefone VARCHAR( 13 ) NOT NULL ,
-nm_email VARCHAR( 25 ) NOT NULL ,
-nm_linha VARCHAR( 15 ) NOT NULL ,
-CONSTRAINT cnm_UF CHECK (
+ CONSTRAINT cnm_UF CHECK (
 nm_UF IN (
 'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PR','PB','PA'
 'PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'
 )
 )
 )
-
