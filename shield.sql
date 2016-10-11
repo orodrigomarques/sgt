@@ -13,7 +13,7 @@ nm_documento VARCHAR( 20 )
 )
 
 CREATE TABLE tipoPessoa(
-cd_tipo_pessoa INT PRIMARY KEY NOT NULL,
+cd_tipo_pessoa INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 nm_pessoa VARCHAR( 30 )
 )
 
@@ -46,10 +46,34 @@ CONSTRAINT fkcd_ait FOREIGN KEY ( cd_ait ) REFERENCES multa( cd_ait )
 )
 
 CREATE TABLE tipoVeiculo(
-cd_modalidade INT NOT NULL PRIMARY KEY,
+cd_modalidade INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 nm_modalidade VARCHAR( 30 )
 )
 
+CREATE TABLE processo(
+
+cd_processo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+
+aa_processo DATE NOT NULL ,
+
+dt_relato_denuncia DATE NOT NULL,
+dt_apresentacao_defesa DATE ,
+dt_apresentacao_relatorio DATE ,
+dt_inicio_julgamento DATE ,
+dt_julgado ,
+ds_resultado VARCHAR( 30 ) ,
+dt_notificacao DATE  ,
+ds_observacoes_processos VARCHAR( 100 ),
+cd_recurso INT ,
+aa_recurso DATE ,
+dt_transito_julgado DATE  ,
+dt_inicio_julgamento_recurso DATE ,
+dt_julgado_recurso ,
+ds_resultado_recurso VARCHAR( 30 ) ,
+dt_notificacao_recurso DATE  ,
+dt_arquivo_deprot DATE ,
+ds_observacao_recurso VARCHAR( 100 )
+)
 
 CREATE TABLE associacao(
 cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
