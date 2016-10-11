@@ -76,29 +76,43 @@ ds_observacao_recurso VARCHAR( 100 )
 )
 
 CREATE TABLE veiculo( 
-  cd_veiculo INT NOT NULL PRIMARY KEY,
-  cd_pessoa INT NOT NULL, 
-  cd_tipo_pessoa INT NOT NULL, 
-  cd_ait INT NOT NULL, 
-  cd_modalidade INT NOT NULL, 
-  cd_associcao INT NOT NULL,
-  cd_placa VARCHAR (8) NOT NULL,
-  cd_prefixo VARCHAR (10) NOT NULL,
-  nm_fabricante VARCHAR(30) NOT NULL,
-  nm_modelo VARCHAR(30) NOT NULL, 
-  nm_cor VARCHAR(8) NOT NULL, 
-  aa_fabricacao DATE NOT NULL, 
-  aa_modelo DATE NOT NULL, 
-  nm_municipio_vec VARCHAR (15) NOT NULL, 
-  nm_UF CHAR( 2 ) NOT NULL, 
-  ds_permissao_publicidade INT(1),
-  ds_particular INT(1), 
-  cd_renavam INT NOT NULL, 
-  vl_vencimento_seguro DATE NOT NULL, 
-  cd_alvara INT, ds_alvara VARCHAR(50), 
-  dt_emissao_alvara DATE, 
-  dt_validade_alvara DATE 
+    cd_veiculo INT NOT NULL PRIMARY KEY, 
+    cd_pessoa INT NOT NULL, 
+    cd_documento INT NOT NULL, 
+    cd_tipo_pessoa INT NOT NULL, 
+    cd_ait INT NOT NULL, 
+    cd_modalidade INT NOT NULL, 
+    cd_associcao INT NOT NULL, 
+    cd_placa VARCHAR (8) NOT NULL, 
+    cd_prefixo VARCHAR (10) NOT NULL,
+    nm_fabricante VARCHAR(30) NOT NULL,
+    nm_modelo VARCHAR(30) NOT NULL, 
+    nm_cor VARCHAR(8) NOT NULL, 
+    aa_fabricacao DATE NOT NULL, 
+    aa_modelo DATE NOT NULL,
+    nm_municipio_vec VARCHAR (15) NOT NULL, 
+    nm_UF CHAR( 2 ) NOT NULL,
+    ds_permissao_publicidade INT(1), 
+    ds_particular INT(1), 
+    cd_renavam INT NOT NULL, 
+    vl_vencimento_seguro DATE NOT NULL, 
+    cd_alvara INT, ds_alvara VARCHAR(50),
+    dt_emissao_alvara DATE, 
+    dt_validade_alvara DATE ,
+                    
+   CONSTRAINT fkcd_pessoa FOREIGN KEY (cd_pessoa) REFERENCES pessoa (cd_pessoa),
+    CONSTRAINT fkcd_documento FOREIGN KEY (cd_documento) REFERENCES pessoa (cd_documento),
+ CONSTRAINT fkcd_tipo_pessoa FOREIGN KEY (cd_tipo_pessoa) REFERENCES pessoa (cd_tipo_pessoa),
+ CONSTRAINT fkcd_ait FOREIGN KEY (cd_ait) REFERENCES multa (cd_ait),
+                      CONSTRAINT fkcd_modalidade FOREIGN KEY (cd_modalidade) REFERENCES tipoVeiculo (cd_modalidade), 
+                      CONSTRAINT fkcd_associcao FOREIGN KEY (cd_associcao) REFERENCES associacao (cd_associcao)
+    
+ 
 )
+ 
+               
+
+
   
 CREATE TABLE associacao(
 cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
