@@ -225,7 +225,7 @@ CREATE TABLE veiculo(
   cd_pessoa INT NOT NULL,
   cd_documento INT NOT NULL,
   cd_tipo_pessoa INT NOT NULL,
-  cd_ait INT NOT NULL,
+  cd_ait INT,
   cd_modalidade INT NOT NULL,
   cd_associacao INT NOT NULL,
   cd_placa VARCHAR(8) NOT NULL,
