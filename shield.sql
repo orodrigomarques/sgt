@@ -18,7 +18,7 @@ nm_pessoa VARCHAR( 30 )
 )
 
 CREATE TABLE multa(
-cd_ait INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+cd_ait INT NOT NULL PRIMARY KEY ,
 dt_infracao DATE NOT NULL ,
 hr_infracao VARCHAR( 5 ) NOT NULL ,
 dt_vencimento_infracao DATE NOT NULL ,
