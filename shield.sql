@@ -29,7 +29,7 @@ dt_pagamento_multa DATE
 
 
 CREATE TABLE infracao(
-cd_infracao INT NOT NULL AUTO_INCREMENT,
+cd_infracao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 cd_ait INT,
 nm_infracao VARCHAR( 20 ) NOT NULL ,
 ds_infracao VARCHAR( 100 ) NOT NULL ,
@@ -38,7 +38,7 @@ dt_data DATE NOT NULL ,
 hr_hora VARCHAR( 5 ) NOT NULL ,
 dt_vencimento DATE NOT NULL ,
 vl_infracao DOUBLE NOT NULL ,
-PRIMARY KEY ( cd_infracao, cd_ait ) ,
+--PRIMARY KEY ( cd_infracao, cd_ait ) ,
 CHECK (
 vl_infracao >0
 ),
@@ -75,6 +75,31 @@ dt_arquivo_deprot DATE ,
 ds_observacao_recurso VARCHAR( 100 )
 )
 
+CREATE TABLE veiculo( 
+  cd_veiculo INT NOT NULL PRIMARY KEY,
+  cd_pessoa INT NOT NULL, 
+  cd_tipo_pessoa INT NOT NULL, 
+  cd_ait INT NOT NULL, 
+  cd_modalidade INT NOT NULL, 
+  cd_associcao INT NOT NULL,
+  cd_placa VARCHAR (8) NOT NULL,
+  cd_prefixo VARCHAR (10) NOT NULL,
+  nm_fabricante VARCHAR(30) NOT NULL,
+  nm_modelo VARCHAR(30) NOT NULL, 
+  nm_cor VARCHAR(8) NOT NULL, 
+  aa_fabricacao DATE NOT NULL, 
+  aa_modelo DATE NOT NULL, 
+  nm_municipio_vec VARCHAR (15) NOT NULL, 
+  nm_UF CHAR( 2 ) NOT NULL, 
+  ds_permissao_publicidade INT(1),
+  ds_particular INT(1), 
+  cd_renavam INT NOT NULL, 
+  vl_vencimento_seguro DATE NOT NULL, 
+  cd_alvara INT, ds_alvara VARCHAR(50), 
+  dt_emissao_alvara DATE, 
+  dt_validade_alvara DATE 
+)
+  
 CREATE TABLE associacao(
 cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 nm_razao_social VARCHAR( 40 ) NOT NULL ,
