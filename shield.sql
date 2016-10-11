@@ -10,12 +10,12 @@
 CREATE TABLE documento(
 cd_documento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 nm_documento VARCHAR( 20 )
-)
+);
 
 CREATE TABLE tipoPessoa(
 cd_tipo_pessoa INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 nm_pessoa VARCHAR( 30 )
-)
+);
 
 CREATE TABLE multa(
 cd_ait INT NOT NULL PRIMARY KEY ,
@@ -25,7 +25,7 @@ dt_vencimento_infracao DATE NOT NULL ,
 nm_agente VARCHAR( 30 ) NOT NULL ,
 ds_infracao VARCHAR( 100 ) NOT NULL ,
 dt_pagamento_multa DATE
-)
+);
 
 
 CREATE TABLE infracao(
@@ -43,12 +43,12 @@ CHECK (
 vl_infracao >0
 ),
 CONSTRAINT fkcd_ait FOREIGN KEY ( cd_ait ) REFERENCES multa( cd_ait )
-)
+);
 
 CREATE TABLE tipoVeiculo(
 cd_modalidade INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 nm_modalidade VARCHAR( 30 )
-)
+);
 
 CREATE TABLE processo(
 
@@ -73,7 +73,7 @@ ds_resultado_recurso VARCHAR( 30 ) ,
 dt_notificacao_recurso DATE  ,
 dt_arquivo_deprot DATE ,
 ds_observacao_recurso VARCHAR( 100 )
-)
+);
 
 
  
@@ -101,7 +101,7 @@ nm_UF IN (
 'PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'
 )
 )
-)
+);
 
 
 CREATE TABLE pessoa(  
@@ -162,7 +162,7 @@ nm_uf_rg IN (
 'PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'
 )
 ) 
-)
+);
 
 CREATE TABLE veiculo( 
     cd_veiculo INT NOT NULL PRIMARY KEY, 
@@ -200,4 +200,16 @@ nm_UF IN (
 'PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'
 )
 )
-)
+);
+
+ALTER TABLE
+  `veiculo` ADD CONSTRAINT `fkveiculo_cd_pessoa` FOREIGN KEY(`cd_pessoa`) REFERENCES `pessoa`(`cd_pessoa`);
+  
+  ALTER TABLE
+  `veiculo` ADD CONSTRAINT `fkveiculo_cd_documento` FOREIGN KEY(`cd_documento`) REFERENCES `pessoa`(`cd_documento`);
+  
+    ALTER TABLE
+  `veiculo` ADD CONSTRAINT `fkveiculo_cd_tipo_pessoa` FOREIGN KEY(`cd_tipo_pessoa`) REFERENCES `pessoa`(`cd_tipo_pessoa`);
+  
+  ALTER TABLE
+  `pessoa` ADD CONSTRAINT `fkvpessoa_cd_ait` FOREIGN KEY(`cd_ait`) REFERENCES `veiculo`(`cd_ait`);
