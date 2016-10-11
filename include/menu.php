@@ -4,7 +4,7 @@
                 <li><a href="../home.php"><i class="icon-home"></i> <span>Home</span></a></li>
                 <li><a href="../usuario/index.php"><i class="icon-user"></i> <span>Usuarios</span></a></li>
                 <li><a href="../usuario/index.php"><i class="icon-cog"></i> <span>Cadastros</span></a></li>
-                <li><a href="../usuario/contato.php"><i class="icon-envelope"></i> <span>Contato</span></a></li>
+                <li><a href="../contato.php"><i class="icon-envelope"></i> <span>Contato</span></a></li>
 
                 
 <!--                <li><a href="javascript:;"><i class="icon-th"></i> <span>Cadastros</span> </a>
