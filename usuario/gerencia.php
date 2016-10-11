@@ -82,14 +82,14 @@
             $retorno='alterado';
 
             if(!empty($novaSenha)){
-
+                if($novaSenha !='d41d8cd98f00b204e9800998ecf8427e'){
                 $linha = mysqli_query($conexao, "SELECT ds_senha FROM usuario WHERE id_usuario = ".$id);
                 $senha = mysqli_fetch_assoc($linha);
 
                $senhaAtual = md5(addslashes($_POST['senhaAtual']));
 
 
-                if($senha['ds_senha'] == $senhaAtual && $novaSenha == $confSenha){
+                if($senha['ds_senha'] == $senhaAtual && $novaSenha == $confSenha ){
 
                     $sqlSenha = "UPDATE usuario SET ds_senha = '".$novaSenha."' WHERE id_usuario = ".$id;
                     $res = mysqli_query($conexao, $sqlSenha) or die(mysqli_error());
@@ -98,15 +98,17 @@
 
                 }else{
                     header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&retorno=invalido');
+                    
                     exit();
                 }
+            }
             }
         
         }  
         if($retorno){
             header('Location: index.php?retorno='.$retorno);
         }else{
-            header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&retorno=invalido');
+            header('Location: gerencia.php?id='.base64_encode($id).'&acao=novo&retorno=invalido');
         }
     } 
 ?>
