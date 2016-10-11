@@ -78,6 +78,7 @@ $(function() {
     <div style="text-align:center"><h2>Painel de controle</h2></div>
 	<div class="panel panel-primary">
 		<div class="panel-body">
+			<img src="assets/img/sgt_logo.png" class="profile-img" />
 			<h4 class="text-center" style="margin-bottom: 25px;">Informe seu nome de usu&aacute;rio e senha</h4>
                 <?php if(isset($_GET['erro']) && $_GET['erro'] == 'invalido'){?>
                 <div class="alert alert-dismissable alert-danger">
@@ -132,7 +133,7 @@ $(function() {
 		</div>
 		<div class="panel-footer">
 		<!--	<a href="#" class="pull-left btn btn-link" style="padding-left:0">Esqueceu sua senha?</a>-->
-			
+			<div class="pull-left"><img src="/assets/img/adsix_logo.png"> </div>			
 			<div class="pull-right">
 				<a href="#" id="btn_limpar" class="btn btn-default" onClick="formLogin.reset();">Limpar</a>
 				<a href="#" id="btn_entrar" class="btn btn-primary">Entrar</a>
