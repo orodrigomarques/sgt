@@ -2,7 +2,8 @@
                 <!-- BEGIN SIDEBAR MENU -->
             <ul class="acc-menu" id="sidebar">
                     <li><a href="../home.php"><i class="icon-home"></i> <span>Home</span></a></li>
-                    <li><a href="../usuario/index.php"><i class="icon-user"></i> <span>Usuarios</span></a></li>
+                    <?php if($_SESSION['permissao']== 1 || $_SESSION['permissao']== 2){?>
+                    <li><a href="../usuario/index.php"><i class="icon-user"></i> <span>Usuarios</span></a></li> <?php }; ?>
                     <li><a href="javascript:;"><i class="icon-cog"></i> <span>Cadastros</span> </a>
                     <ul class="acc-menu">
                     <li><a href="../associacao/index.php"><i class="icon-th"></i> <span>Associações</span></a></li>
