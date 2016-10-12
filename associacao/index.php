@@ -100,7 +100,7 @@
                                 <div id="example_wrapper" class="dataTables_wrapper" role="grid">
                                     <form name="associacoes" method="POST" id="associacoes">
                                         <div class="row">
-                                            <div class="col-xs-3">
+                                            <div class="col-xs-5">
                                                 <input class="form-control" name="associacao" placeholder="Razao Social" value="<?php echo($associacao);?>" type="text">
                                             </div>
                                            
