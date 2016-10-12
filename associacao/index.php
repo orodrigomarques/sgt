@@ -18,26 +18,18 @@
     //WHERE
     $where = '';
     $associacao = '';
-   // $ativo = 1;
+    $nm_linha = '';
     if(isset($_POST['associacao']) && !empty($_POST['associacao'])){
             $associacao = addslashes($_POST['associacao']);
             $associacao = str_replace('\\','',$associacao);
     }
     $where .= " WHERE nm_razao_social LIKE '%$associacao%'";
     
-   // if(isset($_POST['ds_ativo'])){
-     //       $ativo = ($_POST['ds_ativo']);
-            
-    //}
-    //$where .= " and ds_ativo = $ativo"; 
-           
+    if(isset($_POST['nm_linha']) && !empty($_POST['nm_linha'])){
+          $nm_linha = addslashes($_POST['nm_linha']);
+    $nm_linha = str_replace('\\','',$nm_linha);}
+    $where .= " and nm_linha LIKE '%$nm_linha%'";	
 
-    //if(isset($_POST['ds_permissao']) && !empty($_POST['ds_permissao'])){
-      //      $permissao = ($_POST['ds_permissao']);
-        //    $where .= " and ds_permissao = $permissao";		
-    //}    
-    //--
-        
     // PAGINAÇÃO
     $pagina = (isset($_GET['pagina']) && !empty($_GET['pagina']) ? $_GET['pagina'] : 1);
     $registros = 20;
@@ -102,6 +94,9 @@
                                         <div class="row">
                                             <div class="col-xs-5">
                                                 <input class="form-control" name="associacao" placeholder="Razao Social" value="<?php echo($associacao);?>" type="text">
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <input class="form-control" name="nm_linha" id="nm_linha" placeholder="Linha" value="<?php echo($nm_linha);?>" type="text">
                                             </div>
                                            
                                             
