@@ -3,7 +3,7 @@ function limpa_formulário_cep() {
   document.getElementById('nm_local').value = ("");
   document.getElementById('nm_bairro').value = ("");
   document.getElementById('nm_municipio').value = ("");
-  document.getElementById('uf').value = ("");
+  document.getElementById('nm_UF').value = ("");
 
 }
 
