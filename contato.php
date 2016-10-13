@@ -1,8 +1,8 @@
 <?php
     include 'include/head.php';
 
-    /*include 'include/funcoes.php';
-    validaAcesso();*/
+    include 'include/funcoes.php';
+    validaAcesso();
 ?>
 
 <body class="">
