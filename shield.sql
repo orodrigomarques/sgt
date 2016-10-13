@@ -40,7 +40,7 @@ CHECK
 );
 CREATE TABLE tipoVeiculo(
   cd_modalidade INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nm_modalidade VARCHAR(30)
+  nm_modalidade VARCHAR(30) NOT NULL
 );
 CREATE TABLE processo(
   cd_processo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
