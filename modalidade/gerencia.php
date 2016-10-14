@@ -107,20 +107,17 @@
         
         <script src="../assets/js/pesquisaCep.js"></script>
         <script src="../assets/js/mascaraCpf-Tel.js"></script>
-        <form id="formTipoveiculo" name="formTipoveiculo" method="post"  class="form-horizontal" />
+        <form id="formTipoveiculo" name="formTipoveiculo" action="gerencia.php"method="post"  class="form-horizontal" />
             <input type="hidden" name="cd_modalidade" id="cd_modalidade" value="<?php echo($id);?>">
            
             
             <div class="form-group">
                 <label class="col-sm-2 control-label">Modalidade</label>
                 <div class="col-sm-4">
-                    <input name="nm_modalidade" id="nm_modalidade" type="text" class="form-control"  value="<?php echo $modalidade?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_modalidade" id="nm_modalidade" type="text" class="form-control"  value="<?php echo $modalidade?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required="required"/>
                 </div>
             </div>
             
-        
-        
-        </form>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
@@ -130,7 +127,7 @@
                             <button class="btn-primary btn" onClick="location.href='index.php'">Voltar</button>
                     <?php 
                         }else{?>
-                            <button class="btn-primary btn" id="btn_gravar" onClick="$('#formTipoveiculo').submit();">Gravar</button>
+                            <button class="btn-primary btn" id="btn_gravar" >Gravar</button>
                             <button class="btn-default btn" onClick="location.href='index.php'">Cancelar</button>
                     <?php 
                         }?>
@@ -138,6 +135,9 @@
                 </div>
             </div>
         </div>
+        
+        </form>
+        
     </div>
     
 </div>
