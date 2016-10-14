@@ -140,20 +140,20 @@
         
         <script src="../assets/js/pesquisaCep.js"></script>
         <script src="../assets/js/mascaraCpf-Tel.js"></script>
-        <form id="formAssociacao" name="formAssociacao" method="post"  class="form-horizontal" />
+        <form id="formAssociacao" name="formAssociacao" action="gerencia.php" method="post"  class="form-horizontal" />
             <input type="hidden" name="cd_associacao" id="cd_associacao" value="<?php echo($id);?>">
            
             
             <div class="form-group">
                 <label class="col-sm-2 control-label">Razao Social</label>
                 <div class="col-sm-4">
-                    <input name="nm_razao_social" id="nm_razao_social" type="text" class="form-control"  value="<?php echo $razao?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_razao_social" id="nm_razao_social" type="text" class="form-control"  value="<?php echo $razao?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">CEP</label>
                 <div class="col-sm-4">
-                    <input name="cd_cep" id="cd_cep" type="text" class="form-control" onblur="pesquisacep(this.value);" value="<?php echo $cep?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="cd_cep" id="cd_cep" type="text" class="form-control" onblur="pesquisacep(this.value);" value="<?php echo $cep?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
@@ -171,13 +171,13 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Endereço</label>
                 <div class="col-sm-4">
-                    <input name="nm_local" id="nm_local" type="text" class="form-control"  value="<?php echo $local?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_local" id="nm_local" type="text" class="form-control"  value="<?php echo $local?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Numero</label>
                 <div class="col-sm-4">
-                    <input name="ds_numero" id="ds_numero" type="number" class="form-control"  value="<?php echo $numero?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="ds_numero" id="ds_numero" type="number" class="form-control"  value="<?php echo $numero?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
@@ -190,42 +190,40 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Bairro</label>
                 <div class="col-sm-4">
-                    <input name="nm_bairro" id="nm_bairro" type="text" class="form-control"  value="<?php echo $bairro?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_bairro" id="nm_bairro" type="text" class="form-control"  value="<?php echo $bairro?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Municipio</label>
                 <div class="col-sm-4">
-                    <input name="nm_municipio" id="nm_municipio" type="text" class="form-control"  value="<?php echo $municipio?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_municipio" id="nm_municipio" type="text" class="form-control"  value="<?php echo $municipio?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">UF</label>
                 <div class="col-sm-4">
-                    <input name="nm_UF" id="nm_UF" type="text" class="form-control"  value="<?php echo $uf?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_UF" id="nm_UF" type="text" class="form-control"  value="<?php echo $uf?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Telefone</label>
                 <div class="col-sm-4">
-                    <input name="cd_telefone" id="cd_telefone" type="text" class="form-control"  onkeypress="javascript: mascara(this, tel_mask);" value="<?php echo $telefone?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="cd_telefone" id="cd_telefone" type="text" class="form-control"  onkeypress="javascript: mascara(this, tel_mask);" value="<?php echo $telefone?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
              <div class="form-group">
                 <label class="col-sm-2 control-label">Email</label>
                 <div class="col-sm-4">
-                    <input name="nm_email" id="nm_email" type="email" class="form-control"  value="<?php echo $email?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_email" id="nm_email" type="email" class="form-control"  value="<?php echo $email?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Linha</label>
                 <div class="col-sm-4">
-                    <input name="nm_linha" id="nm_email" type="text" class="form-control"  value="<?php echo $nm_linha?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="nm_linha" id="nm_email" type="text" class="form-control"  value="<?php echo $nm_linha?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
         
-        
-        </form>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
@@ -235,7 +233,7 @@
                             <button class="btn-primary btn" onClick="location.href='index.php'">Voltar</button>
                     <?php 
                         }else{?>
-                            <button class="btn-primary btn" id="btn_gravar" onClick="$('#formAssociacao').submit();">Gravar</button>
+                            <button class="btn-primary btn" id="btn_gravar" >Gravar</button>
                             <button class="btn-default btn" onClick="location.href='index.php'">Cancelar</button>
                     <?php 
                         }?>
@@ -243,6 +241,8 @@
                 </div>
             </div>
         </div>
+        </form>
+        
     </div>
     
 </div>
