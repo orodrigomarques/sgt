@@ -145,7 +145,7 @@
        
     </div>
     <div class="panel-body collapse in">
-        <form id="formUsuario" name="formUsuario" method="post"  class="form-horizontal" />
+        <form id="formUsuario" name="formUsuario" action="gerencia.php" method="post"  class="form-horizontal" />
             <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo($id);?>">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Ativo</label>
@@ -159,7 +159,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Perfil</label>
                 <div class="col-sm-4">
-                    <select name="permissao" id="permissao" class="form-control" <?php if($acao == 'visualizar'){?>disabled="disabled" <?php };?>>
+                    <select name="permissao" id="permissao" class="form-control" <?php if($acao == 'visualizar'){?>disabled="disabled" <?php };?> required>
                         <option value=''>Perfil...</option>
                         <option value="1" <?php echo($permissao == '1') ? 'selected' : '';?>>Administrador</option>
                         <option value="2" <?php echo($permissao == '2') ? 'selected' : '';?>>Gerente</option>
@@ -179,7 +179,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Usuario</label>
                 <div class="col-sm-4">
-                    <input name="usuario" id="usuario" type="text" class="form-control"  value="<?php echo $nome?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?>/>
+                    <input name="usuario" id="usuario" type="text" class="form-control"  value="<?php echo $nome?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
         <?php if(isset($_GET['retorno']) && $_GET['retorno'] == 'invalido'){ ?>
@@ -205,20 +205,17 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Senha</label>
                 <div class="col-sm-4">
-                    <input name="novaSenha" id="novaSenha" type="password" class="form-control" />
+                    <input name="novaSenha" id="novaSenha" type="password" class="form-control" <?php if($acao == 'novo'){?>required <?php };?>/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Confirmar senha</label>
                 <div class="col-sm-4">
-                    <input name="confSenha" id="confSenha" type="password" class="form-control" />
+                    <input name="confSenha" id="confSenha" type="password" class="form-control" <?php if($acao == 'novo'){?>required <?php };?> />
                 </div>
             </div> 
-        <?php } ?>
-        
-        
-        </form>
-        <div class="panel-footer">
+     
+<div class="panel-footer">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="btn-toolbar">
@@ -227,7 +224,7 @@
                             <button class="btn-primary btn" onClick="location.href='index.php'">Voltar</button>
                     <?php 
                         }else{?>
-                            <button class="btn-primary btn" id="btn_gravar" onClick="$('#formUsuario').submit();">Gravar</button>
+                            <button class="btn-primary btn" id="btn_gravar" >Gravar</button>
                             <button class="btn-default btn" onClick="location.href='index.php'">Cancelar</button>
                     <?php 
                         }?>
@@ -235,6 +232,12 @@
                 </div>
             </div>
         </div>
+
+       <?php } ?>
+        
+        
+        </form>
+        
     </div>
     
 </div>
