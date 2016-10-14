@@ -226,6 +226,7 @@ CREATE TABLE veiculo(
   cd_documento INT NOT NULL,
   cd_tipo_pessoa INT NOT NULL,
   cd_ait INT,
+  cd_processo INT,
   cd_modalidade INT NOT NULL,
   cd_associacao INT NOT NULL,
   cd_placa VARCHAR(8) NOT NULL,
@@ -246,6 +247,7 @@ CREATE TABLE veiculo(
   dt_emissao_alvara DATE,
   dt_validade_alvara DATE,
   CONSTRAINT fkveiculo_cd_ait FOREIGN KEY(cd_ait) REFERENCES multa(cd_ait),
+  CONSTRAINT fkveiculo_cd_processo FOREIGN KEY(cd_processo) REFERENCES processo(cd_processo),
   CONSTRAINT fkcd_modalidade FOREIGN KEY(cd_modalidade) REFERENCES tipoVeiculo(cd_modalidade),
   CONSTRAINT fkcd_associacao FOREIGN KEY(cd_associacao) REFERENCES associacao(cd_associacao),
   CONSTRAINT cnm_UF
