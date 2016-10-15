@@ -43,8 +43,9 @@ CREATE TABLE tipoVeiculo(
   nm_modalidade VARCHAR(30) NOT NULL
 );
 CREATE TABLE processo(
-  cd_processo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  aa_processo DATE NOT NULL,
+  id_processo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  cd_processo INT NOT NULL UNIQUE,
+  aa_processo VARCHAR(4) NOT NULL,
   dt_relato_denuncia DATE NOT NULL,
   dt_apresentacao_defesa DATE,
   dt_apresentacao_relatorio DATE,
