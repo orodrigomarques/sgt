@@ -37,7 +37,7 @@
     $limit = " LIMIT $inicio, $fim";
     
     $sqlcount = "SELECT count(*) as qtd ".
-                "FROM tipoveiculo ".
+                "FROM tipoVeiculo ".
                 $where;	
     $qtd = mysqli_fetch_assoc(mysqli_query($conexao, $sqlcount));
     
@@ -45,7 +45,7 @@
     //--
     
 
-    $sql_tipoveiculos =     "SELECT * FROM tipoveiculo ".
+    $sql_tipoveiculos =     "SELECT * FROM tipoVeiculo ".
                         $where.			
 			" ORDER BY nm_modalidade ASC ".
 			$limit;   
