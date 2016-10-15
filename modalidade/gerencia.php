@@ -16,7 +16,7 @@
             
            
 
-                $deleta = mysqli_query($conexao,"DELETE FROM tipoveiculo WHERE cd_modalidade = '$id'");
+                $deleta = mysqli_query($conexao,"DELETE FROM tipoVeiculo WHERE cd_modalidade = '$id'");
 
                 if($deleta == ''){
                 echo "<script>alert('Houve um erro ao deletar!');
@@ -29,7 +29,7 @@
         }        
                 
         if($acao == 'visualizar' || $acao  == 'editar'){
-            $sql = "SELECT * FROM tipoveiculo WHERE cd_modalidade = ".$id;
+            $sql = "SELECT * FROM tipoVeiculo WHERE cd_modalidade = ".$id;
             $linha = mysqli_query($conexao, $sql);
             $tipoveiculo = mysqli_fetch_assoc($linha) or die(mysql_error());
 
@@ -53,14 +53,14 @@
         
         if(empty($id)){
              
-                $sqlTipoveiculo = "INSERT INTO tipoveiculo (nm_modalidade) "
+                $sqlTipoveiculo = "INSERT INTO tipoVeiculo (nm_modalidade) "
                                 ."VALUES ('".$modalidade."')"; 
                 echo $sqlTipoveiculo;
                 $res = mysqli_query($conexao, $sqlTipoveiculo) or die(mysqli_error($conexao));
                 $retorno='inserido';
             
         }else{            
-            $sqlTipoveiculo = "UPDATE tipoveiculo SET nm_modalidade = '".$modalidade."'"
+            $sqlTipoveiculo = "UPDATE tipoVeiculo SET nm_modalidade = '".$modalidade."'"
                         . "WHERE cd_modalidade = ".$id ; 
                                 
             $res = mysqli_query($conexao, $sqlTipoveiculo) or die(mysqli_error());
@@ -124,17 +124,17 @@
                     <div class="btn-toolbar">
                     <?php 
                         if($acao  == 'visualizar'){?>
-                            <a class="btn-primary btn" href='index.php'>Voltar</a>
+                            <button class="btn-primary btn" onClick="location.href='index.php'">Voltar</button>
                     <?php 
                         }else{?>
                             <button class="btn-primary btn" id="btn_gravar" >Gravar</button>
-                            <a class="btn-default btn" href='index.php'>Cancelar</a>
+                            <button class="btn-default btn" onClick="location.href='index.php'">Cancelar</button>
                     <?php 
                         }?>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
         
         </form>
         
