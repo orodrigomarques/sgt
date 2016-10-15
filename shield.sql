@@ -54,7 +54,7 @@ CREATE TABLE processo(
   ds_resultado VARCHAR(30),
   dt_notificacao DATE,
   ds_observacoes_processos VARCHAR(100),
-  nm_modalidade VARCHAR(30)
+  nm_modalidade VARCHAR(30) NOT NULL
   );
   
   CREATE TABLE recurso(
