@@ -8,6 +8,7 @@
                     <ul class="acc-menu">
                     <li><a href="../associacao/index.php"><i class="icon-th"></i> <span>Associações</span></a></li>
                     <li><a href="../modalidade/index.php"><i class="icon-th"></i> <span>Modalidades</span></a></li>
+                      <li><a href="../processo/index.php"><i class="icon-th"></i> <span>Processos</span></a></li>
                     </li>
                 </ul>
                 <li><a href="../contato.php"><i class="icon-envelope"></i> <span>Contato</span></a></li>
