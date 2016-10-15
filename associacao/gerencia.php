@@ -230,17 +230,17 @@
                     <div class="btn-toolbar">
                     <?php 
                         if($acao  == 'visualizar'){?>
-                            <button class="btn-primary btn" onClick="location.href='index.php'">Voltar</button>
+                            <a class="btn-primary btn" href='index.php'>Voltar</a>
                     <?php 
                         }else{?>
                             <button class="btn-primary btn" id="btn_gravar" >Gravar</button>
-                            <button class="btn-default btn" onClick="location.href='index.php'">Cancelar</button>
+                            <a class="btn-default btn" href='index.php'>Cancelar</a>
                     <?php 
                         }?>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
         </form>
         
     </div>
