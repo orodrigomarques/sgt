@@ -54,15 +54,22 @@ CREATE TABLE processo(
   ds_resultado VARCHAR(30),
   dt_notificacao DATE,
   ds_observacoes_processos VARCHAR(100),
-  cd_recurso INT,
-  aa_recurso DATE,
+  nm_modalidade VARCHAR(30)
+  );
+  
+  CREATE TABLE recurso(
+  id_recurso INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  cd_recurso INT NOT NULL UNIQUE,
+  cd_processo INT NOT NULL,
+  aa_recurso VARCHAR(4) NOT NULL,
   dt_transito_julgado DATE,
   dt_inicio_julgamento_recurso DATE,
   dt_julgado_recurso DATE,
   ds_resultado_recurso VARCHAR(30),
   dt_notificacao_recurso DATE,
   dt_arquivo_deprot DATE,
-  ds_observacao_recurso VARCHAR(100)
+  ds_observacao_recurso VARCHAR(100),
+  CONSTRAINT fkrecuro_cd_processo FOREIGN KEY(cd_processo) REFERENCES processo(cd_processo)
 );
 CREATE TABLE associacao(
   cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
