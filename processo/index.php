@@ -90,10 +90,7 @@ $sql_processos = "SELECT * FROM processo " .
         $where .
         " ORDER BY cd_processo ASC " .
         $limit;
-    $sql_tipoveiculos =     "SELECT * FROM tipoVeiculo ".
-                        $where.			
-			" ORDER BY nm_modalidade ASC ".
-			$limit;   
+    $sql_tipoveiculos =     "SELECT * FROM tipoVeiculo ";   
     
 $tipoveiculos = mysqli_query($conexao, $sql_tipoveiculos);
 $processos = mysqli_query($conexao, $sql_processos);
