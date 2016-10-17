@@ -26,10 +26,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
                    location.href=\"index.php\"</script>";
         }
     }
-    $sql_tipoveiculos = "SELECT * FROM tipoVeiculo " .
-            $where .
-            " ORDER BY nm_modalidade ASC " .
-            $limit;
+    $sql_tipoveiculos = "SELECT * FROM tipoVeiculo ";
 
     $tipoveiculos = mysqli_query($conexao, $sql_tipoveiculos);
     if ($acao == 'visualizar' || $acao == 'editar') {
