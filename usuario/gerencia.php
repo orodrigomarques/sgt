@@ -215,13 +215,16 @@
                 </div>
             </div> 
      
- <div class="panel-footer">
+ 
+       <?php } ?>
+        <div class="panel-footer">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="btn-toolbar">
                     <?php 
                         if($acao  == 'visualizar'){?>
-                            <a class="btn-primary btn" href='index.php'>Voltar</a>
+                        
+                             <a class="btn-primary btn" href='index.php'>Voltar</a>
                     <?php 
                         }else{?>
                             <button class="btn-primary btn" id="btn_gravar" >Gravar</button>
@@ -232,9 +235,6 @@
                 </div>
             </div>
         </div> 
-
-       <?php } ?>
-        
         
         </form>
         
