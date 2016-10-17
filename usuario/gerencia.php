@@ -151,7 +151,7 @@
                 <label class="col-sm-2 control-label">Ativo</label>
                 <div class="col-sm-4">
                     <label class="checkbox-inline">
-                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : '';?> <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> type="checkbox" value="1"> 
+                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : '';?> <?php if($acao == 'visualizar'){?>disabled="disabled" <?php };?> type="checkbox" value="1"> 
                     </label>
                     
                 </div>
