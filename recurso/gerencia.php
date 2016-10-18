@@ -30,7 +30,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
 
     $processos = mysqli_query($conexao, $sql_processos);
     if ($acao == 'visualizar' || $acao == 'editar') {
-        $sql = "SELECT * FROM recurso WHERE id_processo = " . $id;
+        $sql = "SELECT * FROM recurso WHERE id_recurso = " . $id;
         $linha = mysqli_query($conexao, $sql);
         $recurso = mysqli_fetch_assoc($linha) or die(mysql_error());
 
@@ -70,7 +70,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
     $codigoRecurso = $_POST['cd_recurso'];
     $anoRecurso = $_POST['aa_recurso'];
     $dataTransJulgado = $_POST['dt_transito_julgado'];
-    $dataJulgamento = $_POST['dt_inicio_julgamento_recurso'];
+   
     $dataInicioJulg = $_POST['dt_inicio_julgamento_recurso'];
     $dataJulgado = $_POST['dt_julgado_recurso'];
     
@@ -85,12 +85,12 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
 
         $sqlRecurso = "INSERT INTO recurso (cd_processo, cd_recurso, aa_recurso, dt_transito_julgado, dt_inicio_julgamento_recurso,"
                 . "dt_julgado_recurso, ds_resultado_recurso, dt_notificacao_recurso, dt_arquivo_deprot, ds_observacao_recurso) "
-                . "VALUES (" . $codigoProcesso . "," . $codigoRecurso . ", '" . $anoRecurso . "', '" . $dataTransJulgado . "', '" . $dataJulgamento . "', '" . $dataInicioJulg . "', '" . $dataJulgado . "',  '" . $notificacao . "', '" . $arquivoDeprot . "', '" . $observacoes . "')";
+                . "VALUES (" . $codigoProcesso . "," . $codigoRecurso . ", '" . $anoRecurso . "', '" . $dataTransJulgado . "', '" . $dataInicioJulg . "', '" . $dataJulgado . "',  '" . $resultado . "',  '" . $notificacao . "', '" . $arquivoDeprot . "', '" . $observacoes . "')";
         echo $sqlRecurso;
         $res = mysqli_query($conexao, $sqlRecurso) or die(mysqli_error($conexao));
         $retorno = 'inserido';
     } else {
-        $sqlRecurso = "UPDATE recurso SET cd_processo = " . $codigoProcesso . ", cd_recurso = " . $codigoRecurso . ", aa_recurso = '" . $anoRecurso . "', dt_transito_julgado = '" . $dataTransJulgado . "', dt_inicio_julgamento_recurso = '" . $dataInicioJulg . "', dt_julgado_recurso = '" . $dataJulgado .  "', dt_notificacao_recurso = '" . $resultado . "', dt_notificacao_recurso = '" . $notificacao .  "', dt_arquivo_deprot = '" . $arquivoDeprot . "', ds_observacao_recurso = '" . $observacoes . "' "
+        $sqlRecurso = "UPDATE recurso SET cd_processo = " . $codigoProcesso . ", cd_recurso = " . $codigoRecurso . ", aa_recurso = '" . $anoRecurso . "', dt_transito_julgado = '" . $dataTransJulgado . "', dt_inicio_julgamento_recurso = '" . $dataInicioJulg . "', dt_julgado_recurso = '" . $dataJulgado .  "', dt_notificacao_recurso = '" . $notificacao . "', ds_resultado_recurso = '" . $resultado .  "', dt_arquivo_deprot = '" . $arquivoDeprot . "', ds_observacao_recurso = '" . $observacoes . "' "
                 . "WHERE id_recurso = " . $id;
 
         $res = mysqli_query($conexao, $sqlRecurso) or die(mysqli_error());
@@ -142,15 +142,15 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                                     <select name="cd_processo" id="cd_processo" class="form-control" <?php if($acao == 'visualizar'){?>disabled="disabled" <?php };?> required>
                                         <option value='' >Numero do processo...</option>
                                         <?php while ($processo = mysqli_fetch_assoc($processos)) { ?>
-                                            <option value='<?php echo $processo['cd_processo']; ?>' <?php echo ($processo['cd_processo']==$processo)? 'selected' : ''; ?>><?php echo $processo['cd_processo']; ?>  </option>
+                                            <option value='<?php echo $processo['cd_processo']; ?>' <?php echo ($processo['cd_processo']==$codigoProcesso)? 'selected' : ''; ?>><?php echo $processo['cd_processo']; ?>  </option>
                                         <?php } ?>                                              
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Numero do processo</label>
+                                <label class="col-sm-2 control-label">Numero do recurso</label>
                                 <div class="col-sm-4">
-                                    <input type="number" name="cd_processo" id="cd_processo" class="form-control" value="<?php echo($codigoProcesso); ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required>
+                                    <input type="number" name="cd_recurso" id="cd_recurso" class="form-control" value="<?php echo($codigoRecurso); ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required>
                                 </div>
                             </div>
 
@@ -161,40 +161,29 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Data do Relato/Denuncia</label>
+                                <label class="col-sm-2 control-label">Transito em Julg.</label>
                                 <div class="col-sm-4">
-                                    <input name="dt_relato_denuncia" id="dt_relato_denuncia" type="date" class="form-control"  value="<?php echo $dataDenuncia ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Apresentação da defesa</label>
-                                <div class="col-sm-4">
-                                    <input name="dt_apresentacao_defesa" id="dt_apresentacao_defesa" type="date" class="form-control"  value="<?php echo $dataDefesa ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> min="<?php $dataDenuncia ?>"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Apresentação do relatório</label>
-                                <div class="col-sm-4">
-                                    <input name="dt_apresentacao_relatorio" id="dt_apresentacao_relatorio" type="date" class="form-control"  value="<?php echo $dataRelatorio ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> />
+                                    <input name="dt_transito_julgado" id="dt_transito_julgado" type="date" class="form-control"  value="<?php echo $dataTransJulgado ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Inicio do Julgamento</label>
                                 <div class="col-sm-4">
-                                    <input name="dt_inicio_julgamento" id="dt_inicio_julgamento" type="date" class="form-control"  value="<?php echo $dataJulgamento ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> />
+                                    <input name="dt_inicio_julgamento_recurso" id="dt_inicio_julgamento_recurso" type="date" class="form-control"  value="<?php echo $dataInicioJulg ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Julgado</label>
                                 <div class="col-sm-4">
-                                    <input name="dt_julgado" id="dt_julgado" type="date" class="form-control"  value="<?php echo $dataJulgado ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?>/>
+                                    <input name="dt_julgado_recurso" id="dt_julgado_recurso" type="date" class="form-control"  value="<?php echo $dataJulgado ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> />
                                 </div>
                             </div>
+                           
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Resultado</label>
                                 <div class="col-sm-4">
-                                    <select name="ds_resultado" id="ds_resultado" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                    <select name="ds_resultado_recurso" id="ds_resultado_recurso" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
                                         <option value=''>-</option>
                                         <option value="ABSOLVIÇÃO" <?php echo($resultado == 'ABSOLVIÇÃO') ? 'selected' : ''; ?>>ABSOLVIÇÃO</option>
                                         <option value="MULTA" <?php echo($resultado == 'MULTA') ? 'selected' : ''; ?>>MULTA</option>
@@ -209,13 +198,19 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Notificado</label>
                                 <div class="col-sm-4">
-                                    <input name="dt_notificacao" id="dt_notificacao" type="date" class="form-control"  value="<?php echo $notificacao ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> />
+                                    <input name="dt_notificacao_recurso" id="dt_notificacao_recurso" type="date" class="form-control"  value="<?php echo $notificacao ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Data arquivo DEPROT</label>
+                                <div class="col-sm-4">
+                                    <input name="dt_arquivo_deprot" id="dt_notificacao_recurso" type="date" class="form-control"  value="<?php echo $arquivoDeprot ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Observações</label>
                                 <div class="col-sm-4">
-                                    <textarea name="ds_observacoes_processos" id="ds_observacoes_processos" class="form-control" rows="4" cols="50" 
+                                    <textarea name="ds_observacao_recurso" id="ds_observacao_recurso" class="form-control" rows="4" cols="50" 
                                               <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> ><?php echo $observacoes ?></textarea>
                                 </div>
                             </div>
