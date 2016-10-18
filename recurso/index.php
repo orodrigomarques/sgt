@@ -30,10 +30,13 @@ if (isset($_POST['processo']) && !empty($_POST['processo'])) {
 if (isset($_POST['recurso']) && !empty($_POST['recurso'])) {
     $recurso = $_POST['recurso'];
     
-
+    if($where!=''){
+    $where .= " and cd_recurso = $recurso";
+    
+    }else{
     $where .= " WHERE cd_recurso = $recurso";
 }
-
+}
 if (isset($_POST['aa_recurso']) && !empty($_POST['aa_recurso'])) {
     $aa_recurso = addslashes($_POST['aa_recurso']);
     $aa_recurso = str_replace('\\', '', $aa_recurso);
