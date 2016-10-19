@@ -74,7 +74,7 @@
        
         <?php include '../include/menu.php';?>
 
-	 <?php  if($_SESSION['permissao']!= 1 && $_SESSION['permissao']!= 2){
+	 <?php  if($_SESSION['permissao']!= 1){
         echo '<script>alert("Acesso Restrito!'. '\n' .'Você será redirecionado para a tela inicial!");
                    location.href="../home.php"</script>';
     }?>    
