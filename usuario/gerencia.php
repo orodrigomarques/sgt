@@ -125,7 +125,7 @@ if (isset($_POST['idUsuario']) && $_POST['idUsuario'] != '') {
 }
 ?>
 <script>alertaSucesso("a", "a", "a")</script>
-
+<script type='text/javascript' src='../assets/js/mascara.js'></script>
 <body class="">
 <?php include '../include/header.php'; ?>
 
@@ -201,7 +201,7 @@ if (isset($_POST['idUsuario']) && $_POST['idUsuario'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Usuario</label>
                                 <div class="col-sm-4">
-                                    <input name="usuario" id="usuario" type="text" pattern='^[ 0-9a-zA-Z\b]+$' title="Somente letras ou numeros" class="form-control"  value="<?php echo $nome ?>" <?php if ($acao == 'visualizar' || $acao == 'editar') { ?>readonly="readonly" <?php }; ?> required/>
+                                    <input name="usuario" id="usuario" type="text" onkeyup="mascara( this, alphanum )" title="Somente letras ou numeros" class="form-control"  value="<?php echo $nome ?>" <?php if ($acao == 'visualizar' || $acao == 'editar') { ?>readonly="readonly" <?php }; ?> required/>
 
                                 </div>
                             </div>
@@ -223,7 +223,7 @@ if (isset($_POST['idUsuario']) && $_POST['idUsuario'] != '') {
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Senha Atual</label>
                                         <div class="col-sm-4">
-                                            <input name="senhaAtual" id="senhaAtual" type="password" class="form-control" />
+                                            <input name="senhaAtual" id="senhaAtual" type="password" class="form-control" onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
                                         </div>
                                     </div>
     <?php } ?>
@@ -231,13 +231,13 @@ if (isset($_POST['idUsuario']) && $_POST['idUsuario'] != '') {
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Senha</label>
                                     <div class="col-sm-4">
-                                        <input name="novaSenha" id="novaSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required pattern=".{3,}" title="Três ou mais caracteres"<?php }; ?>/>
+                                        <input name="novaSenha" id="novaSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Confirmar senha</label>
                                     <div class="col-sm-4">
-                                        <input name="confSenha" id="confSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required pattern=".{3,}" title="Três ou mais caracteres"<?php }; ?> />
+                                        <input name="confSenha" id="confSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
                                     </div>
                                 </div> 
 
