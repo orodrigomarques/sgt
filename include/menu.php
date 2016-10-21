@@ -10,6 +10,8 @@
                 <li><a href="../modalidade/index.php"><i class="icon-th"></i> <span>Modalidades</span></a></li>
                 <li><a href="../processo/index.php"><i class="icon-th"></i> <span>Processos</span></a></li>
                 <li><a href="../recurso/index.php"><i class="icon-th"></i> <span>Recursos</span></a></li>
+                <li><a href="../tipopessoa/index.php"><i class="icon-th"></i> <span>Tipo de Pessoa</span></a></li>
+
         </li>
                 </ul>
                 <li><a href="../contato.php"><i class="icon-envelope"></i> <span>Contato</span></a></li>
