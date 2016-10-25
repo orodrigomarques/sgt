@@ -1,19 +1,14 @@
 <?php
 //Variaveis
-
 $nome = $_POST['nome'];
 $email = $_POST['email'];
 $telefone = $_POST['telefone'];
 $msg = $_POST['msg'];
 $data_envio = date('d/m/Y');
 $hora_envio = date('H:i:s');
-
 // -------------
-
 // Corpo E-mail
-
-
-	$arquivo = "
+$arquivo = "
 	<style type='text/css'>
 	body {
 	margin:0px;
@@ -54,30 +49,25 @@ $hora_envio = date('H:i:s');
         </table>
     </html>
 	";
-
 // -------------------------
-
 //enviar
-
-	// emails para quem será enviado o formulário
-  $emailenviar="adsixti@gmail.com";
-	$destino = $emailenviar;
-	$assunto = "Contato pelo SGT";
-
-	// É necessário indicar que o formato do e-mail é html
-	$headers  = 'MIME-Version: 1.0' . "\r\n";
-    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    $headers .= 'From: $nome <$email>';
-	//$headers .= "Bcc: $EmailPadrao\r\n";
-
-	$enviaremail = mail($destino, $assunto, $arquivo, $headers);
-	if($enviaremail){
-	$mgm = "E-MAIL ENVIADO COM SUCESSO! <br> O link será enviado para o e-mail fornecido no formulário";
+// emails para quem será enviado o formulário
+$emailenviar = "adsixti@gmail.com";
+$destino = $emailenviar;
+$assunto = "Contato pelo SGT";
+// É necessário indicar que o formato do e-mail é html
+$headers = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$headers .= 'From:' . $nome . '<$email>';
+//$headers .= "Bcc: $EmailPadrao\r\n";
+$enviaremail = mail($destino, $assunto, $arquivo, $headers);
+if ($enviaremail) {
+    $mgm = "E-MAIL ENVIADO COM SUCESSO! <br> O link será enviado para o e-mail fornecido no formulário";
 //	echo " <meta http-equiv='refresh' content='3;URL=contato/index.php'>";
-  echo "<script>alert('Email enviado com sucesso!');
+    echo "<script>alert('Email enviado com sucesso!');
   location.href=\"index.php\"</script>";
-	} else {
-	$mgm = "ERRO AO ENVIAR E-MAIL!";
-	echo "";
-	}
+} else {
+    $mgm = "ERRO AO ENVIAR E-MAIL!";
+    echo "";
+}
 ?>
