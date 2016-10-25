@@ -21,8 +21,7 @@
     <?php
     include '../include/head.php';
     include '../include/funcoes.php';
-
-  //  validaAcesso();
+    validaAcesso();
     ?>
 
     <body class="">
@@ -58,7 +57,7 @@
                                         <div class="col-md-4 inputGroupContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                                                <input  name="nome" placeholder="Nome" class="form-control"  type="text">
+                                                <input  name="nome" placeholder="Nome" class="form-control"  type="text" required>
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +69,7 @@
                                         <div class="col-md-4 inputGroupContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="icon-envelope"></i></span>
-                                                <input name="email" placeholder="E-Mail" class="form-control"  type="text">
+                                                <input name="email" placeholder="E-Mail" class="form-control"  type="email" required>
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +82,7 @@
                                         <div class="col-md-4 inputGroupContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="icon-phone"></i></span>
-                                                <input name="telefone" placeholder="(xx)xxxx-xxxx" class="form-control" onkeypress="javascript: mascara(this, tel_mask);" type="text">
+                                                <input name="telefone" placeholder="(xx)xxxx-xxxx" class="form-control" onkeypress="javascript: mascara(this, tel_mask);" type="text" required>
                                             </div>
                                         </div>
                                     </div>
@@ -95,7 +94,7 @@
                                         <div class="col-md-4 inputGroupContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="icon-pencil"></i></span>
-                                                <textarea class="form-control" name="msg" cols="16" rows="5" placeholder="Mensagem"><?php echo $msg; ?> </textarea>
+                                                <textarea class="form-control"  name="msg" cols="16" rows="5" placeholder="Mensagem" required ><?php echo $msg; ?> </textarea>
 
                                             </div>
                                         </div>
@@ -127,7 +126,6 @@
     <!--
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-
     <script>!window.jQuery && document.write(unescape('%3Cscript src="assets/js/jquery-1.10.2.min.js"%3E%3C/script%3E'))</script>
     <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="assets/js/jqueryui-1.10.3.min.js'))</script>
     -->
