@@ -2,37 +2,61 @@
 <?php
 
 include("include/conexao/conecta.php");
+$conexao = conecta();
 
 if(isset($_POST['usuario']) && !empty($_POST['usuario']) && isset($_POST['senha']) && !empty($_POST['senha']))
 	{
 		$usuario = $_POST['usuario'];
 		$senha = $_POST['senha'];
+                
+                $pegaUsuario=$conexao->prepare("SELECT * FROM usuario WHERE nm_usuario = :usuario");
+                $pegaUsuario->bindValue(":usuario", $usuario);
+                $pegaUsuario->execute();
+                
                                 
-		$sql = "SELECT * FROM usuario WHERE nm_usuario = '$usuario'";
-		//exit($sql);
-		                
-                $query = mysqli_query($conexao, $sql) ;
+//		$sql = "SELECT * FROM usuario WHERE nm_usuario = '$usuario'";
+//		//exit($sql);
+//		                
+//                $query = mysqli_query($conexao, $sql) ;
+                if($pegaUsuario->rowCount() == 0){
+                    header("Location: login.php?erro=invalido");                                
+                    exit;
+                }else{
+                    $usuario = $pegaUsuario->fetch(PDO::FETCH_ASSOC);
+                    
+                    if(md5($senha)==$usuario['ds_senha'] && $usuario['ds_ativo'] == 1){
+                        $_SESSION['cdUsuario'] = $usuario['id_usuario'];
+                        $_SESSION['nomeUsuario'] = $usuario['nm_usuario'];
+                        $_SESSION['permissao'] = $usuario['ds_permissao'];
+
+                        header("Location: home.php");
+                        exit;
+                    }else{                                    
+                        header("Location: login.php?erro=invalido");
+                        exit;                                
+                    }
+                }
   
-		if(mysqli_num_rows($query) == 0)
-			{
-				header("Location: login.php?erro=invalido");                                
-				exit;
-			}else{
-				$usuario = mysqli_fetch_assoc($query);
-				
-				if(md5($senha) == $usuario['ds_senha'] && $usuario['ds_ativo'] == 1 ){
-					$_SESSION['cdUsuario'] = $usuario['id_usuario'];
-					$_SESSION['nomeUsuario'] = $usuario['nm_usuario'];
-                                        $_SESSION['permissao'] = $usuario['ds_permissao'];
-					
-					header("Location: home.php");
-					exit;
-					
-				}else{                                    
-        				header("Location: login.php?erro=invalido");
-					exit;                                
-                                }
-			}			
+//		if(mysqli_num_rows($query) == 0)
+//			{
+//				header("Location: login.php?erro=invalido");                                
+//				exit;
+//			}else{
+//				$usuario = mysqli_fetch_assoc($query);
+//				
+//				if(md5($senha) == $usuario['ds_senha'] && $usuario['ds_ativo'] == 1 ){
+//					$_SESSION['cdUsuario'] = $usuario['id_usuario'];
+//					$_SESSION['nomeUsuario'] = $usuario['nm_usuario'];
+//                                        $_SESSION['permissao'] = $usuario['ds_permissao'];
+//					
+//					header("Location: home.php");
+//					exit;
+//					
+//				}else{                                    
+//        				header("Location: login.php?erro=invalido");
+//					exit;                                
+//                                }
+//			}			
 	}
 ?>
 <!DOCTYPE html>
