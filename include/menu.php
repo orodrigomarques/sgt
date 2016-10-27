@@ -14,7 +14,7 @@
 
         </li>
                 </ul>
-                <li><a href="../contato.php"><i class="icon-envelope"></i> <span>Contato</span></a></li>
+                <li><a href="../contato/index.php"><i class="icon-envelope"></i> <span>Contato</span></a></li>
 
                 
 <!--                <li><a href="javascript:;"><i class="icon-th"></i> <span>Cadastros</span> </a>
