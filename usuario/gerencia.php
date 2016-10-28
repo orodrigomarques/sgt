@@ -40,11 +40,7 @@
             $pegaUsuarios->bindValue(":id", $id);
             $pegaUsuarios->execute();
             $usuario = $pegaUsuarios->fetch(PDO::FETCH_ASSOC);            
-//            
-//            $sql = "SELECT * FROM usuario WHERE id_usuario = ".$id;
-//            $linha = mysqli_query($conexao, $sql);
-//            $usuario = mysqli_fetch_assoc($linha) or die(mysql_error());
-
+            
             $id = $usuario['id_usuario'];
             $nome = $usuario['nm_usuario'];
             $ativo = $usuario['ds_ativo'];
@@ -69,8 +65,8 @@
         
         
         //$senhaAtual = md5(addslashes($_POST['senhaAtual']));
-        $novaSenha = md5(addslashes($_POST['novaSenha']));
-        $confSenha = md5(addslashes($_POST['confSenha']));
+        $novaSenha = md5($_POST['novaSenha']);
+        $confSenha = md5($_POST['confSenha']);
         
         
         if(empty($id)){
@@ -78,27 +74,24 @@
                 try{
                     $novoUsuario = $conexao->prepare("INSERT INTO usuario (nm_usuario, ds_senha, ds_ativo, ds_permissao) "
                                                         ."VALUES ( :usuario, :novaSenha, :ativo, :permissao )");
-                    $novoUsuario->bindValue(":usuario", $usuario);
-                    $novoUsuario->bindValue(":novaSenha", $novaSenha);
+                    $novoUsuario->bindValue(":usuario", $usuario, PDO::PARAM_STR);
+                    $novoUsuario->bindValue(":novaSenha", $novaSenha, PDO::PARAM_STR);
                     $novoUsuario->bindValue(":ativo", $ativo);
-                    $novoUsuario->bindValue(":permissao", $permissao);           
+                    $novoUsuario->bindValue(":permissao", $permissao);   
+                    
+                    
                     $novoUsuario->execute();
+//                    echo $novoUsuario->rowCount();
+//                    var_dump($novoUsuario);
+                    
                     
                     $retorno='inserido';
                     
                 }  catch (Exception $e){
                     echo $e;
-                    exit();
+                    exit($e);
                 }
-                
-                 
-                
-                
-//                $sqlUsuario = "INSERT INTO usuario (nm_usuario, ds_senha, ds_ativo, ds_permissao) "
-//                                ."VALUES ('".$usuario."', '".$novaSenha."', ".$ativo.", ".$permissao.")"; 
-//                //echo $sqlUsuario;
-//                $res = mysqli_query($conexao, $sqlUsuario) or die(mysqli_error($conexao));
-               
+
             }else{
                  header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&erro=invalido');
             }
@@ -106,10 +99,16 @@
             try{
                 $atualizarUsuario = $conexao->prepare("UPDATE usuario SET nm_usuario = :usuario, ds_ativo = :ativo, ds_permissao = :permissao "
                                                      ."WHERE id_usuario = :id");
-                $atualizarUsuario->bindValue(":usuario", $usuario);
+                $atualizarUsuario->bindValue(":usuario", $usuario, PDO::PARAM_STR);
                 $atualizarUsuario->bindValue(":ativo", $ativo);
                 $atualizarUsuario->bindValue(":permissao", $permissao);
+                $atualizarUsuario->bindValue(":id", $id);
                 $atualizarUsuario->execute();
+                
+//                echo $atualizarUsuario->rowCount();
+//                var_dump($atualizarUsuario);
+//                echo $atualizarUsuario->errorCode();
+//                exit();
                 
                 $retorno='alterado';
                 
@@ -117,38 +116,32 @@
                     echo $e;
                     exit();
             }
-
-//            $sqlUsuario = "UPDATE usuario SET nm_usuario = '".$usuario."', ds_ativo = ".$ativo.", ds_permissao = ".$permissao." "
-//                        . "WHERE id_usuario = ".$id ; 
-//                                
-//            $res = mysqli_query($conexao, $sqlUsuario) or die(mysqli_error());
-//            
-
-            if(!empty($novaSenha)){
+                
+            if(!empty($_POST['novaSenha'])){
                 
                 try{
-                $pegaSenha = $conexao->prepare("SELECT ds_senha FROM usuario WHERE id_usuario = :id");
-                $pegaSenha->bindValue(":id", $id);
-                $pegaSenha->execute();
-                $senha = $pegaSenha->fetch(PDO::FETCH_ASSOC);   
-                
+                    $pegaSenha = $conexao->prepare("SELECT ds_senha FROM usuario WHERE id_usuario = :id");
+                    $pegaSenha->bindValue(":id", $id);
+                    $pegaSenha->execute();
+                    $senha = $pegaSenha->fetch(PDO::FETCH_ASSOC);   
+                    
                 }  catch (Exception $e){
                         echo $e;
-                        exit();
+                        exit($e);
                 }
 
-//                $linha = mysqli_query($conexao, "SELECT ds_senha FROM usuario WHERE id_usuario = ".$id);
-//                $senha = mysqli_fetch_assoc($linha);
-
-                $senhaAtual = md5(addslashes($_POST['senhaAtual']));
-
+                $senhaAtual = md5($_POST['senhaAtual']);
+                echo $senha['ds_senha']."<br>";
+                echo $senhaAtual;
+                
                 if($senha['ds_senha'] == $senhaAtual && $novaSenha == $confSenha){
+                    
                     
                     $atualizaSenha = $conexao->prepare("UPDATE usuario SET ds_senha = :novaSenha WHERE id_usuario = :id");
                     $atualizaSenha->bindValue(":novaSenha", $novaSenha);
                     $atualizaSenha->bindValue(":id", $id);
                     $atualizaSenha->execute();
-//
+                    
 //                    $sqlSenha = "UPDATE usuario SET ds_senha = '".$novaSenha."' WHERE id_usuario = ".$id;
 //                    $res = mysqli_query($conexao, $sqlSenha) or die(mysqli_error());
                     $retorno='alterado';
@@ -211,10 +204,10 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Perfil</label>
                 <div class="col-sm-4">
-                    <select name="permissao" id="permissao" class="form-control">
+                    <select name="permissao" id="permissao" class="form-control" >
                         <option value=''>Perfil...</option>
                         <option value="1" <?php echo($permissao == '1') ? 'selected' : '';?>>Administrador</option>
-                        <option value="2" <?php echo($permissao == '2') ? 'selected' : '';?>>Gerente</option>
+                        <option value="2" <?php echo($permissao == '2') ? 'selecte' : '';?>>Gerente</option>
                         <option value="3" <?php echo($permissao == '3') ? 'selected' : '';?>>Funcionario</option>
                         
                     </select>
