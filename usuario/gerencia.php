@@ -55,8 +55,6 @@
             $permissao = 0;
         }    
     }   
-    
-    ////////////////////////////////////////////////////////////////////////////
         
     if(isset($_POST['idUsuario']) && $_POST['idUsuario'] != ''){
         
@@ -90,8 +88,8 @@
 
 
                         $novoUsuario->execute();
-    //                    echo $novoUsuario->rowCount();
-    //                    var_dump($novoUsuario);
+                        // echo $novoUsuario->rowCount();
+                        //var_dump($novoUsuario);
 
 
                         $retorno='inserido';
@@ -148,9 +146,7 @@
                     $atualizaSenha->bindValue(":novaSenha", $novaSenha);
                     $atualizaSenha->bindValue(":id", $id);
                     $atualizaSenha->execute();
-                    
-//                    $sqlSenha = "UPDATE usuario SET ds_senha = '".$novaSenha."' WHERE id_usuario = ".$id;
-//                    $res = mysqli_query($conexao, $sqlSenha) or die(mysqli_error());
+
                     $retorno='alterado';                   
 
                 }else{
@@ -170,7 +166,7 @@
     } 
 ?>
 <script>alertaSucesso("a", "a", "a")</script>
-
+<script type='text/javascript' src='../assets/js/mascara.js'></script>
 
 <body class="">
     <?php include '../include/header.php';?>
@@ -183,134 +179,122 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li class='active'><a href="../home.php">Home</a> > <a href="index.php">Usuarios</a> > <?php echo $acao?></li>
-                
+                <li class='active'><a href="../home.php">Home</a> > <a href="index.php">Usuarios</a> > <?php echo $acao?></li>                
             </ol>
             <h1>Usuarios</h1>            
         </div>       
 
-        <div class="container">               
-            		
-                <div class="panel panel-midnightblue">
-            
-                    <div class="panel-heading">
-        <h4>Dados do usuario</h4>
-        
-    </div>
-    <div class="panel-body collapse in">
-        <form id="formUsuario" name="formUsuario" method="post"  class="form-horizontal" />
-            <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo($id);?>">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Ativo</label>
-                <div class="col-sm-4">
-                    <label class="checkbox-inline">
-                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : ''; ?> <?php if ($acao == 'visualizar') { ?>disabled="disabled"  <?php }; ?> type="checkbox" value="1"> 
-                    </label>
-                    
+        <div class="container">               	
+            <div class="panel panel-midnightblue">
+                <div class="panel-heading">
+                    <h4>Dados do usuario</h4>
                 </div>
-            </div>    
-            
-           <div class="form-group">
-                <label class="col-sm-2 control-label">Perfil</label>
-                <div class="col-sm-4">
-                    <select name="permissao" id="permissao" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
-                        <option value=''>Perfil...</option>
-                        <option value="1" <?php echo($permissao == '1') ? 'selected' : ''; ?>>Administrador</option>
-                        <option value="2" <?php echo($permissao == '2') ? 'selected' : ''; ?>>Gerente</option>
-                        <option value="3" <?php echo($permissao == '3') ? 'selected' : ''; ?>>Funcionario</option>
+                <div class="panel-body collapse in">
+                    <form id="formUsuario" name="formUsuario" method="post"  class="form-horizontal" />
+                        <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo($id);?>">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Ativo</label>
+                            <div class="col-sm-4">
+                                <label class="checkbox-inline">
+                                  <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : ''; ?> <?php if ($acao == 'visualizar') { ?>disabled="disabled"  <?php }; ?> type="checkbox" value="1"> 
+                                </label>
 
-                    </select>
+                            </div>
+                        </div>    
+
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">Perfil</label>
+                            <div class="col-sm-4">
+                                <select name="permissao" id="permissao" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                    <option value=''>Perfil...</option>
+                                    <option value="1" <?php echo($permissao == '1') ? 'selected' : ''; ?>>Administrador</option>
+                                    <option value="2" <?php echo($permissao == '2') ? 'selected' : ''; ?>>Gerente</option>
+                                    <option value="3" <?php echo($permissao == '3') ? 'selected' : ''; ?>>Funcionario</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Pessoa</label>
+                            <div class="col-sm-4">
+                                <input name="pessoa" id="pessoa" type="text" class="form-control"  value="<?php echo $nome?>"  readonly="readonly"/>
+                            </div>
+                        </div>
+
+                    <?php if (isset($_GET['retorno']) && $_GET['retorno'] == 'nomeinvalido') { ?>
+                        <div class="form-group ">   
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="alert alert-dismissable alert-danger col-sm-4 ">
+                                <strong>Nome de usuário já cadastrado</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Usuario</label>
+                            <div class="col-sm-4">
+                                <input name="usuario" id="usuario" type="text" onkeyup="mascara( this, alphanum )" title="Somente letras ou numeros" class="form-control"  value="<?php echo $nome ?>" <?php if ($acao == 'visualizar' || $acao == 'editar') { ?>readonly="readonly" <?php }; ?> required/>
+
+                            </div>
+                        </div>
+
+                    <?php if (isset($_GET['retorno']) && $_GET['retorno'] == 'invalido') { ?>
+                        <div class="form-group ">   
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="alert alert-dismissable alert-danger col-sm-4 ">
+                                <strong>Senhas digitadas não conferem</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    if ($acao != 'visualizar') {
+                        if (!empty($id) && $_GET['acao'] == 'editar') {
+                            ?>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Senha Atual</label>
+                                <div class="col-sm-4">
+                                    <input name="senhaAtual" id="senhaAtual" type="password" class="form-control" onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
+                                </div>
+                            </div>
+                    <?php } ?>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Senha</label>
+                            <div class="col-sm-4">
+                                <input name="novaSenha" id="novaSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Confirmar senha</label>
+                            <div class="col-sm-4">
+                                <input name="confSenha" id="confSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
+                            </div>
+                        </div> 
+                    <?php } ?>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <div class="btn-toolbar">
+                                    <?php 
+                                        if($acao  == 'visualizar'){?>
+                                            <a class="btn-primary btn" href='index.php'>Voltar</a>
+                                    <?php 
+                                        }else{?>
+                                            <button class="btn-primary btn" id="btn_gravar" >Gravar</button>
+                                            <a class="btn-default btn" href='index.php'>Cancelar</a>
+                                    <?php 
+                                        }?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            
-            
-        
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Pessoa</label>
-                <div class="col-sm-4">
-                    <input name="pessoa" id="pessoa" type="text" class="form-control"  value="<?php echo $nome?>"  readonly="readonly"/>
-                </div>
-            </div>
-
-        <?php if (isset($_GET['retorno']) && $_GET['retorno'] == 'nomeinvalido') { ?>
-            <div class="form-group ">   
-                <label class="col-sm-2 control-label"></label>
-                <div class="alert alert-dismissable alert-danger col-sm-4 ">
-                    <strong>Nome de usuário já cadastrado</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-
-                </div>
-            </div>
-        <?php } ?>
-            
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Usuario</label>
-                <div class="col-sm-4">
-                    <input name="usuario" id="usuario" type="text" onkeyup="mascara( this, alphanum )" title="Somente letras ou numeros" class="form-control"  value="<?php echo $nome ?>" <?php if ($acao == 'visualizar' || $acao == 'editar') { ?>readonly="readonly" <?php }; ?> required/>
-
-                </div>
-            </div>
-
-        <?php if (isset($_GET['retorno']) && $_GET['retorno'] == 'invalido') { ?>
-            <div class="form-group ">   
-                <label class="col-sm-2 control-label"></label>
-                <div class="alert alert-dismissable alert-danger col-sm-4 ">
-                    <strong>Senhas digitadas não conferem</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-
-                </div>
-            </div>
-        <?php
-        }
-        if ($acao != 'visualizar') {
-            if (!empty($id) && $_GET['acao'] == 'editar') {
-                ?>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Senha Atual</label>
-                    <div class="col-sm-4">
-                        <input name="senhaAtual" id="senhaAtual" type="password" class="form-control" onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
-                    </div>
-                </div>
-        <?php } ?>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Senha</label>
-                <div class="col-sm-4">
-                    <input name="novaSenha" id="novaSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Confirmar senha</label>
-                <div class="col-sm-4">
-                    <input name="confSenha" id="confSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
-                </div>
-            </div> 
-         <?php } ?>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <div class="btn-toolbar">
-                    <?php 
-                        if($acao  == 'visualizar'){?>
-                            <a class="btn-primary btn" href='index.php'>Voltar</button>
-                    <?php 
-                        }else{?>
-                            <button class="btn-primary btn" id="btn_gravar">Gravar</button>
-                            <a class="btn-default btn" location.href='index.php'>Cancelar</button>
-                    <?php 
-                        }?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
-        </form>
-        
-    </div>
-    
-</div>
-            
         </div> <!-- container -->
     </div> <!--wrap -->
 </div> <!-- page-content -->

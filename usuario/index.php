@@ -1,9 +1,9 @@
 <?php 
     include '../include/conexao/conecta.php';
-    $conexao = conecta();
     include '../include/head.php';
     include '../include/funcoes.php';
     validaAcesso();
+    $conexao = conecta();
     
     if(isset($_GET['retorno']) && $_GET['retorno'] == 'inserido'){
        
