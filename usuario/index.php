@@ -1,5 +1,6 @@
 <?php 
     include '../include/conexao/conecta.php';
+    $conexao = conecta();
     include '../include/head.php';
     include '../include/funcoes.php';
     validaAcesso();
@@ -14,56 +15,70 @@
        
        echo "<script>alert('Usuario alterado com sucesso!');
                    location.href=\"index.php\"</script>";
-    }
-    //WHERE
-    $where = '';
-    $nome = '';
-    $ativo = 1;
-    if(isset($_POST['nome']) && !empty($_POST['nome'])){
-            $nome = addslashes($_POST['nome']);
-            $nome = str_replace('\\','',$nome);
-    }
-    $where .= " WHERE nm_usuario LIKE '%$nome%'";
-    
-    if(isset($_POST['ds_ativo'])){
-            $ativo = ($_POST['ds_ativo']);
-            
-    }
-    $where .= " and ds_ativo = $ativo"; 
-           
-
-    if(isset($_POST['ds_permissao']) && !empty($_POST['ds_permissao'])){
-            $permissao = ($_POST['ds_permissao']);
-            $where .= " and ds_permissao = $permissao";		
     }    
-    //--
-        
-    // PAGINAÇÃO
+    
+    //WHERE
+    $filtroPermissao = '';
+    $nome = '';
+    $ativo = 1;  
+    
+    if(isset($_POST['nome']) && !empty($_POST['nome'])){
+            $nome = $_POST['nome'];            
+    }
+    
+        if(isset($_POST['ds_ativo'])){
+            $ativo = ($_POST['ds_ativo']);            
+    }
+    
+    if(isset($_POST['ds_permissao']) && !empty($_POST['ds_permissao'])){
+            $permissao = $_POST['ds_permissao'];
+            $filtroPermissao = "AND ds_permissao = ".$permissao; 
+            
+    }  
+    //End WHERE
+    
+ // PAGINAÇÃO
     $pagina = (isset($_GET['pagina']) && !empty($_GET['pagina']) ? $_GET['pagina'] : 1);
     $registros = 20;
 
     $inicio = ($pagina -1) * $registros;
     $fim = $registros;//$pagina * $registros;
 
-    $limit = " LIMIT $inicio, $fim";
+    $limit = "LIMIT $inicio, $fim";
     
-    $sqlcount = "SELECT count(*) as qtd ".
-                "FROM usuario ".
-                $where;	
-    $qtd = mysqli_fetch_assoc(mysqli_query($conexao, $sqlcount));
-    
+    try{
+        $contador = $conexao->prepare("SELECT count(*) as qtd FROM usuario "
+                                . "WHERE nm_usuario LIKE  :nome AND ds_ativo = :ativo ".$filtroPermissao
+                                . " ".$limit);
+        $contador->bindValue(":nome", '%'.$nome.'%');
+        $contador->bindValue(":ativo", $ativo);      
+
+        $contador->execute();
+                
+    }catch (Exception $e){
+        echo $e;
+        exit();
+    }
+
+    $qtd = $contador->fetch(PDO::FETCH_ASSOC);
     $ultima_pagina = ceil((int)$qtd['qtd']/$registros);
-    //--
+    //End PAGINAÇÃO
     
+    
+     try{
+        $usuarios = $conexao->prepare("SELECT * FROM usuario "
+                                . "WHERE nm_usuario LIKE  :nome AND ds_ativo = :ativo ".$filtroPermissao
+                                . " ORDER BY nm_usuario ASC ".$limit);
+        $usuarios->bindValue(":nome", '%'.$nome.'%');
+        $usuarios->bindValue(":ativo", $ativo);      
 
-    $sql_usuarios =     "SELECT * FROM usuario ".
-                        $where.			
-			" ORDER BY nm_usuario ASC ".
-			$limit;   
-    
-    $usuarios = mysqli_query($conexao, $sql_usuarios);   
-
-    
+        $usuarios->execute();
+                
+    }catch (Exception $e){
+        echo $e;
+        exit();
+    }
+      
 ?>
 
 
@@ -130,7 +145,7 @@
                                         </div>
                                     </form>
 
-                                    <?php if(mysqli_num_rows($usuarios) > 0){ ?>
+                                    <?php if($usuarios->rowCount() > 0){ ?>
                                             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable" id="example" aria-describedby="example_info">
                                                 <thead>
                                                         <tr role="row">
@@ -142,7 +157,7 @@
                                                 </thead>
 
                                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                                                <?php while($usuario = mysqli_fetch_assoc($usuarios)){?>
+                                                <?php while($usuario = $usuarios->fetch(PDO::FETCH_ASSOC)){?>
                                                         <tr class="gradeA odd">
                                                                 <td style="width:30%" class=""><?php echo($usuario['nm_usuario']);?>&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-question-sign " title="<?php echo($pessoa['pes_apelido']);?>"></i></td>
                                                                 
@@ -187,7 +202,7 @@
 
                      
                                     
-                                    <div class="tab-pane active" style="text-align:right;" id="dompaginate">
+<!--                                    <div class="tab-pane active" style="text-align:right;" id="dompaginate">
                                         <ul class="pagination">
 
                                         <li><a href="?pagina=1&nome=<?php echo($nome);?>"><i class="icon-double-angle-left"></i>&nbsp;</a></li>
@@ -216,7 +231,7 @@
                                               <a onclick="location.href='?pagina='+$('#pagina_ir').val()+'&nome=<?php echo($nome);?>' 	" style="float:left;" class="btn btn-muted btn-default">Ir</a>
                                         </div>                                
                                     </ul>
-                                </div>            
+                                </div>            -->
                             </div>
                         </div>
                     </div>            
