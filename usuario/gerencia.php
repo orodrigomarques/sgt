@@ -55,6 +55,8 @@
             $permissao = 0;
         }    
     }   
+    
+    ////////////////////////////////////////////////////////////////////////////
         
     if(isset($_POST['idUsuario']) && $_POST['idUsuario'] != ''){
         
@@ -64,36 +66,42 @@
         $usuario = addslashes($_POST['usuario']);        
         
         
-        //$senhaAtual = md5(addslashes($_POST['senhaAtual']));
+        $senhaAtual = md5($_POST['senhaAtual']);
         $novaSenha = md5($_POST['novaSenha']);
         $confSenha = md5($_POST['confSenha']);
         
         
         if(empty($id)){
-            if($novaSenha == $confSenha){ 
-                try{
-                    $novoUsuario = $conexao->prepare("INSERT INTO usuario (nm_usuario, ds_senha, ds_ativo, ds_permissao) "
-                                                        ."VALUES ( :usuario, :novaSenha, :ativo, :permissao )");
-                    $novoUsuario->bindValue(":usuario", $usuario, PDO::PARAM_STR);
-                    $novoUsuario->bindValue(":novaSenha", $novaSenha, PDO::PARAM_STR);
-                    $novoUsuario->bindValue(":ativo", $ativo);
-                    $novoUsuario->bindValue(":permissao", $permissao);   
-                    
-                    
-                    $novoUsuario->execute();
-//                    echo $novoUsuario->rowCount();
-//                    var_dump($novoUsuario);
-                    
-                    
-                    $retorno='inserido';
-                    
-                }  catch (Exception $e){
-                    echo $e;
-                    exit($e);
-                }
+            
+            $pegaUsuarios = $conexao->prepare("SELECT nm_usuario FROM usuario WHERE nm_usuario = :usuario");
+            $pegaUsuarios->bindValue(":usuario", $usuario);
+            $pegaUsuarios->execute();
+ 
+            if($pegaUsuarios->rowCount() > 0){
+                $retornoNome = 'nomeinvalido';
+            }elseif($novaSenha == $confSenha){ 
+                    try{
+                        $novoUsuario = $conexao->prepare("INSERT INTO usuario (nm_usuario, ds_senha, ds_ativo, ds_permissao) "
+                                                            ."VALUES ( :usuario, :novaSenha, :ativo, :permissao )");
+                        $novoUsuario->bindValue(":usuario", $usuario, PDO::PARAM_STR);
+                        $novoUsuario->bindValue(":novaSenha", $novaSenha, PDO::PARAM_STR);
+                        $novoUsuario->bindValue(":ativo", $ativo);
+                        $novoUsuario->bindValue(":permissao", $permissao);   
 
+
+                        $novoUsuario->execute();
+    //                    echo $novoUsuario->rowCount();
+    //                    var_dump($novoUsuario);
+
+
+                        $retorno='inserido';
+
+                    }  catch (Exception $e){
+                        echo $e;
+                        exit($e);
+                    }
             }else{
-                 header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&erro=invalido');
+                header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&erro=invalido');
             }
         }else{     
             try{
@@ -130,12 +138,11 @@
                         exit($e);
                 }
 
-                $senhaAtual = md5($_POST['senhaAtual']);
-                echo $senha['ds_senha']."<br>";
-                echo $senhaAtual;
+//                $senhaAtual = md5($_POST['senhaAtual']);
+//                echo $senha['ds_senha']."<br>";
+//                echo $senhaAtual;
                 
-                if($senha['ds_senha'] == $senhaAtual && $novaSenha == $confSenha){
-                    
+                if($senha['ds_senha'] == $senhaAtual && $novaSenha == $confSenha){                    
                     
                     $atualizaSenha = $conexao->prepare("UPDATE usuario SET ds_senha = :novaSenha WHERE id_usuario = :id");
                     $atualizaSenha->bindValue(":novaSenha", $novaSenha);
@@ -144,17 +151,18 @@
                     
 //                    $sqlSenha = "UPDATE usuario SET ds_senha = '".$novaSenha."' WHERE id_usuario = ".$id;
 //                    $res = mysqli_query($conexao, $sqlSenha) or die(mysqli_error());
-                    $retorno='alterado';
-                    
+                    $retorno='alterado';                   
 
                 }else{
                     header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&retorno=invalido');
                     exit();
                 }
-            }
+            }        
+        } 
         
-        }  
-        if($retorno){
+        if ($retornoNome) {
+        header('Location: gerencia.php?id=' . base64_encode($id) . '&acao=novo&retorno=nomeinvalido');
+        } elseif($retorno){
             header('Location: index.php?retorno='.$retorno);
         }else{
             header('Location: gerencia.php?id='.base64_encode($id).'&acao=editar&retorno=invalido');
@@ -196,23 +204,26 @@
                 <label class="col-sm-2 control-label">Ativo</label>
                 <div class="col-sm-4">
                     <label class="checkbox-inline">
-                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : '';?> type="checkbox" value="1"> 
+                      <input name="ativo" id="ativo" <?php echo($ativo == '1') ? 'checked' : ''; ?> <?php if ($acao == 'visualizar') { ?>disabled="disabled"  <?php }; ?> type="checkbox" value="1"> 
                     </label>
                     
                 </div>
             </div>    
-            <div class="form-group">
+            
+           <div class="form-group">
                 <label class="col-sm-2 control-label">Perfil</label>
                 <div class="col-sm-4">
-                    <select name="permissao" id="permissao" class="form-control" >
+                    <select name="permissao" id="permissao" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
                         <option value=''>Perfil...</option>
-                        <option value="1" <?php echo($permissao == '1') ? 'selected' : '';?>>Administrador</option>
-                        <option value="2" <?php echo($permissao == '2') ? 'selecte' : '';?>>Gerente</option>
-                        <option value="3" <?php echo($permissao == '3') ? 'selected' : '';?>>Funcionario</option>
-                        
+                        <option value="1" <?php echo($permissao == '1') ? 'selected' : ''; ?>>Administrador</option>
+                        <option value="2" <?php echo($permissao == '2') ? 'selected' : ''; ?>>Gerente</option>
+                        <option value="3" <?php echo($permissao == '3') ? 'selected' : ''; ?>>Funcionario</option>
+
                     </select>
                 </div>
             </div>
+            
+            
         
             <div class="form-group">
                 <label class="col-sm-2 control-label">Pessoa</label>
@@ -220,45 +231,65 @@
                     <input name="pessoa" id="pessoa" type="text" class="form-control"  value="<?php echo $nome?>"  readonly="readonly"/>
                 </div>
             </div>
+
+        <?php if (isset($_GET['retorno']) && $_GET['retorno'] == 'nomeinvalido') { ?>
+            <div class="form-group ">   
+                <label class="col-sm-2 control-label"></label>
+                <div class="alert alert-dismissable alert-danger col-sm-4 ">
+                    <strong>Nome de usuário já cadastrado</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                </div>
+            </div>
+        <?php } ?>
             
             <div class="form-group">
                 <label class="col-sm-2 control-label">Usuario</label>
                 <div class="col-sm-4">
-                    <input name="usuario" id="usuario" type="text" class="form-control"  value="<?php echo $nome?>"/>
+                    <input name="usuario" id="usuario" type="text" onkeyup="mascara( this, alphanum )" title="Somente letras ou numeros" class="form-control"  value="<?php echo $nome ?>" <?php if ($acao == 'visualizar' || $acao == 'editar') { ?>readonly="readonly" <?php }; ?> required/>
+
                 </div>
             </div>
-        <?php if(isset($_GET['retorno']) && $_GET['retorno'] == 'invalido'){?>
+
+        <?php if (isset($_GET['retorno']) && $_GET['retorno'] == 'invalido') { ?>
             <div class="form-group ">   
                 <label class="col-sm-2 control-label"></label>
                 <div class="alert alert-dismissable alert-danger col-sm-4 ">
                     <strong>Senhas digitadas não conferem</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
                 </div>
             </div>
-        <?php }
-            if($acao != 'visualizar'){
-                if(!empty($id) && $_GET['acao'] == 'editar'){?>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Senha Atual</label>
-                <div class="col-sm-4">
-                    <input name="senhaAtual" id="senhaAtual" type="password" class="form-control" />
+        <?php
+        }
+        if ($acao != 'visualizar') {
+            if (!empty($id) && $_GET['acao'] == 'editar') {
+                ?>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Senha Atual</label>
+                    <div class="col-sm-4">
+                        <input name="senhaAtual" id="senhaAtual" type="password" class="form-control" onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
+                    </div>
                 </div>
-            </div>
-            <?php } ?>
-        
+        <?php } ?>
+
             <div class="form-group">
                 <label class="col-sm-2 control-label">Senha</label>
                 <div class="col-sm-4">
-                    <input name="novaSenha" id="novaSenha" type="password" class="form-control" />
+                    <input name="novaSenha" id="novaSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Confirmar senha</label>
                 <div class="col-sm-4">
-                    <input name="confSenha" id="confSenha" type="password" class="form-control" />
+                    <input name="confSenha" id="confSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
                 </div>
             </div> 
+
+
+
         <?php } ?>
+
         
         
         </form>
