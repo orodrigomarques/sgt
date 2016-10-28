@@ -285,31 +285,28 @@
                     <input name="confSenha" id="confSenha" type="password" class="form-control" <?php if ($acao == 'novo') { ?>required <?php }; ?> onkeyup="mascara( this, alphanum ) "pattern=".{3,}" title="Três ou mais caracteres(Letras ou numeros)"/>
                 </div>
             </div> 
-
-
-
-        <?php } ?>
-
-        
-        
-        </form>
+         <?php } ?>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="btn-toolbar">
                     <?php 
                         if($acao  == 'visualizar'){?>
-                            <button class="btn-primary btn" onClick="location.href='index.php'">Voltar</button>
+                            <a class="btn-primary btn" href='index.php'>Voltar</button>
                     <?php 
                         }else{?>
-                            <button class="btn-primary btn" id="btn_gravar" onClick="$('#formUsuario').submit();">Gravar</button>
-                            <button class="btn-default btn" onClick="location.href='index.php'">Cancelar</button>
+                            <button class="btn-primary btn" id="btn_gravar">Gravar</button>
+                            <a class="btn-default btn" location.href='index.php'>Cancelar</button>
                     <?php 
                         }?>
                     </div>
                 </div>
             </div>
         </div>
+        
+        
+        </form>
+        
     </div>
     
 </div>
