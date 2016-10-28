@@ -37,9 +37,9 @@
     }  
     //End WHERE
     
- // PAGINAÇÃO
+    // PAGINAÇÃO
     $pagina = (isset($_GET['pagina']) && !empty($_GET['pagina']) ? $_GET['pagina'] : 1);
-    $registros = 20;
+    $registros = 10;
 
     $inicio = ($pagina -1) * $registros;
     $fim = $registros;//$pagina * $registros;
@@ -198,11 +198,9 @@
                                     <?php }else{ ?>
                                             <div style="margin-left:10px">Nenhum documeto encontrado.</div>
                                     <?php } ?>
-                                    </div>		
-
-                     
+                                    </div>		                     
                                     
-<!--                                    <div class="tab-pane active" style="text-align:right;" id="dompaginate">
+                                    <div class="tab-pane active" style="text-align:right;" id="dompaginate">
                                         <ul class="pagination">
 
                                         <li><a href="?pagina=1&nome=<?php echo($nome);?>"><i class="icon-double-angle-left"></i>&nbsp;</a></li>
@@ -231,7 +229,7 @@
                                               <a onclick="location.href='?pagina='+$('#pagina_ir').val()+'&nome=<?php echo($nome);?>' 	" style="float:left;" class="btn btn-muted btn-default">Ir</a>
                                         </div>                                
                                     </ul>
-                                </div>            -->
+                                </div>            
                             </div>
                         </div>
                     </div>            
