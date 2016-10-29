@@ -177,7 +177,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Numero</label>
                 <div class="col-sm-4">
-                    <input name="ds_numero" id="ds_numero" type="number" class="form-control"  value="<?php echo $numero?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
+                    <input name="ds_numero" id="ds_numero" type="number" min=1  title="Insira um valor maior ou igual a 1" class="form-control"  value="<?php echo $numero?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             <div class="form-group">

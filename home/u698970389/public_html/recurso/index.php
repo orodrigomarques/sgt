@@ -174,7 +174,7 @@ $dataJulgados = mysqli_query($conexao, $sql_recursos);
                                                 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable" id="example" aria-describedby="example_info">
                                                     <thead>
                                                         <tr role="row">
-                                                            <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Nº do processo</th>		
+                                                            <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Nº do recurso</th>		
                                                             
                                                             <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Nº do recurso</th>		
                                                             <th role="columnheader" tabindex="2" aria-controls="example" rowspan="1" colspan="1" aria-label="" style="width:150px;">Ano do Recurso</th>
@@ -187,7 +187,7 @@ $dataJulgados = mysqli_query($conexao, $sql_recursos);
                                                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                                                         <?php while ($recurso = mysqli_fetch_assoc($recursos)) { ?>
                                                             <tr class="gradeA odd">
-                                                                <td style="width:10%" class=""><?php echo($recurso['cd_processo']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td style="width:20%" class=""><?php echo($recurso['cd_processo']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                                                                 <td style="width:10%" class=""><?php echo($recurso['cd_recurso']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 

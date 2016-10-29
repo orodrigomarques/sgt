@@ -1,64 +1,40 @@
-<?php if(!isset($_SESSION)){session_start();}?>
+<!-- <?php if(!isset($_SESSION)){session_start();}?>
 <?php
 
 include("include/conexao/conecta.php");
-$conexao = conecta();
 
 if(isset($_POST['usuario']) && !empty($_POST['usuario']) && isset($_POST['senha']) && !empty($_POST['senha']))
 	{
 		$usuario = $_POST['usuario'];
 		$senha = $_POST['senha'];
-                
-                $pegaUsuario=$conexao->prepare("SELECT * FROM usuario WHERE nm_usuario = :usuario");
-                $pegaUsuario->bindValue(":usuario", $usuario);
-                $pegaUsuario->execute();
-                
-                                
-//		$sql = "SELECT * FROM usuario WHERE nm_usuario = '$usuario'";
-//		//exit($sql);
-//		                
-//                $query = mysqli_query($conexao, $sql) ;
-                if($pegaUsuario->rowCount() == 0){
-                    header("Location: login.php?erro=invalido");                                
-                    exit;
-                }else{
-                    $usuario = $pegaUsuario->fetch(PDO::FETCH_ASSOC);
-                    
-                    if(md5($senha)==$usuario['ds_senha'] && $usuario['ds_ativo'] == 1){
-                        $_SESSION['cdUsuario'] = $usuario['id_usuario'];
-                        $_SESSION['nomeUsuario'] = $usuario['nm_usuario'];
-                        $_SESSION['permissao'] = $usuario['ds_permissao'];
 
-                        header("Location: home.php");
-                        exit;
-                    }else{                                    
-                        header("Location: login.php?erro=invalido");
-                        exit;                                
-                    }
-                }
-  
-//		if(mysqli_num_rows($query) == 0)
-//			{
-//				header("Location: login.php?erro=invalido");                                
-//				exit;
-//			}else{
-//				$usuario = mysqli_fetch_assoc($query);
-//				
-//				if(md5($senha) == $usuario['ds_senha'] && $usuario['ds_ativo'] == 1 ){
-//					$_SESSION['cdUsuario'] = $usuario['id_usuario'];
-//					$_SESSION['nomeUsuario'] = $usuario['nm_usuario'];
-//                                        $_SESSION['permissao'] = $usuario['ds_permissao'];
-//					
-//					header("Location: home.php");
-//					exit;
-//					
-//				}else{                                    
-//        				header("Location: login.php?erro=invalido");
-//					exit;                                
-//                                }
-//			}			
+		$sql = "SELECT * FROM usuario WHERE nm_usuario = '$usuario'";
+		//exit($sql);
+
+                $query = mysqli_query($conexao, $sql) ;
+
+		if(mysqli_num_rows($query) == 0)
+			{
+				header("Location: login.php?erro=invalido");
+				exit;
+			}else{
+				$usuario = mysqli_fetch_assoc($query);
+
+				if(md5($senha) == $usuario['ds_senha'] && $usuario['ds_ativo'] == 1 ){
+					$_SESSION['cdUsuario'] = $usuario['id_usuario'];
+					$_SESSION['nomeUsuario'] = $usuario['nm_usuario'];
+                                        $_SESSION['permissao'] = $usuario['ds_permissao'];
+
+					header("Location: home.php");
+					exit;
+
+				}else{
+        				header("Location: login.php?erro=invalido");
+					exit;
+                                }
+			}
 	}
-?>
+?> -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -72,7 +48,7 @@ if(isset($_POST['usuario']) && !empty($_POST['usuario']) && isset($_POST['senha'
 
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css' />
 	<link href="assets/css/styles.min.css" rel='stylesheet' type='text/css' />
-    <script type='text/javascript' src='assets/js/jquery-1.10.2.min.js'></script> 
+    <script type='text/javascript' src='assets/js/jquery-1.10.2.min.js'></script>
 	<style type="text/css">
 	body,td,th {
 	font-family: "Source Sans Pro", "Open Sans", "Segoe UI", "Droid Sans", Tahoma, Arial, sans-serif;
@@ -89,20 +65,20 @@ $(function() {
 		if(e.wich == 13 || e.keyCode == 13){
 		// e = evento; 13 = code do enter :D
 		//o que você quer que faca qdo apertar enter aqui!
-		$('#formLogin').submit();	
+		$('#formLogin').submit();
 	}
-}); 
+});
 })
 </script>
 </head>
 <body class="focusedform">
 
 <div class="verticalcenter">
-	<!--<img src="assets/img/logo-big.png" alt="Logo" class="brand" />-->
-    <div style="text-align:center"><h2>Painel de controle</h2></div>
+		<div style="text-align:center"><h3>Sistema</h3></div>
+    <div style="text-align:center"><h3>Gerenciamento de Transportes</h3></div>
 	<div class="panel panel-primary">
 		<div class="panel-body">
-			<img src="assets/img/sgt_logo.png" class="profile-img" />
+			<img src="../assets/img/sgt_logo.png" class="profile-img" />
 			<h4 class="text-center" style="margin-bottom: 25px;">Informe seu nome de usu&aacute;rio e senha</h4>
                 <?php if(isset($_GET['erro']) && $_GET['erro'] == 'invalido'){?>
                 <div class="alert alert-dismissable alert-danger">
@@ -133,6 +109,7 @@ $(function() {
 					</div>
 				</form> -->
 				<form action="#" method="post" class="form-horizontal" name="formLogin" id="formLogin" style="margin-bottom: 0px !important;" />
+
 						<div class="form-group">
 							<div class="col-sm-12">
 								<div class="input-group">
@@ -149,15 +126,16 @@ $(function() {
 								</div>
 							</div>
 						</div>
+
 						<!--<div class="clearfix">
 							<div class="pull-right"><label><input type="checkbox" style="margin-bottom: 20px" checked="" /> Lembrar meus dados</label></div>
 						</div>-->
 					</form>
-					
+
 		</div>
 		<div class="panel-footer">
 		<!--	<a href="#" class="pull-left btn btn-link" style="padding-left:0">Esqueceu sua senha?</a>-->
-			<div class="pull-left"><img src="/assets/img/adsix_logo.png"> </div>			
+      <div class="pull-left"><img src="/assets/img/adsix_logo.png"> </div>
 			<div class="pull-right">
 				<a href="#" id="btn_limpar" class="btn btn-default" onClick="formLogin.reset();">Limpar</a>
 				<a href="#" id="btn_entrar" class="btn btn-primary">Entrar</a>
@@ -165,23 +143,24 @@ $(function() {
 		</div>
 	</div>
  </div>
-	
 
-<script type='text/javascript' src='assets/js/jqueryui-1.10.3.min.js'></script> 
-<script type='text/javascript' src='assets/js/bootstrap.min.js'></script> 
-<?php /*?><script type='text/javascript' src='assets/js/enquire.js'></script> 
-<script type='text/javascript' src='assets/js/jquery.cookie.js'></script> 
-<script type='text/javascript' src='assets/js/jquery.touchSwipe.min.js'></script> 
-<script type='text/javascript' src='assets/js/jquery.nicescroll.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/codeprettifier/prettify.js'></script> 
-<script type='text/javascript' src='assets/plugins/easypiechart/jquery.easypiechart.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/sparklines/jquery.sparklines.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-toggle/toggle.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/pines-notify/jquery.pnotify.min.js'></script> 
-<script type='text/javascript' src='assets/demo/demo-alerts.js'></script> 
-<script type='text/javascript' src='assets/js/placeholdr.js'></script> 
-<script type='text/javascript' src='assets/js/application.js'></script> 
-<script type='text/javascript' src='assets/demo/demo.js'></script> 
+
+<script type='text/javascript' src='../assets/js/jqueryui-1.10.3.min.js'></script>
+<script type='text/javascript' src='../assets/js/bootstrap.min.js'></script>
+<script type='text/javascript' src='../assets/plugins/form-toggle/toggle.min.js'></script>
+<?php /*?><script type='text/javascript' src='assets/js/enquire.js'></script>
+<script type='text/javascript' src='assets/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='assets/js/jquery.touchSwipe.min.js'></script>
+<script type='text/javascript' src='assets/js/jquery.nicescroll.min.js'></script>
+<script type='text/javascript' src='assets/plugins/codeprettifier/prettify.js'></script>
+<script type='text/javascript' src='assets/plugins/easypiechart/jquery.easypiechart.min.js'></script>
+<script type='text/javascript' src='assets/plugins/sparklines/jquery.sparklines.min.js'></script>
+<script type='text/javascript' src='assets/plugins/form-toggle/toggle.min.js'></script>
+<script type='text/javascript' src='assets/plugins/pines-notify/jquery.pnotify.min.js'></script>
+<script type='text/javascript' src='assets/demo/demo-alerts.js'></script>
+<script type='text/javascript' src='assets/js/placeholdr.js'></script>
+<script type='text/javascript' src='assets/js/application.js'></script>
+<script type='text/javascript' src='assets/demo/demo.js'></script>
 <?php */ ?>
 </body>
 </html>

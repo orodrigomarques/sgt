@@ -16,7 +16,7 @@
     <div id='wrap'>
         <div id="page-heading">
             <ol class="breadcrumb">
-                <li class='active'><a href="index.php">Home</a></li>
+                <li class='active'><a href="home.php">Home</a></li>
             </ol>
             <h1>Home</h1>            
         </div>       

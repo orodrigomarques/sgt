@@ -4951,7 +4951,6 @@ button.close {
 }
 .navbar-inverse {
     background-color: #313338;
-    /*background-color: #3f48cc;*/
     border-color: #191a1d
 }
 .navbar-inverse .navbar-brand {
@@ -8523,13 +8522,13 @@ body.static-header {
     border: 0
 }
 .navbar-brand {
-    background: url("../img/logo.png") no-repeat center center;
+    background: url("../img/logo_small.png") no-repeat center center;
     height: 40px;
     width: 110px;
     font: 0/0 a;
     color: transparent;
     text-shadow: none;
-    background-color: transparent;
+    background-color: #313338;
     border: 0
 }
 #headerbar {
@@ -8565,10 +8564,10 @@ body.static-header {
 }
 footer {
     border-top: 1px solid #d2d3d6;
-    height: 40px;
+    height: 30px;
     background: #edeef0;
     margin-left: 230px;
-    margin-top: -1px;
+    margin-top: -30px;
     overflow: hidden
 }
 footer>div.clearfix {
@@ -8655,7 +8654,7 @@ footer>div.clearfix ul li:last-child {
 }
 .focusedform .verticalcenter {
     position: absolute;
-    top: 30%;
+    top: 42%;
     left: 50%;
     margin-top: -186px;
     margin-left: -200px
@@ -10084,7 +10083,7 @@ body.show-rightbar #chatarea .chatmsg.sent:after {
 }
 #sidebar ul li.active:not(.open)>a {
     font-weight: 600;
-    color: #3f444c
+    color: #3f444c;
 }
 #sidebar li ul {
     display: none
@@ -10516,3 +10515,88 @@ body.collapse-leftbar #search.keep-open form button[type="submit"] {
 }
 
 #success_message{ display: none;}
+
+
+
+
+/*=========================
+  Icons
+ ================= */
+
+/* footer social icons */
+ul.social-network {
+	list-style: none;
+	display: inline;
+	margin-left:0 !important;
+	padding: 0;
+}
+ul.social-network li {
+	display: inline;
+	margin: 0 5px;
+}
+
+
+/* footer social icons */
+.social-network a.icoRss:hover {
+	background-color: #F56505;
+}
+.social-network a.icoFacebook:hover {
+	background-color:#3B5998;
+}
+.social-network a.icoTwitter:hover {
+	background-color:#33ccff;
+}
+.social-network a.icoGoogle:hover {
+	background-color:#BD3518;
+}
+.social-network a.icoVimeo:hover {
+	background-color:#0590B8;
+}
+.social-network a.icoLinkedin:hover {
+	background-color:#007bb7;
+}
+.social-network a.icoRss:hover i, .social-network a.icoFacebook:hover i, .social-network a.icoTwitter:hover i,
+.social-network a.icoGoogle:hover i, .social-network a.icoVimeo:hover i, .social-network a.icoLinkedin:hover i {
+	color:#fff;
+}
+a.socialIcon:hover, .socialHoverClass {
+	color:#44BCDD;
+}
+
+.social-circle li a {
+	display:inline-block;
+	position:relative;
+	margin:0 auto 0 auto;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;
+	text-align:center;
+	width: 50px;
+	height: 50px;
+	font-size:20px;
+}
+.social-circle li i {
+	margin:0;
+	line-height:50px;
+	text-align: center;
+}
+
+.social-circle li a:hover i, .triggeredHover {
+	-moz-transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-ms--transform: rotate(360deg);
+	transform: rotate(360deg);
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+	-o-transition: all 0.2s;
+	-ms-transition: all 0.2s;
+	transition: all 0.2s;
+}
+.social-circle i {
+	color: #fff;
+	-webkit-transition: all 0.8s;
+	-moz-transition: all 0.8s;
+	-o-transition: all 0.8s;
+	-ms-transition: all 0.8s;
+	transition: all 0.8s;
+}

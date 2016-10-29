@@ -1,16 +1,16 @@
 <?php
 //DADOS PARA CONEXAO COM O BANCO DE DADOS LOCAL
-$dbHost		= "localhost";
-$dbName		= "sgt"; 
-$dbUser		= "root";
-$dbPassword	= "root";
+//$dbHost		= "localhost";
+//$dbName		= "sgt"; 
+//$dbUser		= "root";
+//$dbPassword	= "root";
 //--
 
 //DADOS PARA CONEXAO COM O BANCO DE DADOS DOMINIO
-//$dbHost		= "mysql.hostinger.com.br";
-//$dbName		= "u698970389_sgt"; 
-//$dbUser		= "u698970389_sgt";
-//$dbPassword	= "fatecpg";
+$dbHost		= "mysql.hostinger.com.br";
+$dbName		= "u698970389_sgt"; 
+$dbUser		= "u698970389_sgt";
+$dbPassword	= "fatecpg";
 //--
 
 
@@ -25,17 +25,17 @@ mysqli_select_db($conexao, $dbName);
 
     function conecta(){
         //DADOS PARA CONEXAO COM O BANCO DE DADOS LOCAL
-        $dbHost		= "localhost";
-        $dbName		= "sgt"; 
-        $dbUser		= "root";
-        $dbPassword	= "root";
+       // $dbHost		= "localhost";
+        //$dbName		= "sgt"; 
+        //$dbUser		= "root";
+        //$dbPassword	= "root";
         //--
 
         //DADOS PARA CONEXAO COM O BANCO DE DADOS DOMINIO
-        //$dbHost		= "mysql.hostinger.com.br";
-        //$dbName		= "u698970389_sgt"; 
-        //$dbUser		= "u698970389_sgt";
-        //$dbPassword	= "fatecpg";
+        $dbHost		= "mysql.hostinger.com.br";
+        $dbName		= "u698970389_sgt"; 
+        $dbUser		= "u698970389_sgt";
+        $dbPassword	= "fatecpg";
         //--
         try{
             $conexao = new PDO('mysql:host='.$dbHost.';dbname='.$dbName , $dbUser, $dbPassword);

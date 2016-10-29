@@ -4,7 +4,7 @@
         <a id="rightmenu-trigger" class="pull-right" data-toggle="tooltip" data-placement="bottom" title="Toggle Right Sidebar"></a>
 
         <div class="navbar-header pull-left">
-            <a class="navbar-brand" href="home.php">Avant</a>
+            <a class="navbar-brand" href="home.php">SGT</a>
         </div>
 
         <ul class="nav navbar-nav pull-right toolbar">
@@ -22,7 +22,7 @@
 <!--        					<li><a href="#">Edit Profile <i class="pull-right icon-pencil"></i></a></li>
         					<li><a href="#">Account <i class="pull-right icon-cog"></i></a></li>
         					<li><a href="#">Help <i class="pull-right icon-question-sign"></i></a></li>-->
-        					
+
         					<li><a href="../sair.php" class="text-right">Sair</a></li>
         				</ul>
         			</li>
@@ -58,10 +58,10 @@
         			<li><a class="dd-viewall" href="#">View All Messages</a></li>
         		</ul>
         	</li>-->
-        	
+
 <!--            <li>
                 <a href="#" id="headerbardropdown"><span><i class="icon-level-down"></i></span></a>
             </li>-->
-            
+
 		</ul>
-    </header>   
+</header>

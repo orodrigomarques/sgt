@@ -20,7 +20,7 @@ USE `sgt`;
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
-  `nm_usuario` varchar(50) NOT NULL UNIQUE,
+  `nm_usuario` varchar(50) NOT NULL,
   `ds_senha` varchar(50) NOT NULL,
   `ds_ativo` int(11) NOT NULL,
   `ds_permissao` int(11) NOT NULL,
