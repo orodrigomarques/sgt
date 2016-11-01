@@ -184,7 +184,7 @@ $resultado_cursos = mysqli_query($conn, $result_cursos);
                                             </form>
 
 <?php if (mysqli_num_rows($processos) > 0) { ?>
-                                                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable" id="example" aria-describedby="example_info">
+                                                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable sortable" id="example" aria-describedby="example_info">
                                                     <thead>
                                                         <tr role="row">
                                                             <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Tipo do seviço</th>		
@@ -306,7 +306,7 @@ $resultado_cursos = mysqli_query($conn, $result_cursos);
     <script>!window.jQuery && document.write(unescape('%3Cscript src="assets/js/jquery-1.10.2.min.js"%3E%3C/script%3E'))</script>
     <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="assets/js/jqueryui-1.10.3.min.js'))</script>
     -->
-
+    <script type='text/javascript' src="../assets/js/sorttable.js"></script>
     <script type='text/javascript' src='../assets/js/jquery-1.10.2.min.js'></script> 
     <script type='text/javascript' src='../assets/js/jqueryui-1.10.3.min.js'></script> 
     <script type='text/javascript' src='../assets/js/bootstrap.min.js'></script> 
