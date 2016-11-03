@@ -18,7 +18,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $deletaProcesso->bindValue(":id", $id);
         $deletaProcesso->execute();
 
-        if ($deletaUsuario->rowCount() == 0) {
+        if ($deletaProcesso->rowCount() == 0) {
             echo "<script>alert('Houve um erro ao deletar!');
                 location.href=\"index.php\"</script>";
         } else {
@@ -209,7 +209,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Ano do Processo</label>
                                 <div class="col-sm-4">
-                                    <input name="aa_processo" id="aa_processo" type="text" class="form-control"  value="<?php echo $anoProcesso ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
+                                    <input name="aa_processo" id="aa_processo" type="text" class="form-control"  value="<?php echo $anoProcesso ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> pattern="[0-9]{4}" title="No minimo quatro caracteres (Apenas numeros)." required/>
                                 </div>
                             </div>
                             <div class="form-group">
