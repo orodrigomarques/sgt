@@ -1,1 +1,1 @@
-# sgt Atualizações para subir na hospedagem
+# sgt - Atualizações prontas para subir na hospedagem
