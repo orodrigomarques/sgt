@@ -88,7 +88,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
         try {
             $novaAssociacao = $conexao->prepare("INSERT INTO associacao (nm_razao_social, nm_local, ds_numero, ds_complemento, cd_cep,"
                     . "nm_bairro, nm_municipio, nm_UF, cd_telefone, nm_email, nm_linha) "
-                    . "VALUES ( :razao, :local, :numero, :complemento, :cep, :bairro, :municipio, :uf, :telefone, :emai, :nm_linha )");
+                    . "VALUES ( :razao, :local, :numero, :complemento, :cep, :bairro, :municipio, :uf, :telefone, :email, :nm_linha )");
             $novaAssociacao->bindValue(":razao", $razao, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":local", $local, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":numero", $numero);
@@ -98,7 +98,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
             $novaAssociacao->bindValue(":municipio", $municipio, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":uf", $uf, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":telefone", $telefone, PDO::PARAM_STR);
-            $novaAssociacao->bindValue(":emai", $emai, PDO::PARAM_STR);
+            $novaAssociacao->bindValue(":email", $email, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":nm_linha", $nm_linha, PDO::PARAM_STR);
 
             $novaAssociacao->execute();
@@ -124,7 +124,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
             $atualizarAssociacao->bindValue(":municipio", $municipio, PDO::PARAM_STR);
             $atualizarAssociacao->bindValue(":uf", $uf, PDO::PARAM_STR);
             $atualizarAssociacao->bindValue(":telefone", $telefone, PDO::PARAM_STR);
-            $atualizarAssociacao->bindValue(":emai", $emai, PDO::PARAM_STR);
+            $atualizarAssociacao->bindValue(":email", $email, PDO::PARAM_STR);
             $atualizarAssociacao->bindValue(":nm_linha", $nm_linha, PDO::PARAM_STR);
             $atualizarAssociacao->bindValue(":id", $id);
             $atualizarAssociacao->execute();
