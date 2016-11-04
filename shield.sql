@@ -74,7 +74,6 @@ CREATE TABLE processo(
 CREATE TABLE associacao(
   cd_associacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nm_razao_social VARCHAR(40) NOT NULL,
-  nm_logradouro VARCHAR(10) NOT NULL,
   nm_local VARCHAR(50) NOT NULL,
   ds_numero INT NOT NULL,
   ds_complemento VARCHAR(15),
