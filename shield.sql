@@ -1,12 +1,3 @@
--- exibir fk de uma table
---use INFORMATION_SCHEMA;
-
---select TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,
---REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME from KEY_COLUMN_USAGE where
---REFERENCED_TABLE_NAME = 'nomeDaTabelaPai';
-
-
-
 CREATE TABLE documento(
   cd_documento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   nm_documento VARCHAR(20)
@@ -16,7 +7,8 @@ CREATE TABLE tipoPessoa(
   nm_pessoa VARCHAR(30)
 );
 CREATE TABLE multa(
-  cd_ait INT NOT NULL PRIMARY KEY,
+  id_multa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  cd_ait INT NOT NULL UNIQUE,
   dt_infracao DATE NOT NULL,
   hr_infracao VARCHAR(5) NOT NULL,
   dt_vencimento_infracao DATE NOT NULL,
@@ -25,7 +17,8 @@ CREATE TABLE multa(
   dt_pagamento_multa DATE
 );
 CREATE TABLE infracao(
-  cd_infracao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  id_infracao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
+  cd_infracao INT NOT NULL,
   cd_ait INT,
   nm_infracao VARCHAR(20) NOT NULL,
   ds_infracao VARCHAR(100) NOT NULL,
@@ -34,8 +27,7 @@ CREATE TABLE infracao(
   hr_hora VARCHAR(5) NOT NULL,
   dt_vencimento DATE NOT NULL,
   vl_infracao DOUBLE NOT NULL,
-CHECK
-  (vl_infracao > 0),
+CHECK(vl_infracao > 0),
   CONSTRAINT fkcd_ait FOREIGN KEY(cd_ait) REFERENCES multa(cd_ait)
 );
 CREATE TABLE tipoVeiculo(
