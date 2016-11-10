@@ -3,6 +3,7 @@ include '../include/conexao/conecta.php';
 include '../include/head.php';
 include '../include/funcoes.php';
 validaAcesso();
+$conexao = conecta();
 
 if (isset($_GET['retorno']) && $_GET['retorno'] == 'inserido') {
 
@@ -17,52 +18,33 @@ if (isset($_GET['retorno']) && $_GET['retorno'] == 'alterado') {
 }
 //WHERE
 $where = '';
-$recurso = '';
+$filtroProcesso = '';
+$filtroRecurso = '';
 $aa_recurso = '';
-$processo = '';
-
+$julgado = '';
+$filtroResultadoRecurso = '';
 if (isset($_POST['processo']) && !empty($_POST['processo'])) {
     $processo = $_POST['processo'];
-    
-
-    $where .= " WHERE cd_processo = $processo";
+    $filtroProcesso = "AND cd_processo = $processo "; 
 }
 if (isset($_POST['recurso']) && !empty($_POST['recurso'])) {
     $recurso = $_POST['recurso'];
-    
-    if($where!=''){
-    $where .= " and cd_recurso = $recurso";
-    
-    }else{
-    $where .= " WHERE cd_recurso = $recurso";
-}
+    $filtroRecurso = "AND cd_recurso = $recurso "; 
+      
 }
 if (isset($_POST['aa_recurso']) && !empty($_POST['aa_recurso'])) {
-    $aa_recurso = addslashes($_POST['aa_recurso']);
-    $aa_recurso = str_replace('\\', '', $aa_recurso);
-    if($where!=''){
-    $where .= " and aa_recurso LIKE '%$aa_recurso%'";}
-    else{
-        $where .= " WHERE aa_recurso LIKE '%$aa_recurso%'";
-    }
+    $aa_recurso = $_POST['aa_recurso'];
+    
 }
 
 if (isset($_POST['dt_transito_julgado']) && !empty($_POST['dt_transito_julgado'])) {
-    $julgado = ($_POST['dt_transito_julgado']);
-    if($where!=''){
-    $where .= " and dt_transito_julgado LIKE '%$julgado%' ";
-    }else{
-        $where .= " WHERE dt_transito_julgado LIKE '%$julgado%'";
-    }
+    $julgado = $_POST['dt_transito_julgado'];
+  
 }
 
 if (isset($_POST['ds_resultado_recurso']) && !empty($_POST['ds_resultado_recurso'])) {
-    $resultadoRecurso = ($_POST['ds_resultado_recurso']);
-    if($where!=''){
-    $where .= " and ds_resultado_recurso LIKE '%$resultadoRecurso%' ";
-    }else{
-        $where .= " WHERE ds_resultado_recurso LIKE '%$resultadoRecurso%'";
-    }
+    $resultadoRecurso = $_POST['ds_resultado_recurso'];
+    $filtroResultadoRecurso = "AND ds_resultado_recurso LIKE '%$resultadoRecurso%' ";
 }
 
 
@@ -70,29 +52,41 @@ if (isset($_POST['ds_resultado_recurso']) && !empty($_POST['ds_resultado_recurso
 
 // PAGINAÇÃO
 $pagina = (isset($_GET['pagina']) && !empty($_GET['pagina']) ? $_GET['pagina'] : 1);
-$registros = 20;
+$registros = 10;
 
 $inicio = ($pagina - 1) * $registros;
 $fim = $registros; //$pagina * $registros;
 
-$limit = " LIMIT $inicio, $fim";
+$limit = "LIMIT $inicio, $fim";
 
-$sqlcount = "SELECT count(*) as qtd " .
-        "FROM recurso " .
-        $where;
-$qtd = mysqli_fetch_assoc(mysqli_query($conexao, $sqlcount));
 
+try {
+    $contador = $conexao->prepare("SELECT count(*) as qtd FROM recurso "
+            . "WHERE aa_recurso LIKE  :aa_recurso AND dt_transito_julgado LIKE :julgado "
+             .$filtroResultadoRecurso.$filtroProcesso.$filtroRecurso." " . $limit);
+$contador->bindValue(":aa_recurso", '%' . $aa_recurso . '%');
+     $contador->bindValue(":julgado", '%' . $julgado . '%');
+
+    $contador->execute();
+} catch (Exception $e) {
+    echo $e;
+    exit();
+}
+
+$qtd = $contador->fetch(PDO::FETCH_ASSOC);
 $ultima_pagina = ceil((int) $qtd['qtd'] / $registros);
-//--
-
-
-$sql_recursos = "SELECT * FROM recurso " .
-        $where .
-        " ORDER BY cd_recurso ASC " .
-        $limit;
-    
-$recursos = mysqli_query($conexao, $sql_recursos);
-$dataJulgados = mysqli_query($conexao, $sql_recursos);
+//End PAGINAÇÃO
+try {
+    $recursos = $conexao->prepare("SELECT * FROM recurso "
+            . "WHERE aa_recurso LIKE  :aa_recurso AND dt_transito_julgado LIKE :julgado "
+             .$filtroResultadoRecurso.$filtroProcesso.$filtroRecurso. "ORDER BY cd_processo ASC " . $limit);
+     $recursos->bindValue(":aa_recurso", '%' . $aa_recurso . '%');
+     $recursos->bindValue(":julgado", '%' . $julgado . '%');
+    $recursos->execute();
+} catch (Exception $e) {
+    echo $e;
+    exit();
+}
 ?>
 
 
@@ -142,7 +136,15 @@ $dataJulgados = mysqli_query($conexao, $sql_recursos);
                                                     <div class="col-sm-2">                                                    
                                                         <select name="dt_transito_julgado" id="dt_transito_julgado" class="form-control">
                                                             <option value='' >Data...</option>
-                                                            <?php while ($dataJulgado = mysqli_fetch_assoc($dataJulgados)) { ?>
+                                                             <?php try {
+                                                        $dataJulgados = $conexao->prepare("SELECT * FROM recurso");
+                                                       
+                                                        $dataJulgados->execute();
+                                                    } catch (Exception $e) {
+                                                        echo $e;
+                                                        exit();
+                                                    } ?>
+                                                            <?php while ($dataJulgado = $dataJulgados->fetch(PDO::FETCH_ASSOC)) { ?>
                                                                 <option value='<?php echo $dataJulgado['dt_transito_julgado']; ?>'><?php echo strftime('%d/%m/%y', strtotime($dataJulgado['dt_transito_julgado'])); ?></option>
                                                             <?php } ?>                                              
                                                         </select>
@@ -170,8 +172,8 @@ $dataJulgados = mysqli_query($conexao, $sql_recursos);
                                                 </div>
                                             </form>
 
-                                            <?php if (mysqli_num_rows($recursos) > 0) { ?>
-                                                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable" id="example" aria-describedby="example_info">
+                                            <?php if ($recursos->rowCount() > 0) { ?>
+                                                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable sortable" id="example" aria-describedby="example_info">
                                                     <thead>
                                                         <tr role="row">
                                                             <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Nº do processo</th>		
@@ -185,7 +187,7 @@ $dataJulgados = mysqli_query($conexao, $sql_recursos);
                                                     </thead>
 
                                                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-                                                        <?php while ($recurso = mysqli_fetch_assoc($recursos)) { ?>
+                                                        <?php while ($recurso = $recursos->fetch(PDO::FETCH_ASSOC)) { ?>
                                                             <tr class="gradeA odd">
                                                                 <td style="width:10%" class=""><?php echo($recurso['cd_processo']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
@@ -270,7 +272,7 @@ $dataJulgados = mysqli_query($conexao, $sql_recursos);
     <script>!window.jQuery && document.write(unescape('%3Cscript src="assets/js/jquery-1.10.2.min.js"%3E%3C/script%3E'))</script>
     <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="assets/js/jqueryui-1.10.3.min.js'))</script>
     -->
-
+    <script type='text/javascript' src="../assets/js/sorttable.js"></script>
     <script type='text/javascript' src='../assets/js/jquery-1.10.2.min.js'></script> 
     <script type='text/javascript' src='../assets/js/jqueryui-1.10.3.min.js'></script> 
     <script type='text/javascript' src='../assets/js/bootstrap.min.js'></script> 
