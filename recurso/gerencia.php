@@ -3,7 +3,7 @@ include '../include/head.php';
 include '../include/funcoes.php';
 include '../include/conexao/conecta.php';
 validaAcesso();
-
+$conexao = conecta();
 
 if (isset($_GET['acao']) && $_GET['acao'] != '') {
 
@@ -13,12 +13,11 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
     $id = base64_decode($id);
 
     if ($acao == 'excluir') {
+        $deletaRecurso = $conexao->prepare("DELETE FROM recurso WHERE id_recurso = :id");
+        $deletaRecurso->bindValue(":id", $id);
+        $deletaRecurso->execute();
 
-
-
-        $deleta = mysqli_query($conexao, "DELETE FROM recurso WHERE id_recurso = '$id'");
-
-        if ($deleta == '') {
+        if ($deletaRecurso->rowCount() == 0) {
             echo "<script>alert('Houve um erro ao deletar!');
                 location.href=\"index.php\"</script>";
         } else {
@@ -26,13 +25,11 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
                    location.href=\"index.php\"</script>";
         }
     }
-    $sql_processos = "SELECT * FROM processo ";
-
-    $processos = mysqli_query($conexao, $sql_processos);
     if ($acao == 'visualizar' || $acao == 'editar') {
-        $sql = "SELECT * FROM recurso WHERE id_recurso = " . $id;
-        $linha = mysqli_query($conexao, $sql);
-        $recurso = mysqli_fetch_assoc($linha) or die(mysql_error());
+        $pegaRecursos = $conexao->prepare("SELECT * FROM recurso WHERE id_recurso = :id");
+        $pegaRecursos->bindValue(":id", $id);
+        $pegaRecursos->execute();
+        $recurso = $pegaRecursos->fetch(PDO::FETCH_ASSOC);
 
         $id = $recurso['id_recurso'];
         $codigoProcesso = $recurso['cd_processo'];
@@ -70,7 +67,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
     $codigoRecurso = $_POST['cd_recurso'];
     $anoRecurso = $_POST['aa_recurso'];
     $dataTransJulgado = $_POST['dt_transito_julgado'];
-   
+    $dataJulgamento = $_POST['dt_inicio_julgamento_recurso'];
     $dataInicioJulg = $_POST['dt_inicio_julgamento_recurso'];
     $dataJulgado = $_POST['dt_julgado_recurso'];
     
@@ -83,21 +80,63 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
 
     if (empty($id)) {
 
-        $sqlRecurso = "INSERT INTO recurso (cd_processo, cd_recurso, aa_recurso, dt_transito_julgado, dt_inicio_julgamento_recurso,"
-                . "dt_julgado_recurso, ds_resultado_recurso, dt_notificacao_recurso, dt_arquivo_deprot, ds_observacao_recurso) "
-                . "VALUES (" . $codigoProcesso . "," . $codigoRecurso . ", '" . $anoRecurso . "', '" . $dataTransJulgado . "', '" . $dataInicioJulg . "', '" . $dataJulgado . "',  '" . $resultado . "',  '" . $notificacao . "', '" . $arquivoDeprot . "', '" . $observacoes . "')";
-        echo $sqlRecurso;
-        $res = mysqli_query($conexao, $sqlRecurso) or die(mysqli_error($conexao));
-        $retorno = 'inserido';
-    } else {
-        $sqlRecurso = "UPDATE recurso SET cd_processo = " . $codigoProcesso . ", cd_recurso = " . $codigoRecurso . ", aa_recurso = '" . $anoRecurso . "', dt_transito_julgado = '" . $dataTransJulgado . "', dt_inicio_julgamento_recurso = '" . $dataInicioJulg . "', dt_julgado_recurso = '" . $dataJulgado .  "', dt_notificacao_recurso = '" . $notificacao . "', ds_resultado_recurso = '" . $resultado .  "', dt_arquivo_deprot = '" . $arquivoDeprot . "', ds_observacao_recurso = '" . $observacoes . "' "
-                . "WHERE id_recurso = " . $id;
 
-        $res = mysqli_query($conexao, $sqlRecurso) or die(mysqli_error());
-        $retorno = 'alterado';
+        try {
+            $novoRecurso = $conexao->prepare("INSERT INTO recurso (cd_processo, cd_recurso, aa_recurso, dt_transito_julgado, dt_inicio_julgamento_recurso,"
+                . "dt_julgado_recurso, ds_resultado_recurso, dt_notificacao_recurso, dt_arquivo_deprot, ds_observacao_recurso) "
+                    . "VALUES ( :codigoProcesso, :codigoRecurso, :anoRecurso, :dataTransJulgado, :dataInicioJulg , :dataJulgado, :resultado, :notificacao, :arquivoDeprot, :observacoes)");
+            $novoRecurso->bindValue(":codigoProcesso", $codigoProcesso);
+            $novoRecurso->bindValue(":codigoRecurso", $codigoRecurso);
+            $novoRecurso->bindValue(":anoRecurso", $anoRecurso, PDO::PARAM_STR);
+            $novoRecurso->bindValue(":dataTransJulgado", $dataTransJulgado, PDO::PARAM_STR);
+            $novoRecurso->bindValue(":dataInicioJulg", $dataInicioJulg, PDO::PARAM_STR);
+            $novoRecurso->bindValue(":dataJulgado", $dataJulgado, PDO::PARAM_STR);
+            $novoRecurso->bindValue(":resultado", $resultado, PDO::PARAM_STR);
+            $novoRecurso->bindValue(":notificacao", $notificacao, PDO::PARAM_STR);
+            $novoRecurso->bindValue(":arquivoDeprot", $arquivoDeprot, PDO::PARAM_STR);
+            $novoRecurso->bindValue(":observacoes", $observacoes, PDO::PARAM_STR);
+
+            $novoRecurso->execute();
+            // echo $novoUsuario->rowCount();
+            //var_dump($novoUsuario);
+
+
+            $retorno = 'inserido';
+        } catch (Exception $e) {
+            echo $e;
+            exit($e);
+        }
+    } else {
+        try {
+            $atualizarRecurso = $conexao->prepare("UPDATE recurso SET cd_processo = :codigoProcesso, cd_recurso = :codigoRecurso, aa_recurso = :anoRecurso, dt_transito_julgado = :dataTransJulgado, dt_inicio_julgamento_recurso = :dataInicioJulg, dt_julgado_recurso = :dataJulgado, ds_resultado_recurso = :resultado, dt_notificacao_recurso,  = :notificacao, dt_arquivo_deprot = :arquivoDeprot, ds_observacoes_processos = :observacoes "
+                    . "WHERE id_recurso = :id");
+            $atualizarRecurso->bindValue(":codigoProcesso", $codigoProcesso);
+            $atualizarRecurso->bindValue(":codigoRecurso", $codigoRecurso);
+            $atualizarRecurso->bindValue(":anoRecurso", $anoRecurso, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":dataTransJulgado", $dataTransJulgado, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":dataInicioJulg", $dataInicioJulg, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":dataJulgado", $dataJulgado, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":resultado", $resultado, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":notificacao", $notificacao, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":arquivoDeprot", $arquivoDeprot, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":observacoes", $observacoes, PDO::PARAM_STR);
+            $atualizarProcesso->bindValue(":id", $id);
+            $atualizarProcesso->execute();
+
+//                echo $atualizarUsuario->rowCount();
+//                var_dump($atualizarUsuario);
+//                echo $atualizarUsuario->errorCode();
+//                exit();
+
+            $retorno = 'alterado';
+        } catch (Exception $e) {
+            echo $e;
+            exit();
+        }
+
     }
 
-    if ($retorno) {
+   if ($retorno) {
         header('Location: index.php?retorno=' . $retorno);
     } else {
         header('Location: gerencia.php?id=' . base64_encode($id) . '&acao=novo&retorno=invalido');
@@ -141,7 +180,15 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                                 <div class="col-sm-4">                                        
                                     <select name="cd_processo" id="cd_processo" class="form-control" <?php if($acao == 'visualizar'){?>disabled="disabled" <?php };?> required>
                                         <option value='' >Numero do processo...</option>
-                                        <?php while ($processo = mysqli_fetch_assoc($processos)) { ?>
+                                                   <?php try {
+                                                        $processos = $conexao->prepare("SELECT * FROM processo");
+                                                       
+                                                        $processos->execute();
+                                                    } catch (Exception $e) {
+                                                        echo $e;
+                                                        exit();
+                                                    } ?>
+                                                            <?php while ($processo = $processos->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <option value='<?php echo $processo['cd_processo']; ?>' <?php echo ($processo['cd_processo']==$codigoProcesso)? 'selected' : ''; ?>><?php echo $processo['cd_processo']; ?>  </option>
                                         <?php } ?>                                              
                                     </select>
@@ -157,7 +204,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Ano do Recurso</label>
                                 <div class="col-sm-4">
-                                    <input name="aa_recurso" id="aa_recurso" type="text" class="form-control"  value="<?php echo $anoRecurso ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
+                                    <input name="aa_recurso" id="aa_recurso" type="text" class="form-control"  value="<?php echo $anoRecurso ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> pattern="[0-9]{4}" title="No minimo quatro caracteres (Apenas numeros)." required/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -183,7 +230,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Resultado</label>
                                 <div class="col-sm-4">
-                                    <select name="ds_resultado_recurso" id="ds_resultado_recurso" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                    <select name="ds_resultado_recurso" id="ds_resultado_recurso" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
                                         <option value=''>-</option>
                                         <option value="ABSOLVIÇÃO" <?php echo($resultado == 'ABSOLVIÇÃO') ? 'selected' : ''; ?>>ABSOLVIÇÃO</option>
                                         <option value="MULTA" <?php echo($resultado == 'MULTA') ? 'selected' : ''; ?>>MULTA</option>
@@ -279,4 +326,3 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
 
 </body>
 </html>
-
