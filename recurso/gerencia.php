@@ -76,7 +76,8 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
     $arquivoDeprot = $_POST['dt_arquivo_deprot'];
     $observacoes = $_POST['ds_observacao_recurso'];
 
-    
+
+
     if (empty($id)) {
 
 
@@ -107,34 +108,25 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
         }
     } else {
         try {
-            $atualizarRecurso = $conexao->prepare("UPDATE recurso SET "
-                    . "cd_processo = :codigoProcesso, "
-                    . "cd_recurso = :codigoRecurso, "
-                    . "aa_recurso = :anoRecurso, "
-                    . "dt_transito_julgado = :dataTransJulgado, "
-                    . "dt_inicio_julgamento_recurso = :dataInicioJulg, "
-                    . "dt_julgado_recurso = :dataJulgado, "
-                    . "ds_resultado_recurso = :resultado, "
-                    . "dt_notificacao_recurso  = :notificacao, "
-                    . "dt_arquivo_deprot = :arquivoDeprot, "
-                    . "ds_observacao_recurso = :observacao "
+            $atualizarRecurso = $conexao->prepare("UPDATE recurso SET cd_processo = :codigoProcesso, cd_recurso = :codigoRecurso, aa_recurso = :anoRecurso, dt_transito_julgado = :dataTransJulgado, dt_inicio_julgamento_recurso = :dataInicioJulg, dt_julgado_recurso = :dataJulgado, ds_resultado_recurso = :resultado, dt_notificacao_recurso  = :notificacao, dt_arquivo_deprot = :arquivoDeprot, ds_observacao_recurso = :observacoes "
                     . "WHERE id_recurso = :id");
             $atualizarRecurso->bindValue(":codigoProcesso", $codigoProcesso);
             $atualizarRecurso->bindValue(":codigoRecurso", $codigoRecurso);
-            $atualizarRecurso->bindValue(":anoRecurso", $anoRecurso);
+            $atualizarRecurso->bindValue(":anoRecurso", $anoRecurso, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":dataTransJulgado", $dataTransJulgado, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":dataInicioJulg", $dataInicioJulg, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":dataJulgado", $dataJulgado, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":resultado", $resultado, PDO::PARAM_STR);
-            $atualizarRecurso->bindValue(":notificacao", $notificacao, pdo::PARAM_STR);
+            $atualizarRecurso->bindValue(":notificacao", $notificacao, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":arquivoDeprot", $arquivoDeprot, PDO::PARAM_STR);
-            $atualizarRecurso->bindValue(":observacao", $observacoes, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":observacoes", $observacoes, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":id", $id);
             $atualizarRecurso->execute();
-//
-//               echo $atualizarRecurso->nextRowset();
-//               echo $atualizarRecurso->errorCode();
-//               exit();
+
+//                echo $atualizarUsuario->rowCount();
+//                var_dump($atualizarUsuario);
+//                echo $atualizarUsuario->errorCode();
+//                exit();
 
             $retorno = 'alterado';
         } catch (Exception $e) {
@@ -205,7 +197,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Numero do recurso</label>
                                 <div class="col-sm-4">
-                                    <input type="number" name="cd_recurso" id="cd_recurso" class="form-control" value="<?php echo($codigoRecurso); ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required>
+                                    <input type="number" name="cd_recurso" id="cd_recurso" class="form-control" value="<?php echo($codigoRecurso); ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?>min="1" required>
                                 </div>
                             </div>
 
@@ -238,7 +230,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Resultado</label>
                                 <div class="col-sm-4">
-                                    <select name="ds_resultado_recurso" id="ds_resultado_recurso" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                    <select name="ds_resultado_recurso" id="ds_resultado_recurso" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
                                         <option value=''>-</option>
                                         <option value="ABSOLVIÇÃO" <?php echo($resultado == 'ABSOLVIÇÃO') ? 'selected' : ''; ?>>ABSOLVIÇÃO</option>
                                         <option value="MULTA" <?php echo($resultado == 'MULTA') ? 'selected' : ''; ?>>MULTA</option>
