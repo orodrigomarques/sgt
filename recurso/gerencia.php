@@ -76,8 +76,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
     $arquivoDeprot = $_POST['dt_arquivo_deprot'];
     $observacoes = $_POST['ds_observacao_recurso'];
 
-
-
+    
     if (empty($id)) {
 
 
@@ -108,25 +107,34 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
         }
     } else {
         try {
-            $atualizarRecurso = $conexao->prepare("UPDATE recurso SET cd_processo = :codigoProcesso, cd_recurso = :codigoRecurso, aa_recurso = :anoRecurso, dt_transito_julgado = :dataTransJulgado, dt_inicio_julgamento_recurso = :dataInicioJulg, dt_julgado_recurso = :dataJulgado, ds_resultado_recurso = :resultado, dt_notificacao_recurso,  = :notificacao, dt_arquivo_deprot = :arquivoDeprot, ds_observacoes_processos = :observacoes "
+            $atualizarRecurso = $conexao->prepare("UPDATE recurso SET "
+                    . "cd_processo = :codigoProcesso, "
+                    . "cd_recurso = :codigoRecurso, "
+                    . "aa_recurso = :anoRecurso, "
+                    . "dt_transito_julgado = :dataTransJulgado, "
+                    . "dt_inicio_julgamento_recurso = :dataInicioJulg, "
+                    . "dt_julgado_recurso = :dataJulgado, "
+                    . "ds_resultado_recurso = :resultado, "
+                    . "dt_notificacao_recurso  = :notificacao, "
+                    . "dt_arquivo_deprot = :arquivoDeprot, "
+                    . "ds_observacao_recurso = :observacao "
                     . "WHERE id_recurso = :id");
             $atualizarRecurso->bindValue(":codigoProcesso", $codigoProcesso);
             $atualizarRecurso->bindValue(":codigoRecurso", $codigoRecurso);
-            $atualizarRecurso->bindValue(":anoRecurso", $anoRecurso, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":anoRecurso", $anoRecurso);
             $atualizarRecurso->bindValue(":dataTransJulgado", $dataTransJulgado, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":dataInicioJulg", $dataInicioJulg, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":dataJulgado", $dataJulgado, PDO::PARAM_STR);
             $atualizarRecurso->bindValue(":resultado", $resultado, PDO::PARAM_STR);
-            $atualizarRecurso->bindValue(":notificacao", $notificacao, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":notificacao", $notificacao, pdo::PARAM_STR);
             $atualizarRecurso->bindValue(":arquivoDeprot", $arquivoDeprot, PDO::PARAM_STR);
-            $atualizarRecurso->bindValue(":observacoes", $observacoes, PDO::PARAM_STR);
-            $atualizarProcesso->bindValue(":id", $id);
-            $atualizarProcesso->execute();
-
-//                echo $atualizarUsuario->rowCount();
-//                var_dump($atualizarUsuario);
-//                echo $atualizarUsuario->errorCode();
-//                exit();
+            $atualizarRecurso->bindValue(":observacao", $observacoes, PDO::PARAM_STR);
+            $atualizarRecurso->bindValue(":id", $id);
+            $atualizarRecurso->execute();
+//
+//               echo $atualizarRecurso->nextRowset();
+//               echo $atualizarRecurso->errorCode();
+//               exit();
 
             $retorno = 'alterado';
         } catch (Exception $e) {
