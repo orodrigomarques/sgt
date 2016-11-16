@@ -186,7 +186,7 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
 <div class="form-group">                                                    
                                 <label class="col-sm-2 control-label">Numero AIT</label>
                                 <div class="col-sm-4">                                        
-                                    <select name="cd_ait" id="cd_ait" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                    <select name="cd_ait" id="cd_ait" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
                                         <option value='' >Numero AIT...</option>
                                         <?php
                                         try {
