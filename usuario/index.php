@@ -146,8 +146,8 @@
                                     </form>
 
                                     <?php if($usuarios->rowCount() > 0){ ?>
-                                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable sorttable" id="example" aria-describedby="example_info">
-                                                <thead>
+                                             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable sortable" id="example" aria-describedby="example_info">
+						     <thead>
                                                         <tr role="row">
                                                                 <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Nome</th>		
                                                                 <th role="columnheader" tabindex="2" aria-controls="example" rowspan="1" colspan="1" aria-label="" style="width:150px;">Perfil</th>
