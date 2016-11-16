@@ -220,7 +220,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Infração</label>
                                 <div class="col-sm-4"> 
-                                <select name="nm_infracao" id="nm_infracao" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                <select name="nm_infracao" id="nm_infracao" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
                                         <option value='' >Descrição...</option>
                                         <?php
                                         try {
