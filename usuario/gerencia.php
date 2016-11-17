@@ -30,6 +30,7 @@
                 }else{
                    echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+                    auditoria("Usuario do id ".$id." foi deletado" );
                 }
             }        
         }        
