@@ -26,7 +26,7 @@
 
         try{
 
-        $auditoria = $conn->prepare("INSERT INTO `sgt`.`auditoria` (`id_usuario`, `nm_usuario`, `ds_acao`, `dt_momento`, `nr_ip`) "
+        $auditoria = $conn->prepare("INSERT INTO `auditoria` (`id_usuario`, `nm_usuario`, `ds_acao`, `dt_momento`, `nr_ip`) "
                                          ."VALUES (:id, :usuario, :acao , now(), :ip)");
         $auditoria->bindValue(":id", $_SESSION['cdUsuario']);
         $auditoria->bindValue(":usuario", $_SESSION['nomeUsuario']);
