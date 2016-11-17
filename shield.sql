@@ -1,7 +1,4 @@
-CREATE TABLE documento(
-  cd_documento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  nm_documento VARCHAR(20)
-);
+
 CREATE TABLE tipoPessoa(
   cd_tipo_pessoa INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   nm_pessoa VARCHAR(30)
@@ -9,23 +6,22 @@ CREATE TABLE tipoPessoa(
 CREATE TABLE multa(
   id_multa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   cd_ait INT NOT NULL UNIQUE,
+  nm_modalidade VARCHAR(30),
+  cd_modalidade INT,
+  nm_infracao VARCHAR(50),
   dt_infracao DATE NOT NULL,
   hr_infracao VARCHAR(5) NOT NULL,
   dt_vencimento_infracao DATE NOT NULL,
   nm_agente VARCHAR(30) NOT NULL,
-  ds_infracao VARCHAR(100) NOT NULL,
+  ds_observacao VARCHAR(100) NOT NULL,
   dt_pagamento_multa DATE
 );
 CREATE TABLE infracao(
   id_infracao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
   cd_infracao INT NOT NULL,
-  cd_ait INT,
-  nm_infracao VARCHAR(20) NOT NULL,
-  ds_infracao VARCHAR(100) NOT NULL,
-  qt_pontuacao INT NOT NULL,
-  dt_data DATE NOT NULL,
-  hr_hora VARCHAR(5) NOT NULL,
-  dt_vencimento DATE NOT NULL,
+  nm_tipo_multa VARCHAR(1) NOT NULL,
+  nm_infracao VARCHAR(20) NOT NULL,  
+  qt_pontuacao INT NOT NULL, 
   vl_infracao DOUBLE NOT NULL,
 CHECK(vl_infracao > 0),
   CONSTRAINT fkcd_ait FOREIGN KEY(cd_ait) REFERENCES multa(cd_ait)
@@ -150,7 +146,7 @@ CREATE TABLE pessoa(
   ds_carteira VARCHAR(50),
   dt_inicio DATE,
   ds_inativo INT(11),
-  CONSTRAINT fkcd_documento FOREIGN KEY(cd_documento) REFERENCES documento(cd_documento),
+ 
   CONSTRAINT fkcd_tipo_pessoa FOREIGN KEY(cd_tipo_pessoa) REFERENCES tipoPessoa(cd_tipo_pessoa),
   CONSTRAINT cnm_UF
 CHECK
