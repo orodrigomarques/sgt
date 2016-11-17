@@ -18,7 +18,10 @@
             <ol class="breadcrumb">
                 <li class='active'><a href="home.php">Home</a></li>
             </ol>
-            <h1>Home.</h1>            
+            <h1>Home.</h1>  
+            <?php
+            $ip = $_SERVER['REMOTE_ADDR'];
+                echo $ip;?>
         </div>       
 
         <div class="container">               
