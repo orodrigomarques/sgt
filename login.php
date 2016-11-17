@@ -1,6 +1,7 @@
 <?php if(!isset($_SESSION)){session_start();}?>
 <?php
 include("include/conexao/conecta.php");
+include("include/funcoes.php");
 $conexao = conecta();
 if(isset($_POST['usuario']) && !empty($_POST['usuario']) && isset($_POST['senha']) && !empty($_POST['senha']))
 	{
