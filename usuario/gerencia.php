@@ -30,7 +30,7 @@
                 }else{
                    echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
-                    auditoria("Usuario do id ".$id." foi deletado" );
+                    auditoria("Usuario id ".$id." deletado" );
                 }
             }        
         }        
@@ -91,7 +91,7 @@
                         $novoUsuario->execute();
                         // echo $novoUsuario->rowCount();
                         //var_dump($novoUsuario);
-
+                        auditoria("Usuario id ".$conexao->lastInsertId()." Inserido" );
 
                         $retorno='inserido';
 
@@ -116,7 +116,7 @@
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-                
+                auditoria("Dados do usuario id ".$id." atualizado" );
                 $retorno='alterado';
                 
             }  catch (Exception $e){
@@ -147,7 +147,7 @@
                     $atualizaSenha->bindValue(":novaSenha", $novaSenha);
                     $atualizaSenha->bindValue(":id", $id);
                     $atualizaSenha->execute();
-
+                    auditoria("Senha do usuario id ".$id." atualizado" );
                     $retorno='alterado';                   
 
                 }else{
