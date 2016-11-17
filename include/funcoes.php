@@ -18,28 +18,31 @@
         header("Location: /login.php");
 
     }
-
- 
+    
     function auditoria($acao){
         
-        include 'conexao/conecta.php';
-        $conexao = conecta();
-                
+        include_once 'conexao/conecta.php';
+        $conn = conecta();
+
         try{
-        
-        $auditoria = $conexao->prepare("INSERT INTO `sgt`.`auditoria` (`id_usuario`, `nm_usuario`, `ds_acao`, `dt_momento`, `nr_ip`) "
+
+        $auditoria = $conn->prepare("INSERT INTO `sgt`.`auditoria` (`id_usuario`, `nm_usuario`, `ds_acao`, `dt_momento`, `nr_ip`) "
                                          ."VALUES (:id, :usuario, :acao , now(), :ip)");
         $auditoria->bindValue(":id", $_SESSION['cdUsuario']);
         $auditoria->bindValue(":usuario", $_SESSION['nomeUsuario']);
         $auditoria->bindValue(":acao", $acao);
         $auditoria->bindValue(":ip", $_SERVER['REMOTE_ADDR']);
         $auditoria->execute();
-        
+        echo $auditoria->errorCode();
+        echo $auditoria->queryString;
+
         }  catch (Exception $ex){
             return $ex->getMessage();
         }
         
-
+        return $auditoria->queryString;;
     }
+    
+    
 
 ?>
