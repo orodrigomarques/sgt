@@ -26,6 +26,7 @@ if(isset($_POST['usuario']) && !empty($_POST['usuario']) && isset($_POST['senha'
                         $_SESSION['cdUsuario'] = $usuario['id_usuario'];
                         $_SESSION['nomeUsuario'] = $usuario['nm_usuario'];
                         $_SESSION['permissao'] = $usuario['ds_permissao'];
+			auditoria("Logou");
                         header("Location: home.php");
                         exit;
                     }else{                                    
