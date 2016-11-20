@@ -132,7 +132,7 @@ CREATE TABLE pessoa(
   nm_tipo_pessoa VARCHAR(30),
   nm_pessoa VARCHAR(50) NOT NULL,
   nm_associacao VARCHAR(30),
-  nm_logradouro VARCHAR(50) NOT NULL,
+  nm_local VARCHAR(50) NOT NULL,
   cd_endereco INT NOT NULL,
   ds_complemento VARCHAR(20),
   cd_cep INT NOT NULL,
