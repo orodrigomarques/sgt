@@ -36,7 +36,7 @@ $fim = $registros; //$pagina * $registros;
 $limit = "LIMIT $inicio, $fim";
 
 try {
-    $contador = $conexao->prepare("SELECT count(*) as qtd FROM tipoveiculo "
+    $contador = $conexao->prepare("SELECT count(*) as qtd FROM tipoVeiculo "
             . "WHERE nm_modalidade LIKE  :modalidade " . " " . $limit);
 
     $contador->bindValue(":modalidade", '%' . $modalidade . '%');
@@ -50,7 +50,7 @@ $qtd = $contador->fetch(PDO::FETCH_ASSOC);
 $ultima_pagina = ceil((int) $qtd['qtd'] / $registros);
 //End PAGINAÇÃO
 try {
-    $tipoveiculos = $conexao->prepare("SELECT * FROM tipoveiculo "
+    $tipoveiculos = $conexao->prepare("SELECT * FROM tipoVeiculo "
             . "WHERE nm_modalidade LIKE  :modalidade " . "ORDER BY nm_modalidade ASC " . $limit);
     $tipoveiculos->bindValue(":modalidade", '%' . $modalidade . '%');
 
