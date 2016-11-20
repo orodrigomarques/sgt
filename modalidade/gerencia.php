@@ -15,7 +15,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
     $id = base64_decode($id);
 
     if ($acao == 'excluir') {
-        $deletaTipoVeiculo = $conexao->prepare("DELETE FROM tipoveiculo WHERE cd_modalidade = :id");
+        $deletaTipoVeiculo = $conexao->prepare("DELETE FROM tipoVeiculo WHERE cd_modalidade = :id");
         $deletaTipoVeiculo->bindValue(":id", $id);
         $deletaTipoVeiculo->execute();
 
@@ -28,7 +28,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
-        $pegaTipoVeiculo = $conexao->prepare("SELECT * FROM tipoveiculo WHERE cd_modalidade = :id");
+        $pegaTipoVeiculo = $conexao->prepare("SELECT * FROM tipoVeiculo WHERE cd_modalidade = :id");
         $pegaTipoVeiculo->bindValue(":id", $id);
         $pegaTipoVeiculo->execute();
         $tipoveiculo = $pegaTipoVeiculo->fetch(PDO::FETCH_ASSOC);
@@ -51,7 +51,7 @@ if (isset($_POST['cd_modalidade']) && $_POST['cd_modalidade'] != '') {
 
 
     if (empty($id)) {
-        $pegaTipoVeiculo = $conexao->prepare("SELECT nm_modalidade FROM tipoveiculo WHERE nm_modalidade = :modalidade");
+        $pegaTipoVeiculo = $conexao->prepare("SELECT nm_modalidade FROM tipoVeiculo WHERE nm_modalidade = :modalidade");
         $pegaTipoVeiculo->bindValue(":modalidade", $modalidade);
         $pegaTipoVeiculo->execute();
 
@@ -60,7 +60,7 @@ if (isset($_POST['cd_modalidade']) && $_POST['cd_modalidade'] != '') {
         } else {
 
             try {
-                $novoTipoVeiculo = $conexao->prepare("INSERT INTO tipoveiculo (nm_modalidade) "
+                $novoTipoVeiculo = $conexao->prepare("INSERT INTO tipoVeiculo (nm_modalidade) "
                         . "VALUES ( :modalidade)");
                 $novoTipoVeiculo->bindValue(":modalidade", $modalidade, PDO::PARAM_STR);
 
@@ -78,7 +78,7 @@ if (isset($_POST['cd_modalidade']) && $_POST['cd_modalidade'] != '') {
         }
     } else {
         try {
-            $atualizarTipoVeiculo = $conexao->prepare("UPDATE tipoveiculo SET nm_modalidade = :modalidade "
+            $atualizarTipoVeiculo = $conexao->prepare("UPDATE tipoVeiculo SET nm_modalidade = :modalidade "
                     . "WHERE cd_modalidade = :id");
             $atualizarTipoVeiculo->bindValue(":modalidade", $modalidade, PDO::PARAM_STR);
 
