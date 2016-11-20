@@ -23,7 +23,7 @@ INSERT INTO `usuario` (`id_usuario`, `nm_usuario`, `ds_senha`, `ds_ativo`, `ds_p
 
 CREATE TABLE tipoPessoa(
   cd_tipo_pessoa INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  nm_pessoa VARCHAR(30)
+  nm_tipo_pessoa VARCHAR(30) UNIQUE
 );
 CREATE TABLE multa(
   id_multa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -129,7 +129,7 @@ CHECK
 );
 CREATE TABLE pessoa(
   cd_pessoa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  cd_tipo_pessoa INT NOT NULL,
+  nm_tipo_pessoa VARCHAR(30),
   nm_pessoa VARCHAR(50) NOT NULL,
   nm_associacao VARCHAR(30),
   nm_logradouro VARCHAR(50) NOT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE pessoa(
   dt_inicio DATE,
   ds_inativo INT(11),
  
-  CONSTRAINT fkcd_tipo_pessoa FOREIGN KEY(cd_tipo_pessoa) REFERENCES tipoPessoa(cd_tipo_pessoa),
+  CONSTRAINT fknm_tipo_pessoa FOREIGN KEY(nm_tipo_pessoa) REFERENCES tipoPessoa(nm_tipo_pessoa),
   CONSTRAINT cnm_UF
 CHECK
   (
@@ -237,7 +237,7 @@ CHECK
 CREATE TABLE veiculo(
   cd_veiculo INT NOT NULL PRIMARY KEY,
   cd_pessoa INT NOT NULL,
-  cd_tipo_pessoa INT NOT NULL,
+  nm_tipo_pessoa VARCHAR(30) NOT NULL,
   cd_ait INT,
   cd_processo INT,
   cd_modalidade INT NOT NULL,
@@ -300,13 +300,13 @@ CHECK
 ALTER TABLE
   `veiculo` ADD CONSTRAINT `fkveiculo_cd_pessoa` FOREIGN KEY(`cd_pessoa`) REFERENCES `pessoa`(`cd_pessoa`);
 ALTER TABLE
-  `veiculo` ADD CONSTRAINT `fkveiculo_cd_tipo_pessoa` FOREIGN KEY(`cd_tipo_pessoa`) REFERENCES `pessoa`(`cd_tipo_pessoa`);
+  `veiculo` ADD CONSTRAINT `fkveiculo_nm_tipo_pessoa` FOREIGN KEY(`nm_tipo_pessoa`) REFERENCES `pessoa`(`nm_tipo_pessoa`);
 
 CREATE TABLE vistoria(
   cd_vistoria INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   cd_veiculo INT NOT NULL,
   cd_pessoa INT NOT NULL,
-  cd_tipo_pessoa INT NOT NULL,
+  nm_tipo_pessoa VARCHAR(30) NOT NULL,
   cd_ait INT,
   cd_modalidade INT NOT NULL,
   cd_associacao INT NOT NULL,
@@ -317,7 +317,7 @@ CREATE TABLE vistoria(
   ds_observacao VARCHAR(50),
   CONSTRAINT fkvistoria_cd_veiculo FOREIGN KEY(cd_veiculo) REFERENCES veiculo(cd_veiculo),
   CONSTRAINT fkvistoria_cd_pessoa FOREIGN KEY(cd_pessoa) REFERENCES veiculo(cd_pessoa),
-  CONSTRAINT fkvistoria_cd_tipo_pessoa FOREIGN KEY(cd_tipo_pessoa) REFERENCES veiculo(cd_tipo_pessoa),
+  CONSTRAINT fkvistoria_nm_tipo_pessoa FOREIGN KEY(nm_tipo_pessoa) REFERENCES veiculo(nm_tipo_pessoa),
   CONSTRAINT fkvistoria_cd_ait FOREIGN KEY(cd_ait) REFERENCES veiculo(cd_ait),
   CONSTRAINT fkvistoria_cd_modalidade FOREIGN KEY(cd_modalidade) REFERENCES veiculo(cd_modalidade),
   CONSTRAINT fkvistoria_cd_associacao FOREIGN KEY(cd_associacao) REFERENCES veiculo(cd_associacao)
