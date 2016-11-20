@@ -20,7 +20,7 @@ if (isset($_GET['retorno']) && $_GET['retorno'] == 'alterado') {
 $where = '';
 // $associacao = '';
 $tipoPessoa = '';
-if (isset($_POST['nm_pessoa']) && !empty($_POST['nm_pessoa'])) {
+if (isset($_POST['nm_tipo_pessoa']) && !empty($_POST['nm_tipo_pessoa'])) {
     $tipoPessoa = $_POST['nm_pessoa'];
 }
 
@@ -37,7 +37,7 @@ $limit = "LIMIT $inicio, $fim";
 
 
 try {
-    $contador = $conexao->prepare("SELECT count(*) as qtd FROM tipopessoa "
+    $contador = $conexao->prepare("SELECT count(*) as qtd FROM tipoPessoa "
             . "WHERE nm_pessoa LIKE  :tipoPessoa " . " " . $limit);
 
     $contador->bindValue(":tipoPessoa", '%' . $tipoPessoa . '%');
@@ -52,8 +52,8 @@ $qtd = $contador->fetch(PDO::FETCH_ASSOC);
 $ultima_pagina = ceil((int) $qtd['qtd'] / $registros);
 //End PAGINAÇÃO
 try {
-    $tipopessoas = $conexao->prepare("SELECT * FROM tipopessoa "
-            . "WHERE nm_pessoa LIKE  :tipoPessoa " . "ORDER BY nm_pessoa ASC " . $limit);
+    $tipopessoas = $conexao->prepare("SELECT * FROM tipoPessoa "
+            . "WHERE nm_tipo_pessoa LIKE  :tipoPessoa " . "ORDER BY nm_tipo_pessoa ASC " . $limit);
     $tipopessoas->bindValue(":tipoPessoa", '%' . $tipoPessoa . '%');
 
     $tipopessoas->execute();
@@ -98,7 +98,7 @@ try {
                                             <form name="tipopessoas" method="POST" id="tipopessoas">
                                                 <div class="row">
                                                     <div class="col-xs-5">
-                                                        <input class="form-control" name="nm_pessoa" placeholder="Tipo de Pessoa" value="<?php echo($tipoPessoa); ?>" type="text">
+                                                        <input class="form-control" name="nm_tipo_pessoa" placeholder="Tipo de Pessoa" value="<?php echo($tipoPessoa); ?>" type="text">
                                                     </div>
 
 
@@ -124,7 +124,7 @@ try {
                                                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                                                         <?php while ($tipopessoa = $tipopessoas->fetch(PDO::FETCH_ASSOC)) { ?>
                                                             <tr class="gradeA odd">
-                                                                <td style="width:5%" class=""><?php echo($tipopessoa['nm_pessoa']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td style="width:5%" class=""><?php echo($tipopessoa['nm_tipo_pessoa']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                                                                 <td style="width:40%" class="center">
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($tipopessoa['cd_tipo_pessoa']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($tipopessoa['cd_tipo_pessoa']); ?>')" class="btn btn-primary"><i class="icon-pencil">&nbsp;&nbsp;Editar</i> </a>
