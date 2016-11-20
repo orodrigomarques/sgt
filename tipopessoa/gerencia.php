@@ -13,7 +13,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
     $id = base64_decode($id);
 
     if ($acao == 'excluir') {
-        $deletaTipoPessoa = $conexao->prepare("DELETE FROM tipopessoa WHERE cd_tipo_pessoa = :id");
+        $deletaTipoPessoa = $conexao->prepare("DELETE FROM tipoPessoa WHERE cd_tipo_pessoa = :id");
         $deletaTipoPessoa->bindValue(":id", $id);
         $deletaTipoPessoa->execute();
 
@@ -26,13 +26,13 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
-        $pegaTipoPessoa = $conexao->prepare("SELECT * FROM tipopessoa WHERE cd_tipo_pessoa = :id");
+        $pegaTipoPessoa = $conexao->prepare("SELECT * FROM tipoPessoa WHERE cd_tipo_pessoa = :id");
         $pegaTipoPessoa->bindValue(":id", $id);
         $pegaTipoPessoa->execute();
         $tipopessoa = $pegaTipoPessoa->fetch(PDO::FETCH_ASSOC);
 
         $id = $tipopessoa['cd_tipo_pessoa'];
-        $tipoPessoa = $tipopessoa['nm_pessoa'];
+        $tipoPessoa = $tipopessoa['nm_tipo_pessoa'];
     }
 
     if ($acao == 'novo') {
@@ -44,12 +44,12 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
 
 if (isset($_POST['cd_tipo_pessoa']) && $_POST['cd_tipo_pessoa'] != '') {
     $id = $_POST['cd_tipo_pessoa'];
-    $tipoPessoa = $_POST['nm_pessoa'];
+    $tipoPessoa = $_POST['nm_tipo_pessoa'];
 
 
 
     if (empty($id)) {
-        $pegaTipoPessoa = $conexao->prepare("SELECT nm_pessoa FROM tipopessoa WHERE nm_pessoa = :tipoPessoa");
+        $pegaTipoPessoa = $conexao->prepare("SELECT nm_tipo_pessoa FROM tipoPessoa WHERE nm_tipo_pessoa = :tipoPessoa");
             $pegaTipoPessoa->bindValue(":tipoPessoa", $tipoPessoa);
             $pegaTipoPessoa->execute();
  
@@ -59,7 +59,7 @@ if (isset($_POST['cd_tipo_pessoa']) && $_POST['cd_tipo_pessoa'] != '') {
             }else{
 
         try {
-            $novoTipoPessoa = $conexao->prepare("INSERT INTO tipopessoa (nm_pessoa) "
+            $novoTipoPessoa = $conexao->prepare("INSERT INTO tipoPessoa (nm_tipo_pessoa) "
                     . "VALUES ( :tipoPessoa)");
             $novoTipoPessoa->bindValue(":tipoPessoa", $tipoPessoa, PDO::PARAM_STR);
 
@@ -76,7 +76,7 @@ if (isset($_POST['cd_tipo_pessoa']) && $_POST['cd_tipo_pessoa'] != '') {
         }
     } }else {
         try {
-            $atualizarTipoPessoa = $conexao->prepare("UPDATE tipopessoa SET nm_pessoa = :tipoPessoa "
+            $atualizarTipoPessoa = $conexao->prepare("UPDATE tipoPessoa SET nm_tipo_pessoa = :tipoPessoa "
                     . "WHERE cd_tipo_pessoa = :id");
             $atualizarTipoPessoa->bindValue(":tipoPessoa", $tipoPessoa, PDO::PARAM_STR);
 
@@ -150,7 +150,7 @@ if (isset($_POST['cd_tipo_pessoa']) && $_POST['cd_tipo_pessoa'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Tipo de Pessoa</label>
                                 <div class="col-sm-4">
-                                    <input name="nm_pessoa" id="nm_pessoa" type="text" class="form-control"  value="<?php echo $tipoPessoa ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required="required" pattern=".{2,}" title="Preencha com dois ou mais caracteres"/>
+                                    <input name="nm_tipo_pessoa" id="nm_tipo_pessoa" type="text" class="form-control"  value="<?php echo $tipoPessoa ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required="required" pattern=".{2,}" title="Preencha com dois ou mais caracteres"/>
                                 </div>
                             </div>
 
