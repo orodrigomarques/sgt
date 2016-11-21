@@ -159,7 +159,7 @@
                                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                                                 <?php while($usuario = $usuarios->fetch(PDO::FETCH_ASSOC)){?>
                                                         <tr class="gradeA odd">
-                                                                <td style="width:30%" class=""><?php echo($usuario['nm_usuario']);?>&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-question-sign " title="<?php echo($pessoa['pes_apelido']);?>"></i></td>
+                                                                <td style="width:30%" class=""><?php echo($usuario['nm_usuario']);?>&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-question-sign " title="<?php echo $usuario['nm_pessoa'];?>"></i></td>
                                                                 
                                                                 <?php   
                                                                     if($usuario['ds_permissao'] == 1 ){
