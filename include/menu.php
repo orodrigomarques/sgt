@@ -3,6 +3,7 @@
             <ul class="acc-menu" id="sidebar">
                     <li><a href="../home.php"><i class="icon-home"></i> <span>Home</span></a></li>
                     <?php if($_SESSION['permissao']== 1){?>
+              <li><a href="../veiculo/index.php"><i class="icon-user"></i> <span>Veiculos</span></a></li>  
                     <li><a href="../usuario/index.php"><i class="icon-user"></i> <span>Usuarios</span></a></li>               
                         <li><a href="../pessoa/index.php"><i class="icon-user"></i> <span>Pessoas</span></a></li><?php }; ?>
                    <li><a href="javascript:;"><i class="icon-cog"></i> <span>Cadastros</span> </a>
