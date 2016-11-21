@@ -9,13 +9,10 @@ validaAcesso();
     <title>Untitled Document</title>
 
     <script type="text/javascript" src="assets/js/jquery.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.bgiframe.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.ajaxQueue.js"></script>
-    <script type="text/javascript" src="assets/js/thickbox-compressed.js"></script>
     <script type="text/javascript" src="assets/js/jquery.autocomplete.js"></script>
     <!--css -->
-    <link rel="stylesheet" type="text/css" href="assets/js/jquery.autocomplete.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/js/thickbox.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.autocomplete.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/thickbox.css"/>
 
 
 </head>
