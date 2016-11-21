@@ -215,12 +215,26 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Pessoa</label>
-                            <div class="col-sm-4">
-                                <input name="pessoa" id="pessoa" type="text" class="form-control"  value="<?php echo $nome?>"  readonly="readonly"/>
+                        <div class="form-group">                                                    
+                                <label class="col-sm-2 control-label">Pessoa</label>
+                                <div class="col-sm-4">                                        
+                                    <select name="nm_pessoa" id="nm_pessoa" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                        <option value='' >Nome da Pessoa...</option>
+                                        <?php
+                                        try {
+                                            $pessoas = $conexao->prepare("SELECT * FROM pessoa ");
+                                            $pessoas->execute();
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($pessoa = $pessoas->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $pessoa['nm_pessoa']; ?>' <?php echo ($pessoa['nm_pessoa'] == $nomePessoaUsuario) ? 'selected' : ''; ?>><?php echo $pessoa['nm_pessoa']; ?>  </option>
+                                        <?php } ?>                                              
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
                     <?php if (isset($_GET['retorno']) && $_GET['retorno'] == 'nomeinvalido') { ?>
                         <div class="form-group ">   
