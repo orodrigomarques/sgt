@@ -107,7 +107,7 @@
             }
         }else{     
             try{
-                $atualizarUsuario = $conexao->prepare("UPDATE usuario SET nm_pessoa = : pessoaUsuario, nm_usuario = :usuario, ds_ativo = :ativo, ds_permissao = :permissao "
+                $atualizarUsuario = $conexao->prepare("UPDATE usuario SET nm_pessoa = :pessoaUsuario, nm_usuario = :usuario, ds_ativo = :ativo, ds_permissao = :permissao "
                                                      ."WHERE id_usuario = :id");
                 $atualizarUsuario->bindValue(":pessoaUsuario", $pessoaUsuario, PDO::PARAM_STR);
                 $atualizarUsuario->bindValue(":usuario", $usuario, PDO::PARAM_STR);
