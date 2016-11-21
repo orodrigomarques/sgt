@@ -92,6 +92,13 @@
      $pessoa = $_POST['cd_pessoa'];
      $tipoPessoa = $_POST['nm_tipo_pessoa'];
      $ait = $_POST['cd_ait'];
+     if ($_POST['cd_ait'] === '') {
+        $ait = $_POST['cd_ait'] = NULL; 
+    }
+    $processo = $_POST['cd_processo'];
+    if ($_POST['cd_processo'] === '') {
+        $processo = $_POST['cd_processo'] = NULL; 
+    }
      $processo = $_POST['cd_processo'];
      $modalidade = $_POST['cd_modalidade'];
      $associacao = $_POST['cd_associacao'];
