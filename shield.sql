@@ -235,7 +235,7 @@ CHECK
   )
 );
 CREATE TABLE veiculo(
-  cd_veiculo INT NOT NULL PRIMARY KEY,
+  cd_veiculo INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   cd_pessoa INT NOT NULL,
   nm_tipo_pessoa VARCHAR(30) NOT NULL,
   cd_ait INT,
