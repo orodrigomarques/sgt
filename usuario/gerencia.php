@@ -43,6 +43,7 @@
             $usuario = $pegaUsuarios->fetch(PDO::FETCH_ASSOC);            
             
             $id = $usuario['id_usuario'];
+            $pessoaUsuario = $usuario['nm_pessoa'];
             $nome = $usuario['nm_usuario'];
             $ativo = $usuario['ds_ativo'];
             $permissao = $usuario['ds_permissao'];
@@ -51,6 +52,7 @@
         if($acao == 'novo' ){
             
             $id = 0;
+            $pessoaUsuario = "";
             $nome = "";
             $ativo = 0;
             $permissao = 0;
@@ -63,7 +65,7 @@
         $ativo = isset($_POST['ativo']) ? '1' : '0';
         $permissao = $_POST['permissao'];
         $usuario = addslashes($_POST['usuario']);        
-        
+        $pessoaUsuario = $_POST['nm_pessoa'];
         
         $senhaAtual = md5($_POST['senhaAtual']);
         $novaSenha = md5($_POST['novaSenha']);
@@ -80,8 +82,9 @@
                 $retornoNome = 'nomeinvalido';
             }elseif($novaSenha == $confSenha){ 
                     try{
-                        $novoUsuario = $conexao->prepare("INSERT INTO usuario (nm_usuario, ds_senha, ds_ativo, ds_permissao) "
-                                                            ."VALUES ( :usuario, :novaSenha, :ativo, :permissao )");
+                        $novoUsuario = $conexao->prepare("INSERT INTO usuario (nm_pessoa, nm_usuario, ds_senha, ds_ativo, ds_permissao) "
+                                                            ."VALUES ( :pessoaUsuario, :usuario, :novaSenha, :ativo, :permissao )");
+                        $novoUsuario->bindValue(":pessoaUsuario", $pessoaUsuario, PDO::PARAM_STR);
                         $novoUsuario->bindValue(":usuario", $usuario, PDO::PARAM_STR);
                         $novoUsuario->bindValue(":novaSenha", $novaSenha, PDO::PARAM_STR);
                         $novoUsuario->bindValue(":ativo", $ativo);
@@ -104,8 +107,9 @@
             }
         }else{     
             try{
-                $atualizarUsuario = $conexao->prepare("UPDATE usuario SET nm_usuario = :usuario, ds_ativo = :ativo, ds_permissao = :permissao "
+                $atualizarUsuario = $conexao->prepare("UPDATE usuario SET nm_pessoa = : pessoaUsuario, nm_usuario = :usuario, ds_ativo = :ativo, ds_permissao = :permissao "
                                                      ."WHERE id_usuario = :id");
+                $atualizarUsuario->bindValue(":pessoaUsuario", $pessoaUsuario, PDO::PARAM_STR);
                 $atualizarUsuario->bindValue(":usuario", $usuario, PDO::PARAM_STR);
                 $atualizarUsuario->bindValue(":ativo", $ativo);
                 $atualizarUsuario->bindValue(":permissao", $permissao);
@@ -230,7 +234,7 @@
                                         }
                                         ?>
                                         <?php while ($pessoa = $pessoas->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $pessoa['nm_pessoa']; ?>' <?php echo ($pessoa['nm_pessoa'] == $nomePessoaUsuario) ? 'selected' : ''; ?>><?php echo $pessoa['nm_pessoa']; ?>  </option>
+                                            <option value='<?php echo $pessoa['nm_pessoa']; ?>' <?php echo ($pessoa['nm_pessoa'] == $pessoaUsuario) ? 'selected' : ''; ?>><?php echo $pessoa['nm_pessoa']; ?>  </option>
                                         <?php } ?>                                              
                                     </select>
                                 </div>
