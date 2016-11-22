@@ -125,11 +125,11 @@ try {
                                                                                               
                               
                                 <div class="col-sm-4">                                        
-                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
                                         <option value='' >Tipo do Serviço..</option>
                                         <?php
                                         try {
-                                            $tipoServicos = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_modalidade = t.cd_modalidade");
+                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
                                             $tipoServicos->execute();
                                         } catch (Exception $e) {
                                             echo $e;
@@ -192,7 +192,7 @@ try {
                                                             <tr class="gradeA odd">
                                                                  <?php
                                         try {
-                                            $tipoServicos = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_modalidade = t.cd_modalidade");
+                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
                                             $tipoServicos->execute();
                                         } catch (Exception $e) {
                                             echo $e;
