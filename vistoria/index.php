@@ -213,7 +213,7 @@ try {
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($vistoria['cd_vistoria']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($vistoria['cd_vistoria']); ?>')" class="btn btn-primary"><i class="icon-pencil">&nbsp;&nbsp;Editar</i> </a>
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($vistoria['cd_vistoria']); ?>&acao=visualizar" onClick="buscaPessoa('<?php echo($vistoria['cd_vistoria']); ?>')" class="btn btn-success"><i class="icon-eye-open">&nbsp;&nbsp;Visualizar</i> </a>
 
-                                                                    <<a onClick="if(confirm('Tem certeza que deseja excluir este registro?')){location.href='gerencia.php?acao=excluir&id=<?php echo base64_encode($vistoria['cd_vistoria']); ?>'}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
+                                                                    <a onClick="if(confirm('Tem certeza que deseja excluir este registro?')){location.href='gerencia.php?acao=excluir&id=<?php echo base64_encode($vistoria['cd_vistoria']); ?>'}" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
                                                                  </td>
                                                          </tr>
                                                  <?php }?>                
