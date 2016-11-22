@@ -8,6 +8,7 @@
                         <li><a href="../pessoa/index.php"><i class="icon-user"></i> <span>Pessoas</span></a></li><?php }; ?>
                    <li><a href="javascript:;"><i class="icon-cog"></i> <span>Cadastros</span> </a>
             <ul class="acc-menu">
+              <li><a href="../vistoria/index.php"><i class="icon-th"></i> <span>Vistorias</span></a></li>
                 <li><a href="../associacao/index.php"><i class="icon-th"></i> <span>Associações</span></a></li>
                 <li><a href="../modalidade/index.php"><i class="icon-th"></i> <span>Modalidades</span></a></li>
                 <li><a href="../processo/index.php"><i class="icon-th"></i> <span>Processos</span></a></li>
