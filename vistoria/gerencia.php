@@ -56,7 +56,19 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
 if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
     $id = $_POST['cd_vistoria'];
     $placa = $_POST['cd_placa'];
-    $modalidade = $_POST['cd_modalidade'];
+    try {
+                                            $testes = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_placa = '$placa' AND c.cd_modalidade = t.cd_modalidade");
+                                            $testes->execute();
+                                            while ($teste = $testes->fetch(PDO::FETCH_ASSOC)) { 
+                                         
+                                            $modalidade = $teste['cd_modalidade'];}
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                      
+                                       
+    
     $dataVistoria = $_POST['dt_vistoria'];
     $resultado = $_POST['ds_resultado'];
     $tipoVistoria = $_POST['nm_vistoria'];
@@ -65,7 +77,7 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
 
 
     if (empty($id)) {
-
+ 
 
         try {
             $novaVistoria = $conexao->prepare("INSERT INTO vistoria (cd_placa, cd_modalidade, dt_vistoria, ds_resultado, nm_vistoria,"
@@ -78,10 +90,10 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
             $novaVistoria->bindValue(":tipoVistoria", $tipoVistoria, PDO::PARAM_STR);
             $novaVistoria->bindValue(":observacoes", $observacoes, PDO::PARAM_STR);
             $novaVistoria->execute();
-         // echo $novaVistoria->rowCount();
-           //    var_dump($novaVistoria);
-          //  echo $novaVistoria->errorCode();
-             //  exit();
+         echo $novaVistoria->rowCount();
+              var_dump($novaVistoria);
+           echo $novaVistoria->errorCode();
+             exit();
           $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -149,28 +161,32 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
                         </div>
                         <div class="panel-body collapse in">
 
-                            <form id="formVistoria" name="formVistoria"  action="gerencia.php" method="post"  class="form-horizontal" />
+                            <form id="formVistoria" name="formVistoria"  action="gerencia.php" method="POST"  class="form-horizontal" />
                             <input type="hidden" name="cd_vistoria" id="id_processo" value="<?php echo($id); ?>">
-                           <div class="form-group">                                                    
+                        
+                                <?php if ($acao != 'novo') { ?>
+                            <div class="form-group">                                                    
                                 <label class="col-sm-2 control-label">Tipo do Serviço</label>
                                 <div class="col-sm-4">                                        
-                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
-                                        <option value='' >Tipo do Serviço..</option>
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" disabled="disabled" required>
+                                        
                                         <?php
                                         try {
-                                            $tipoServicos = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_modalidade = t.cd_modalidade");
+                                            $tipoServicos = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_placa = '$placa' AND c.cd_modalidade = t.cd_modalidade");
                                             $tipoServicos->execute();
+                                            
+                                            
                                         } catch (Exception $e) {
                                             echo $e;
                                             exit();
                                         }
                                         ?>
                                         <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' <?php echo ($tipoServico['cd_modalidade'] == $modalidade) ? 'selected' : ''; ?>><?php echo $tipoServico['nm_modalidade']; ?>  </option>
+                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' selected><?php echo $tipoServico['nm_modalidade']; ?>  </option>
                                         <?php } ?>                                              
                                     </select>
                                 </div>
-                            </div>
+                            </div>  <?php } ?> 
                             <div class="form-group">                                                    
                                 <label class="col-sm-2 control-label">Placa</label>
                                 <div class="col-sm-4">                                        
@@ -204,7 +220,7 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
                                 <label class="col-sm-2 control-label">Resultado</label>
                                 <div class="col-sm-4">
                                     <select name="ds_resultado" id="ds_resultado" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
-                                        <option value=''>-</option>
+                                        <option value='SEM RESULTADO'>-</option>
                                         <option value="REPROVADO" <?php echo($resultado == 'REPROVADO') ? 'selected' : ''; ?>>REPROVADO</option>
                                         <option value="APROVADO" <?php echo($resultado == 'APROVADO') ? 'selected' : ''; ?>>APROVADO</option>
                                        
