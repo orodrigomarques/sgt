@@ -243,7 +243,7 @@ CREATE TABLE veiculo(
   cd_processo INT,
   cd_modalidade INT NOT NULL,
   cd_associacao INT NOT NULL,
-  cd_placa VARCHAR(8) NOT NULL,
+  cd_placa VARCHAR(8) NOT NULL UNIQUE,
   cd_prefixo VARCHAR(10) NOT NULL,
   nm_fabricante VARCHAR(30) NOT NULL,
   nm_modelo VARCHAR(30) NOT NULL,
@@ -305,21 +305,12 @@ ALTER TABLE
 
 CREATE TABLE vistoria(
   cd_vistoria INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  cd_veiculo INT NOT NULL,
-  cd_pessoa INT NOT NULL,
-  nm_tipo_pessoa VARCHAR(30) NOT NULL,
-  cd_ait INT,
-  cd_modalidade INT NOT NULL,
-  cd_associacao INT NOT NULL,
-  cd_placa VARCHAR(8) NOT NULL,
+  cd_placa VARCHAR(8) NOT NULL,  
+  cd_modalidade INT NOT NULL,  
   dt_vistoria DATE NOT NULL,
   ds_resultado VARCHAR(100) NOT NULL,
   nm_vistoria VARCHAR(20) NOT NULL,
   ds_observacao VARCHAR(50),
-  CONSTRAINT fkvistoria_cd_veiculo FOREIGN KEY(cd_veiculo) REFERENCES veiculo(cd_veiculo),
-  CONSTRAINT fkvistoria_cd_pessoa FOREIGN KEY(cd_pessoa) REFERENCES veiculo(cd_pessoa),
-  CONSTRAINT fkvistoria_nm_tipo_pessoa FOREIGN KEY(nm_tipo_pessoa) REFERENCES veiculo(nm_tipo_pessoa),
-  CONSTRAINT fkvistoria_cd_ait FOREIGN KEY(cd_ait) REFERENCES veiculo(cd_ait),
-  CONSTRAINT fkvistoria_cd_modalidade FOREIGN KEY(cd_modalidade) REFERENCES veiculo(cd_modalidade),
-  CONSTRAINT fkvistoria_cd_associacao FOREIGN KEY(cd_associacao) REFERENCES veiculo(cd_associacao)
+  CONSTRAINT fkvistoria_cd_placa FOREIGN KEY(cd_placa) REFERENCES veiculo(cd_placa) ON UPDATE CASCADE ON DELETE CASCADE ,  
+  CONSTRAINT fkvistoria_cd_modalidade FOREIGN KEY(cd_modalidade) REFERENCES veiculo(cd_modalidade) ON UPDATE CASCADE
 );
