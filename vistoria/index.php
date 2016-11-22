@@ -125,7 +125,7 @@ try {
                                                                                               
                               
                                 <div class="col-sm-4">                                        
-                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
                                         <option value='' >Tipo do Serviço..</option>
                                         <?php
                                         try {
