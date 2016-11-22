@@ -303,6 +303,7 @@ ALTER TABLE
 ALTER TABLE
   `veiculo` ADD CONSTRAINT `fkveiculo_nm_tipo_pessoa` FOREIGN KEY(`nm_tipo_pessoa`) REFERENCES `pessoa`(`nm_tipo_pessoa`);
 
+
 CREATE TABLE vistoria(
   cd_vistoria INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   cd_placa VARCHAR(8) NOT NULL,  
@@ -312,5 +313,5 @@ CREATE TABLE vistoria(
   nm_vistoria VARCHAR(20) NOT NULL,
   ds_observacao VARCHAR(50),
   CONSTRAINT fkvistoria_cd_placa FOREIGN KEY(cd_placa) REFERENCES veiculo(cd_placa) ON UPDATE CASCADE ON DELETE CASCADE ,  
-  CONSTRAINT fkvistoria_cd_modalidade FOREIGN KEY(cd_modalidade) REFERENCES veiculo(cd_modalidade) ON UPDATE CASCADE
+  CONSTRAINT fkvistoria_cd_modalidade FOREIGN KEY(cd_modalidade) REFERENCES tipoveiculo(cd_modalidade) ON UPDATE CASCADE
 );
