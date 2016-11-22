@@ -90,10 +90,10 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
             $novaVistoria->bindValue(":tipoVistoria", $tipoVistoria, PDO::PARAM_STR);
             $novaVistoria->bindValue(":observacoes", $observacoes, PDO::PARAM_STR);
             $novaVistoria->execute();
-         echo $novaVistoria->rowCount();
-              var_dump($novaVistoria);
-           echo $novaVistoria->errorCode();
-             exit();
+        // echo $novaVistoria->rowCount();
+            //  var_dump($novaVistoria);
+          // echo $novaVistoria->errorCode();
+           //  exit();
           $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
