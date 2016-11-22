@@ -171,11 +171,13 @@
                      . "aa_fabricacao = :anoFabricacao, aa_modelo = :anoModelo, nm_municipio_vec = :municipio, nm_UF = :uf, ds_permissao_publicidade = :publicidade, ds_particular = :particular, cd_renavam = :renavam, vl_vencimento_seguro = :vencSeguro, cd_alvara = :alvara, "
                      . "ds_alvara = :descAlvara, dt_emissao_alvara = :dataAlvara, dt_validade_alvara = :validadeAlvara "
                      . "WHERE cd_veiculo = :id");
+             $atualizarVistoria = $conexao->prepare("UPDATE vistoria SET cd_modalidade = :modalidade " . "WHERE cd_placa = :placa");
              $atualizarVeiculo->bindValue(":pessoa", $pessoa);
              $atualizarVeiculo->bindValue(":tipoPessoa", $tipoPessoa, PDO::PARAM_STR);
              $atualizarVeiculo->bindValue(":ait", $ait);
              $atualizarVeiculo->bindValue(":processo", $processo);
              $atualizarVeiculo->bindValue(":modalidade", $modalidade);
+             $atualizarVistoria->bindValue(":modalidade", $modalidade);
              $atualizarVeiculo->bindValue(":associacao", $associacao);
              $atualizarVeiculo->bindValue(":placa", $placa, PDO::PARAM_STR);
              $atualizarVeiculo->bindValue(":prefixo", $prefixo, PDO::PARAM_STR);
@@ -195,12 +197,13 @@
              $atualizarVeiculo->bindValue(":dataAlvara", $dataAlvara, PDO::PARAM_STR);
              $atualizarVeiculo->bindValue(":validadeAlvara", $validadeAlvara, PDO::PARAM_STR);
              $atualizarVeiculo->bindValue(":id", $id);
+             $atualizarVistoria->bindValue(":placa", $placa);
              $atualizarVeiculo->execute();
- 
+             $atualizarVistoria->execute();
                 // echo $atualizarVeiculo->rowCount();
-                // var_dump($atualizarVeiculo);
-                 //echo $atualizarVeiculo->errorCode();
-                // exit();
+               // var_dump($atualizarVeiculo);
+                // echo $atualizarVeiculo->errorCode();
+                //exit();
  
              $retorno = 'alterado';
          } catch (Exception $e) {
