@@ -103,7 +103,7 @@ try {
                     <ol class="breadcrumb">
                         <li class='active'><a href="../home.php">Home</a> > Vistorias</li>
                     </ol>
-                    <h1>Processos</h1>  
+                    <h1>Vistorias</h1>  
                     <div class="options">
                         <div class="btn-toolbar">
                             <a href="gerencia.php?acao=novo"  class="btn btn-primary"><i class="icon-user"></i>&nbsp;&nbsp;Nova Vistoria</a>
