@@ -77,9 +77,7 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
             $novaVistoria->bindValue(":resultado", $resultado, PDO::PARAM_STR);
             $novaVistoria->bindValue(":tipoVistoria", $tipoVistoria, PDO::PARAM_STR);
             $novaVistoria->bindValue(":observacoes", $observacoes, PDO::PARAM_STR);
-           
-
-          // $novaVistoria->execute();
+            $novaVistoria->execute();
          // echo $novaVistoria->rowCount();
            //    var_dump($novaVistoria);
           //  echo $novaVistoria->errorCode();
@@ -216,7 +214,7 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Tipo da Vistoria</label>
                                 <div class="col-sm-4">
-                                    <select name="nm_vistoria" id="nm_vistoria" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                    <select name="nm_vistoria" id="nm_vistoria" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required >
                                         <option value=''>-</option>
                                         <option value="VISTORIA NORMAL" <?php echo($tipoVistoria == 'VISTORIA NORMAL') ? 'selected' : ''; ?>>VISTORIA NORMAL</option>
                                         <option value="OUTRO" <?php echo($tipoVistoria == 'OUTRO') ? 'selected' : ''; ?>>OUTRO</option>
