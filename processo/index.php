@@ -131,7 +131,7 @@ try {
                                         <div id="example_wrapper" class="dataTables_wrapper" role="grid">
                                             <form name="processos" method="POST" id="processos">
                                      <div class="col-sm-2">                                        
-                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" >
                                         <option value='' >Tipo do Serviço..</option>
                                         <?php
                                         try {
