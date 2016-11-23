@@ -23,10 +23,11 @@ $filtroProcesso = '';
 $aa_processo = '';
 $denuncia = '';
 $resultado = '';
+$filtroModalidade = '';
 
-
-if (isset($_POST['nm_modalidade']) && !empty($_POST['nm_modalidade'])) {
-    $tipo_veiculo = $_POST['nm_modalidade'];
+if (isset($_POST['cd_modalidade']) && !empty($_POST['cd_modalidade'])) {
+    $tipo_veiculo = $_POST['cd_modalidade'];
+    $filtroModalidade = "AND cd_modalidade = $tipo_veiculo "; 
 }
 if (isset($_POST['processo']) && !empty($_POST['processo'])) {
     $processo = $_POST['processo'];
@@ -60,11 +61,10 @@ $limit = "LIMIT $inicio, $fim";
 
 try {
     $contador = $conexao->prepare("SELECT count(*) as qtd FROM processo "
-            . "WHERE nm_modalidade LIKE  :tipo_veiculo AND aa_processo LIKE :aa_processo "
+            . "WHERE aa_processo LIKE :aa_processo "
             . "AND dt_relato_denuncia LIKE  :denuncia AND ds_resultado LIKE  :resultado 
-                                  " . $filtroProcesso." " . $limit);
+                                  " . $filtroModalidade . $filtroProcesso." " . $limit);
 
-    $contador->bindValue(":tipo_veiculo", '%' . $tipo_veiculo . '%');
     
     $contador->bindValue(":aa_processo", '%' . $aa_processo . '%');
     $contador->bindValue(":denuncia", '%' . $denuncia . '%');
@@ -82,10 +82,10 @@ $ultima_pagina = ceil((int) $qtd['qtd'] / $registros);
 
 try {
     $processos = $conexao->prepare("SELECT * FROM processo "
-            . "WHERE nm_modalidade LIKE  :tipo_veiculo AND  aa_processo LIKE :aa_processo "
+            . "WHERE aa_processo LIKE :aa_processo "
             . "AND dt_relato_denuncia LIKE  :denuncia AND ds_resultado LIKE  :resultado 
-                                 " .$filtroProcesso. "ORDER BY cd_processo ASC " . $limit);
-    $processos->bindValue(":tipo_veiculo", '%' . $tipo_veiculo . '%');
+                                 " . $filtroModalidade . $filtroProcesso. "ORDER BY cd_processo ASC " . $limit);
+    
     
     $processos->bindValue(":aa_processo", '%' . $aa_processo . '%');
     $processos->bindValue(":denuncia", '%' . $denuncia . '%');
@@ -126,26 +126,27 @@ try {
                                     <div class="panel-heading">
                                         <h4>Exibindo Procesos cadastrados</h4>										
                                     </div>
-
+                                    
                                     <div class="panel-body collapse in">
                                         <div id="example_wrapper" class="dataTables_wrapper" role="grid">
                                             <form name="processos" method="POST" id="processos">
-                                                <div class="col-sm-2">                                                    
-                                                    <select name="nm_modalidade" id="nm_modalidade" class="form-control">
-                                                        <option value='' >Tipo do Serviço...</option>
-                                                       <?php try {
-                                                        $tipoveiculos = $conexao->prepare("SELECT * FROM tipoVeiculo ");
-                                                       
-                                                        $tipoveiculos->execute();
-                                                    } catch (Exception $e) {
-                                                        echo $e;
-                                                        exit();
-                                                    } ?>
-<?php while ($tipoveiculo = $tipoveiculos->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                            <option value='<?php echo $tipoveiculo['nm_modalidade']; ?>'><?php echo $tipoveiculo['nm_modalidade']; ?></option>
-<?php } ?>                                              
-                                                    </select>
-                                                </div>
+                                     <div class="col-sm-2">                                        
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                        <option value='' >Tipo do Serviço..</option>
+                                        <?php
+                                        try {
+                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
+                                            $tipoServicos->execute();
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' <?php echo ($tipoServico['cd_modalidade'] == $tipo_veiculo) ? 'selected' : ''; ?>><?php echo $tipoServico['nm_modalidade']; ?>  </option>
+                                        <?php } ?>                                              
+                                    </select>
+                                </div>
                                                 <div class="row">
                                                     <div class="col-xs-2">
                                                         <input class="form-control" name="processo" placeholder="Nº do processo" value="<?php echo($processo); ?>" type="number">
@@ -175,6 +176,7 @@ try {
                                                     <div class="col-sm-2">                                                    
                                                         <select name="ds_resultado" id="ds_resultado" class="form-control">
                                                             <option value=''>Resultado...</option>
+                                                            <option value='SEM RESULTAD' >SEM RESULTAD</option>
                                                             <option value='ABSOLVIÇÃO' >ABSOLVIÇÃO</option>
                                                             <option value="MULTA" >MULTA</option>
                                                             <option value="NÃO COMPARECEU" >NÃO COMPARECEU</option>
@@ -210,8 +212,19 @@ try {
                                                     <tbody role="alert" aria-live="polite" aria-relevant="all">
     <?php while ($processo = $processos->fetch(PDO::FETCH_ASSOC)) { ?>
                                                             <tr class="gradeA odd">
-                                                                <td style="width:20%" class=""><?php echo($processo['nm_modalidade']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
+                                                                      <?php
+                                        try {
+                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
+                                            $tipoServicos->execute();
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { 
+                                            if($tipoServico['cd_modalidade'] == $processo['cd_modalidade']){?>
+                     <td style="width:10%" class=""><?php echo $tipoServico['nm_modalidade'] ; ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <?php }} ?>
                                                                 <td style="width:10%" class=""><?php echo($processo['cd_processo']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
 
