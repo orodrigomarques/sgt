@@ -92,7 +92,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
             $novaAssociacao->bindValue(":local", $local, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":numero", $numero);
             $novaAssociacao->bindValue(":complemento", $complemento, PDO::PARAM_STR);
-            $novaAssociacao->bindValue(":cep", $cep);
+            $novaAssociacao->bindValue(":cep", $cep, PDO::PARAM_STR));
             $novaAssociacao->bindValue(":bairro", $bairro, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":municipio", $municipio, PDO::PARAM_STR);
             $novaAssociacao->bindValue(":uf", $uf, PDO::PARAM_STR);
@@ -118,7 +118,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
             $atualizarAssociacao->bindValue(":local", $local, PDO::PARAM_STR);
             $atualizarAssociacao->bindValue(":numero", $numero);
             $atualizarAssociacao->bindValue(":complemento", $complemento, PDO::PARAM_STR);
-            $atualizarAssociacao->bindValue(":cep", $cep);
+            $atualizarAssociacao->bindValue(":cep", $cep, PDO::PARAM_STR));
             $atualizarAssociacao->bindValue(":bairro", $bairro, PDO::PARAM_STR);
             $atualizarAssociacao->bindValue(":municipio", $municipio, PDO::PARAM_STR);
             $atualizarAssociacao->bindValue(":uf", $uf, PDO::PARAM_STR);
