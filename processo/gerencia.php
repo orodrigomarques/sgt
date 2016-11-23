@@ -33,7 +33,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $processo = $pegaProcessos->fetch(PDO::FETCH_ASSOC);
 
         $id = $processo['id_processo'];
-        $tipoVeiculo = $processo['nm_modalidade'];
+        $tipoVeiculo = $processo['cd_modalidade'];
         $codigoProcesso = $processo['cd_processo'];
         $anoProcesso = $processo['aa_processo'];
         $placa = $processo['cd_placa'];
@@ -67,10 +67,20 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
 
 if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
     $id = $_POST['id_processo'];
-    $tipoVeiculo = $_POST['nm_modalidade'];
     $codigoProcesso = $_POST['cd_processo'];
     $anoProcesso = $_POST['aa_processo'];
     $placa = $_POST['cd_placa'];
+    
+     try {
+                                            $testes = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_placa = '$placa' AND c.cd_modalidade = t.cd_modalidade");
+                                            $testes->execute();
+                                            while ($teste = $testes->fetch(PDO::FETCH_ASSOC)) { 
+                                         
+                                            $tipoVeiculo = $teste['cd_modalidade'];}
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
     $dataDenuncia = $_POST['dt_relato_denuncia'];
     $dataDefesa = $_POST['dt_apresentacao_defesa'];
     $dataRelatorio = $_POST['dt_apresentacao_relatorio'];
@@ -88,13 +98,14 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
 
 
         try {
-            $novoProcesso = $conexao->prepare("INSERT INTO processo (nm_modalidade, cd_processo, aa_processo, cd_placa, dt_relato_denuncia, dt_apresentacao_defesa,"
+            $novoProcesso = $conexao->prepare("INSERT INTO processo ( cd_processo, aa_processo, cd_placa, cd_modalidade, dt_relato_denuncia, dt_apresentacao_defesa,"
                     . "dt_apresentacao_relatorio, dt_inicio_julgamento, dt_julgado, ds_resultado, dt_notificacao, ds_observacoes_processos) "
-                    . "VALUES ( :tipoVeiculo, :codigoProcesso, :anoProcesso, :placa, :dataDenuncia, :dataDefesa, :dataRelatorio, :dataJulgamento, :dataJulgado, :resultado, :notificacao, :observacoes )");
-            $novoProcesso->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
+                    . "VALUES (  :codigoProcesso, :anoProcesso, :placa, :tipoVeiculo, :dataDenuncia, :dataDefesa, :dataRelatorio, :dataJulgamento, :dataJulgado, :resultado, :notificacao, :observacoes )");
+            
             $novoProcesso->bindValue(":codigoProcesso", $codigoProcesso);
             $novoProcesso->bindValue(":anoProcesso", $anoProcesso, PDO::PARAM_STR);
             $novoProcesso->bindValue(":placa", $placa, PDO::PARAM_STR);
+            $novoProcesso->bindValue(":tipoVeiculo", $tipoVeiculo);
             $novoProcesso->bindValue(":dataDenuncia", $dataDenuncia, PDO::PARAM_STR);
             $novoProcesso->bindValue(":dataDefesa", $dataDefesa, PDO::PARAM_STR);
             $novoProcesso->bindValue(":dataRelatorio", $dataRelatorio, PDO::PARAM_STR);
@@ -116,12 +127,13 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
         }
     } else {
         try {
-            $atualizarProcesso = $conexao->prepare("UPDATE processo SET nm_modalidade = :tipoVeiculo, cd_processo = :codigoProcesso, aa_processo = :anoProcesso, cd_placa = :placa, dt_relato_denuncia = :dataDenuncia, dt_apresentacao_defesa = :dataDefesa, dt_apresentacao_relatorio = :dataRelatorio, dt_inicio_julgamento = :dataJulgamento, dt_julgado = :dataJulgado, ds_resultado = :resultado, dt_notificacao = :notificacao, ds_observacoes_processos = :observacoes "
+            $atualizarProcesso = $conexao->prepare("UPDATE processo SET  cd_processo = :codigoProcesso, aa_processo = :anoProcesso, cd_placa = :placa, cd_modalidade = :tipoVeiculo, dt_relato_denuncia = :dataDenuncia, dt_apresentacao_defesa = :dataDefesa, dt_apresentacao_relatorio = :dataRelatorio, dt_inicio_julgamento = :dataJulgamento, dt_julgado = :dataJulgado, ds_resultado = :resultado, dt_notificacao = :notificacao, ds_observacoes_processos = :observacoes "
                     . "WHERE id_processo = :id");
-            $atualizarProcesso->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
+            
             $atualizarProcesso->bindValue(":codigoProcesso", $codigoProcesso);
             $atualizarProcesso->bindValue(":anoProcesso", $anoProcesso, PDO::PARAM_STR);
             $atualizarProcesso->bindValue(":placa", $placa, PDO::PARAM_STR);
+            $atualizarProcesso->bindValue(":tipoVeiculo", $tipoVeiculo);
             $atualizarProcesso->bindValue(":dataDenuncia", $dataDenuncia, PDO::PARAM_STR);
             $atualizarProcesso->bindValue(":dataDefesa", $dataDefesa, PDO::PARAM_STR);
             $atualizarProcesso->bindValue(":dataRelatorio", $dataRelatorio, PDO::PARAM_STR);
@@ -185,25 +197,33 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
 
                             <form id="formProcesso" name="formProcesso"  action="gerencia.php" method="post"  class="form-horizontal" />
                             <input type="hidden" name="id_processo" id="id_processo" value="<?php echo($id); ?>">
+                            <?php if ($acao != 'novo') { ?>
                             <div class="form-group">                                                    
-                                <label class="col-sm-2 control-label">Tipo de Serviço</label>
+                                <label class="col-sm-2 control-label">Tipo do Serviço</label>
                                 <div class="col-sm-4">                                        
-                                    <select name="nm_modalidade" id="nm_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
-                                        <option value='' >Tipo do Serviço...</option>
-<?php try {
-                                                        $tipoveiculos = $conexao->prepare("SELECT * FROM tipoVeiculo ");
-                                                       
-                                                        $tipoveiculos->execute();
-                                                    } catch (Exception $e) {
-                                                        echo $e;
-                                                        exit();
-                                                    } ?>
-<?php while ($tipoveiculo = $tipoveiculos->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $tipoveiculo['nm_modalidade']; ?>' <?php echo ($tipoveiculo['nm_modalidade'] == $tipoVeiculo) ? 'selected' : ''; ?>><?php echo $tipoveiculo['nm_modalidade']; ?>  </option>
-<?php } ?>                                              
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" disabled="disabled" required>
+                                        
+                                        <?php
+                                        try {
+                                            $tipoServicos = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_placa = '$placa' AND c.cd_modalidade = t.cd_modalidade");
+                                            $tipoServicos->execute();
+                                            
+                                            
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' selected><?php echo $tipoServico['nm_modalidade']; ?>  </option>
+                                        <?php } ?>                                              
                                     </select>
                                 </div>
-                            </div>
+                            </div> 
+
+
+ <?php } ?> 
+                             
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Numero do processo</label>
                                 <div class="col-sm-4">
@@ -272,7 +292,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
                                 <label class="col-sm-2 control-label">Resultado</label>
                                 <div class="col-sm-4">
                                     <select name="ds_resultado" id="ds_resultado" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
-                                        <option value=''>-</option>
+                                        <option value='SEM RESULTADO'>-</option>
                                         <option value="ABSOLVIÇÃO" <?php echo($resultado == 'ABSOLVIÇÃO') ? 'selected' : ''; ?>>ABSOLVIÇÃO</option>
                                         <option value="MULTA" <?php echo($resultado == 'MULTA') ? 'selected' : ''; ?>>MULTA</option>
                                         <option value="NÃO COMPARECEU" <?php echo($resultado == 'NÃO COMPARECEU') ? 'selected' : ''; ?>>NÃO COMPARECEU</option>
