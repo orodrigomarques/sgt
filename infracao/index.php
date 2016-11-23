@@ -160,7 +160,7 @@ try {
 
                                                                 <td style="width:20%" class=""><?php echo($infracao['nm_infracao']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td style="width:10%" class=""><?php echo($infracao['cd_infracao']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td style="width:10%" class=""><?php echo  'R$ ' . number_format(($infracao['vl_infracao']), 2, ',', '.'); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td style="width:10%" class=""><?php echo  'R$ ' . $infracao['vl_infracao']; ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td style="width:40%" class="center">
 
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($infracao['id_infracao']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($infracao['id_infracao']); ?>')" class="btn btn-primary"><i class="icon-pencil">&nbsp;&nbsp;Editar</i> </a>
