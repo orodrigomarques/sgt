@@ -76,7 +76,7 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
            // $novaInfracao->bindValue(":cd_ait", $cd_ait);
             $novaInfracao->bindValue(":descricao", $descricao, PDO::PARAM_STR);
             $novaInfracao->bindValue(":pontos", $pontos);
-            $novaInfracao->bindValue(":valor", $valor);
+            $novaInfracao->bindValue(":valor", $valor, PDO::PARAM_STR);
 
             $novaInfracao->execute();
             // echo $novoUsuario->rowCount();
@@ -98,7 +98,7 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
          //   $atualizarInfracao->bindValue(":cd_ait", $cd_ait);
             $atualizarInfracao->bindValue(":descricao", $descricao, PDO::PARAM_STR);
             $atualizarInfracao->bindValue(":pontos", $pontos);
-            $atualizarInfracao->bindValue(":valor", $valor);
+            $atualizarInfracao->bindValue(":valor", $valor, PDO::PARAM_STR);
             $atualizarInfracao->bindValue(":id", $id);
             $atualizarInfracao->execute();
 
@@ -150,7 +150,7 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
 
                         </div>
                         <div class="panel-body collapse in">
-
+<script src="../assets/js/mascaraCpf-Tel.js"></script>
                             <form id="formMulta" name="formMulta"  action="gerencia.php" method="post"  class="form-horizontal" />
                             <input type="hidden" name="id_infracao" id="id_infracao" value="<?php echo($id); ?>">
                             <div class="form-group">                                                    
@@ -214,7 +214,7 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Valor R$</label>
                                 <div class="col-sm-4">
-                                    <input name="vl_infracao" id="vl_infracao" type="number" class="form-control"  value="<?php echo $valor  ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
+                                    <input name="vl_infracao" id="vl_infracao" type="text" maxlength="9" onkeypress="javascript: mascara(this, mascaraValor);" class="form-control"  value="<?php echo $valor  ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
                                 </div>
                             </div>
 
