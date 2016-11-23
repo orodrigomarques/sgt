@@ -36,6 +36,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $tipoVeiculo = $processo['nm_modalidade'];
         $codigoProcesso = $processo['cd_processo'];
         $anoProcesso = $processo['aa_processo'];
+        $placa = $processo['cd_placa'];
         $dataDenuncia = $processo['dt_relato_denuncia'];
         $dataDefesa = $processo['dt_apresentacao_defesa'];
         $dataRelatorio = $processo['dt_apresentacao_relatorio'];
@@ -52,6 +53,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $tipoVeiculo = "";
         $codigoProcesso = "";
         $anoProcesso = "";
+        $placa = "";
         $dataDenuncia = "";
         $dataDefesa = "";
         $dataRelatorio = "";
@@ -68,6 +70,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
     $tipoVeiculo = $_POST['nm_modalidade'];
     $codigoProcesso = $_POST['cd_processo'];
     $anoProcesso = $_POST['aa_processo'];
+    $placa = $_POST['cd_placa'];
     $dataDenuncia = $_POST['dt_relato_denuncia'];
     $dataDefesa = $_POST['dt_apresentacao_defesa'];
     $dataRelatorio = $_POST['dt_apresentacao_relatorio'];
@@ -85,12 +88,13 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
 
 
         try {
-            $novoProcesso = $conexao->prepare("INSERT INTO processo (nm_modalidade, cd_processo, aa_processo, dt_relato_denuncia, dt_apresentacao_defesa,"
+            $novoProcesso = $conexao->prepare("INSERT INTO processo (nm_modalidade, cd_processo, aa_processo, cd_placa, dt_relato_denuncia, dt_apresentacao_defesa,"
                     . "dt_apresentacao_relatorio, dt_inicio_julgamento, dt_julgado, ds_resultado, dt_notificacao, ds_observacoes_processos) "
-                    . "VALUES ( :tipoVeiculo, :codigoProcesso, :anoProcesso, :dataDenuncia, :dataDefesa, :dataRelatorio, :dataJulgamento, :dataJulgado, :resultado, :notificacao, :observacoes )");
+                    . "VALUES ( :tipoVeiculo, :codigoProcesso, :anoProcesso, :placa, :dataDenuncia, :dataDefesa, :dataRelatorio, :dataJulgamento, :dataJulgado, :resultado, :notificacao, :observacoes )");
             $novoProcesso->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
             $novoProcesso->bindValue(":codigoProcesso", $codigoProcesso);
             $novoProcesso->bindValue(":anoProcesso", $anoProcesso, PDO::PARAM_STR);
+            $novoProcesso->bindValue(":placa", $placa, PDO::PARAM_STR);
             $novoProcesso->bindValue(":dataDenuncia", $dataDenuncia, PDO::PARAM_STR);
             $novoProcesso->bindValue(":dataDefesa", $dataDefesa, PDO::PARAM_STR);
             $novoProcesso->bindValue(":dataRelatorio", $dataRelatorio, PDO::PARAM_STR);
@@ -112,11 +116,12 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
         }
     } else {
         try {
-            $atualizarProcesso = $conexao->prepare("UPDATE processo SET nm_modalidade = :tipoVeiculo, cd_processo = :codigoProcesso, aa_processo = :anoProcesso, dt_relato_denuncia = :dataDenuncia, dt_apresentacao_defesa = :dataDefesa, dt_apresentacao_relatorio = :dataRelatorio, dt_inicio_julgamento = :dataJulgamento, dt_julgado = :dataJulgado, ds_resultado = :resultado, dt_notificacao = :notificacao, ds_observacoes_processos = :observacoes "
+            $atualizarProcesso = $conexao->prepare("UPDATE processo SET nm_modalidade = :tipoVeiculo, cd_processo = :codigoProcesso, aa_processo = :anoProcesso, cd_placa = :placa, dt_relato_denuncia = :dataDenuncia, dt_apresentacao_defesa = :dataDefesa, dt_apresentacao_relatorio = :dataRelatorio, dt_inicio_julgamento = :dataJulgamento, dt_julgado = :dataJulgado, ds_resultado = :resultado, dt_notificacao = :notificacao, ds_observacoes_processos = :observacoes "
                     . "WHERE id_processo = :id");
             $atualizarProcesso->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
             $atualizarProcesso->bindValue(":codigoProcesso", $codigoProcesso);
             $atualizarProcesso->bindValue(":anoProcesso", $anoProcesso, PDO::PARAM_STR);
+            $atualizarProcesso->bindValue(":placa", $placa, PDO::PARAM_STR);
             $atualizarProcesso->bindValue(":dataDenuncia", $dataDenuncia, PDO::PARAM_STR);
             $atualizarProcesso->bindValue(":dataDefesa", $dataDefesa, PDO::PARAM_STR);
             $atualizarProcesso->bindValue(":dataRelatorio", $dataRelatorio, PDO::PARAM_STR);
@@ -210,6 +215,26 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
                                 <label class="col-sm-2 control-label">Ano do Processo</label>
                                 <div class="col-sm-4">
                                     <input name="aa_processo" id="aa_processo" type="text" class="form-control"  value="<?php echo $anoProcesso ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> pattern="[0-9]{4}" title="No minimo quatro caracteres (Apenas numeros)." required/>
+                                </div>
+                            </div>
+                            <div class="form-group">                                                    
+                                <label class="col-sm-2 control-label">Placa do Veiculo</label>
+                                <div class="col-sm-4">                                        
+                                    <select name="cd_placa" id="cd_placa" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                        <option value='' >Placa..</option>
+                                        <?php
+                                        try {
+                                            $placasVeiculo = $conexao->prepare("SELECT * FROM veiculo");
+                                            $placasVeiculo->execute();
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($placas = $placasVeiculo->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $placas['cd_placa']; ?>' <?php echo ($placas['cd_placa']== $placa) ? 'selected' : ''; ?>><?php echo $placas['cd_placa']; ?>  </option>
+                                        <?php } ?>                                              
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
