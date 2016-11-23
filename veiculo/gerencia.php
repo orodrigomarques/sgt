@@ -35,8 +35,8 @@
          $id = $veiculo['cd_veiculo'];
          $pessoa = $veiculo['cd_pessoa'];
          $tipoPessoa = $veiculo['nm_tipo_pessoa'];
-         $ait = $veiculo['cd_ait'];
-         $processo = $veiculo['cd_processo'];
+         //$ait = $veiculo['cd_ait'];
+        // $processo = $veiculo['cd_processo'];
          $modalidade = $veiculo['cd_modalidade'];
          $associacao = $veiculo['cd_associacao'];
          $placa = $veiculo['cd_placa'];
@@ -63,8 +63,8 @@
          $id = 0;
          $pessoa = "";
          $tipoPessoa = "";
-         $ait = "";
-         $processo = "";
+        // $ait = "";
+        // $processo = "";
          $modalidade = "";
          $associacao = "";
          $placa = "";
@@ -91,15 +91,15 @@
      $id = $_POST['cd_veiculo'];
      $pessoa = $_POST['cd_pessoa'];
      $tipoPessoa = $_POST['nm_tipo_pessoa'];
-     $ait = $_POST['cd_ait'];
-     if ($_POST['cd_ait'] === '') {
-        $ait = $_POST['cd_ait'] = NULL; 
-    }
-    $processo = $_POST['cd_processo'];
-    if ($_POST['cd_processo'] === '') {
-        $processo = $_POST['cd_processo'] = NULL; 
-    }
-     $processo = $_POST['cd_processo'];
+    // $ait = $_POST['cd_ait'];
+     //if ($_POST['cd_ait'] === '') {
+       // $ait = $_POST['cd_ait'] = NULL; 
+  //  }
+   // $processo = $_POST['cd_processo'];
+   // if ($_POST['cd_processo'] === '') {
+      //  $processo = $_POST['cd_processo'] = NULL; 
+   // }
+     //$processo = $_POST['cd_processo'];
      $modalidade = $_POST['cd_modalidade'];
      $associacao = $_POST['cd_associacao'];
      $placa = $_POST['cd_placa'];
@@ -127,15 +127,15 @@
  
  
          try {
-             $novoVeiculo = $conexao->prepare("INSERT INTO veiculo (cd_pessoa, nm_tipo_pessoa, cd_ait, cd_processo, cd_modalidade, cd_associacao,"
+             $novoVeiculo = $conexao->prepare("INSERT INTO veiculo (cd_pessoa, nm_tipo_pessoa, cd_modalidade, cd_associacao,"
                      . "cd_placa, cd_prefixo, nm_fabricante, nm_modelo, nm_cor, aa_fabricacao, aa_modelo, nm_municipio_vec, nm_UF, ds_permissao_publicidade,"                    
                      . "ds_particular, cd_renavam, vl_vencimento_seguro, cd_alvara, ds_alvara, dt_emissao_alvara, dt_validade_alvara)"
-                     . "VALUES ( :pessoa, :tipoPessoa, :ait, :processo, :modalidade, :associacao, :placa, :prefixo, :fabricante, :modelo, :cor,"
+                     . "VALUES ( :pessoa, :tipoPessoa, :modalidade, :associacao, :placa, :prefixo, :fabricante, :modelo, :cor,"
                      . ":anoFabricacao, :anoModelo, :municipio, :uf, :publicidade, :particular, :renavam, :vencSeguro, :alvara, :descAlvara, :dataAlvara, :validadeAlvara )");
              $novoVeiculo->bindValue(":pessoa", $pessoa);
              $novoVeiculo->bindValue(":tipoPessoa", $tipoPessoa, PDO::PARAM_STR);
-             $novoVeiculo->bindValue(":ait", $ait);
-             $novoVeiculo->bindValue(":processo", $processo);
+            // $novoVeiculo->bindValue(":ait", $ait);
+            // $novoVeiculo->bindValue(":processo", $processo);
              $novoVeiculo->bindValue(":modalidade", $modalidade);
              $novoVeiculo->bindValue(":associacao", $associacao);
              $novoVeiculo->bindValue(":placa", $placa, PDO::PARAM_STR);
@@ -156,10 +156,10 @@
              $novoVeiculo->bindValue(":dataAlvara", $dataAlvara, PDO::PARAM_STR);
              $novoVeiculo->bindValue(":validadeAlvara", $validadeAlvara, PDO::PARAM_STR);
              $novoVeiculo->execute();
-                 //echo $novoVeiculo->rowCount();
-                //var_dump($novoVeiculo);
+               //  echo $novoVeiculo->rowCount();
+               // var_dump($novoVeiculo);
                 // echo $novoVeiculo->errorCode();
-                 //exit();
+               //  exit();
              $retorno = 'inserido';
          } catch (Exception $e) {
              echo $e;
@@ -167,15 +167,15 @@
          }
      } else {
          try {
-             $atualizarVeiculo = $conexao->prepare("UPDATE veiculo SET cd_pessoa = :pessoa, nm_tipo_pessoa = :tipoPessoa, cd_ait = :ait, cd_processo = :processo, cd_modalidade = :modalidade, cd_associacao = :associacao, cd_placa = :placa, cd_prefixo = :prefixo, nm_fabricante = :fabricante, nm_modelo = :modelo, nm_cor = :cor, "
+             $atualizarVeiculo = $conexao->prepare("UPDATE veiculo SET cd_pessoa = :pessoa, nm_tipo_pessoa = :tipoPessoa, cd_modalidade = :modalidade, cd_associacao = :associacao, cd_placa = :placa, cd_prefixo = :prefixo, nm_fabricante = :fabricante, nm_modelo = :modelo, nm_cor = :cor, "
                      . "aa_fabricacao = :anoFabricacao, aa_modelo = :anoModelo, nm_municipio_vec = :municipio, nm_UF = :uf, ds_permissao_publicidade = :publicidade, ds_particular = :particular, cd_renavam = :renavam, vl_vencimento_seguro = :vencSeguro, cd_alvara = :alvara, "
                      . "ds_alvara = :descAlvara, dt_emissao_alvara = :dataAlvara, dt_validade_alvara = :validadeAlvara "
                      . "WHERE cd_veiculo = :id");
              $atualizarVistoria = $conexao->prepare("UPDATE vistoria SET cd_modalidade = :modalidade " . "WHERE cd_placa = :placa");
              $atualizarVeiculo->bindValue(":pessoa", $pessoa);
              $atualizarVeiculo->bindValue(":tipoPessoa", $tipoPessoa, PDO::PARAM_STR);
-             $atualizarVeiculo->bindValue(":ait", $ait);
-             $atualizarVeiculo->bindValue(":processo", $processo);
+             //$atualizarVeiculo->bindValue(":ait", $ait);
+            // $atualizarVeiculo->bindValue(":processo", $processo);
              $atualizarVeiculo->bindValue(":modalidade", $modalidade);
              $atualizarVistoria->bindValue(":modalidade", $modalidade);
              $atualizarVeiculo->bindValue(":associacao", $associacao);
@@ -293,46 +293,46 @@
                                      </select>
                                  </div>
                              </div>
-                             <div class="form-group">                                                    
+                            <!-- <div class="form-group">                                                    
                                  <label class="col-sm-2 control-label">Numero do AIT</label>
                                  <div class="col-sm-4">                                        
-                                     <select name="cd_ait" id="cd_ait" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                     <select name="cd_ait" id="cd_ait" class="form-control" <?php //if ($acao == 'visualizar') { ?>disabled="disabled" <?php//}; ?> >
                                          <option value='' >Numero do AIT..</option>
  <?php
- try {
-     $aitsMulta = $conexao->prepare("SELECT * FROM multa ");
-     $aitsMulta->execute();
- } catch (Exception $e) {
-     echo $e;
-     exit();
- }
+ //try {
+  //   $aitsMulta = $conexao->prepare("SELECT * FROM multa ");
+   //  $aitsMulta->execute();
+// } catch (Exception $e) {
+   //  echo $e;
+    // exit();
+// }
  ?>
-                                         <?php while ($aitMulta = $aitsMulta->fetch(PDO::FETCH_ASSOC)) { ?>
-                                             <option value='<?php echo $aitMulta['cd_ait']; ?>' <?php echo ($aitMulta['cd_ait'] == $ait) ? 'selected' : ''; ?>><?php echo $aitMulta['cd_ait']; ?>  </option>
-                                         <?php } ?>                                              
+                                         <?php// while ($aitMulta = $aitsMulta->fetch(PDO::FETCH_ASSOC)) { ?>
+                                             <option value='<?php //echo $aitMulta['cd_ait']; ?>' <?php// echo ($aitMulta['cd_ait'] == $ait) ? 'selected' : ''; ?>><?php// echo $aitMulta['cd_ait']; ?>  </option>
+                                         <?php //} ?>                                              
                                      </select>
                                  </div>
-                             </div>
-                             <div class="form-group">                                                    
+                             </div> --->
+                             <!--<div class="form-group">                                                    
                                  <label class="col-sm-2 control-label">Numero do Processo</label>
                                  <div class="col-sm-4">                                        
-                                     <select name="cd_processo" id="cd_processo" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                     <select name="cd_processo" id="cd_processo" class="form-control" <?php// if ($acao == 'visualizar') { ?>disabled="disabled" <?php //}; ?> >
                                          <option value='' >Numero do Processo..</option>
  <?php
- try {
-     $processosProcesso = $conexao->prepare("SELECT * FROM processo ");
-     $processosProcesso->execute();
- } catch (Exception $e) {
-     echo $e;
-     exit();
- }
+ //try {
+     //$processosProcesso = $conexao->prepare("SELECT * FROM processo ");
+    // $processosProcesso->execute();
+// } catch (Exception $e) {
+  //   echo $e;
+   //  exit();
+ //}
  ?>
-                                         <?php while ($processos = $processosProcesso->fetch(PDO::FETCH_ASSOC)) { ?>
-                                             <option value='<?php echo $processos['cd_processo']; ?>' <?php echo ($processos['cd_processo'] == $processo) ? 'selected' : ''; ?>><?php echo $processos['cd_processo']; ?>  </option>
-                                         <?php } ?>                                              
+                                         <?php //while ($processos = $processosProcesso->fetch(PDO::FETCH_ASSOC)) { ?>
+                                             <option value='<?php// echo $processos['cd_processo']; ?>' <?php// echo ($processos['cd_processo'] == $processo) ? 'selected' : ''; ?>><?php// echo $processos['cd_processo']; ?>  </option>
+                                         <?php //} ?>                                              
                                      </select>
                                  </div>
-                             </div>
+                             </div> -->
                              <div class="form-group">                                                    
                                  <label class="col-sm-2 control-label">Tipo do Serviço</label>
                                  <div class="col-sm-4">                                        
