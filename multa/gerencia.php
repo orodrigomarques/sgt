@@ -35,6 +35,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $id = $multa['id_multa'];
         $tipoVeiculo = $multa['nm_modalidade'];
         $prefixo = $multa['cd_modalidade'];
+        $placa = $multa['cd_placa'];
         $nomeInfracao = $multa['nm_infracao'];
         $dataInfracao = $multa['dt_infracao'];
         $horaInfracao = $multa['hr_infracao'];
@@ -50,6 +51,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $id = 0;
         $tipoVeiculo = "";
         $prefixo = "";
+        $placa = "";
         $nomeInfracao = "";
         $dataInfracao = "";
         $horaInfracao = "";
@@ -65,6 +67,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
     $id = $_POST['id_multa'];
     $tipoVeiculo = $_POST['nm_modalidade'];
     $prefixo = $_POST['cd_modalidade'];
+    $placa = $_POST['cd_placa'];
     $nomeInfracao = $_POST['nm_infracao'];
     $dataInfracao = $_POST['dt_infracao'];
     $horaInfracao = $_POST['hr_infracao'];
@@ -81,11 +84,12 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
 
 
         try {
-            $novaMulta = $conexao->prepare("INSERT INTO multa (nm_modalidade, cd_modalidade, nm_infracao, dt_infracao, hr_infracao,"
+            $novaMulta = $conexao->prepare("INSERT INTO multa (nm_modalidade, cd_modalidade,cd_placa, nm_infracao, dt_infracao, hr_infracao,"
                     . "dt_vencimento_infracao, cd_ait, nm_agente, ds_observacao, dt_pagamento_multa) "
-                    . "VALUES ( :tipoVeiculo, :prefixo, :nomeInfracao, :dataInfracao, :horaInfracao, :dataVencimentoInfracao, :numeroAit, :nomeAgente, :descricao, :pagamentoMulta )");
+                    . "VALUES ( :tipoVeiculo, :prefixo,:placa, :nomeInfracao, :dataInfracao, :horaInfracao, :dataVencimentoInfracao, :numeroAit, :nomeAgente, :descricao, :pagamentoMulta )");
             $novaMulta->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
-            $novaMulta->bindValue(":prefixo", $prefixo);
+            $novaMulta->bindValue(":prefixo", $prefixo, PDO::PARAM_STR);
+            $novaMulta->bindValue(":placa", $placa, PDO::PARAM_STR);
             $novaMulta->bindValue(":nomeInfracao", $nomeInfracao, PDO::PARAM_STR);
             $novaMulta->bindValue(":dataInfracao", $dataInfracao, PDO::PARAM_STR);
             $novaMulta->bindValue(":horaInfracao", $horaInfracao, PDO::PARAM_STR);
@@ -107,11 +111,12 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
         }
     } else {
         try {
-            $atualizarMulta = $conexao->prepare("UPDATE multa SET nm_modalidade = :tipoVeiculo, cd_modalidade = :prefixo, nm_infracao = :nomeInfracao, dt_infracao = :dataInfracao,"
+            $atualizarMulta = $conexao->prepare("UPDATE multa SET nm_modalidade = :tipoVeiculo, cd_modalidade = :prefixo, cd_placa = :placa, nm_infracao = :nomeInfracao, dt_infracao = :dataInfracao,"
                     . " hr_infracao = :horaInfracao, dt_vencimento_infracao = :dataVencimentoInfracao, cd_ait = :numeroAit , nm_agente = :nomeAgente, ds_observacao = :descricao, dt_pagamento_multa = :pagamentoMulta "
                     . "WHERE id_multa = :id");
             $atualizarMulta->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
-            $atualizarMulta->bindValue(":prefixo", $prefixo);
+            $atualizarMulta->bindValue(":prefixo", $prefixo, PDO::PARAM_STR);
+            $atualizarMulta->bindValue(":placa", $placa, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":nomeInfracao", $nomeInfracao, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":dataInfracao", $dataInfracao, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":horaInfracao", $horaInfracao, PDO::PARAM_STR);
@@ -120,7 +125,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
             $atualizarMulta->bindValue(":nomeAgente", $nomeAgente, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":descricao", $descricao, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":pagamentoMulta", $pagamentoMulta, PDO::PARAM_STR);
-            ;
+            
             $atualizarMulta->bindValue(":id", $id);
             $atualizarMulta->execute();
 
@@ -196,31 +201,37 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
                                     </select>
                                 </div>
                             </div>
+                             <div class="form-group">
+                                 <label class="col-sm-2 control-label">Prefixo</label>
+                                 <div class="col-sm-4">
+                                     <input name="cd_modalidade" id="cd_modalidade" type="text" class="form-control" value="<?php echo $prefixo ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
+                                 </div>
+                             </div>
                             <div class="form-group">                                                    
-                                <label class="col-sm-2 control-label">Prefixo</label>
+                                <label class="col-sm-2 control-label">Placa do Veiculo</label>
                                 <div class="col-sm-4">                                        
-                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
-                                        <option value='' >Prefixo...</option>
+                                    <select name="cd_placa" id="cd_placa" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                        <option value='' >Placa..</option>
                                         <?php
                                         try {
-
-
-                                            $tipoveiculos->execute();
+                                            $placasVeiculo = $conexao->prepare("SELECT * FROM veiculo");
+                                            $placasVeiculo->execute();
                                         } catch (Exception $e) {
                                             echo $e;
                                             exit();
                                         }
                                         ?>
-                                        <?php while ($tipoveiculo = $tipoveiculos->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $tipoveiculo['cd_modalidade']; ?>' <?php echo ($tipoveiculo['cd_modalidade'] == $prefixo) ? 'selected' : ''; ?>><?php echo $tipoveiculo['cd_modalidade']; ?>  </option>
+                                        <?php while ($placas = $placasVeiculo->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $placas['cd_placa']; ?>' <?php echo ($placas['cd_placa']== $placa) ? 'selected' : ''; ?>><?php echo $placas['cd_placa']; ?>  </option>
                                         <?php } ?>                                              
                                     </select>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Infração</label>
                                 <div class="col-sm-4"> 
-                                <select name="nm_infracao" id="nm_infracao" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                <select name="nm_infracao" id="nm_infracao" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
                                         <option value='' >Descrição...</option>
                                         <?php
                                         try {
@@ -232,8 +243,8 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
                                             exit();
                                         }
                                         ?>
-<?php while ($descricao = $decricoes->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $descricao['nm_infracao']; ?>' <?php echo ($descricao['nm_infracao'] == $nomeInfracao) ? 'selected' : ''; ?>><?php echo $descricao['nm_infracao']; ?>  </option>
+<?php while ($descricaoInfracao = $decricoes->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $descricaoInfracao['nm_infracao']; ?>' <?php echo ($descricaoInfracao['nm_infracao'] == $nomeInfracao) ? 'selected' : ''; ?>><?php echo $descricaoInfracao['nm_infracao']; ?>  </option>
 <?php } ?>                                              
                                     </select>
                                     </div>
