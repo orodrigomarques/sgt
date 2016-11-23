@@ -9,10 +9,13 @@ validaAcesso();
     <title>Untitled Document</title>
 
     <script type="text/javascript" src="assets/js/jquery.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.bgiframe.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.ajaxQueue.js"></script>
+    <script type="text/javascript" src="assets/js/thickbox-compressed.js"></script>
     <script type="text/javascript" src="assets/js/jquery.autocomplete.js"></script>
     <!--css -->
-    <link rel="stylesheet" type="text/css" href="assets/css/jquery.autocomplete.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/css/thickbox.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/js/jquery.autocomplete.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/js/thickbox.css"/>
 
 
 </head>
@@ -58,6 +61,26 @@ validaAcesso();
 
     </div> <!-- page-container -->
 
-
+<script type='text/javascript' src='assets/js/jqueryui-1.10.3.min.js'></script> 
+<script type='text/javascript' src='assets/js/bootstrap.min.js'></script> 
+<script type='text/javascript' src='assets/js/enquire.js'></script>
+<script type='text/javascript' src='assets/js/jquery.cookie.js'></script> 
+<script type='text/javascript' src='assets/js/jquery.touchSwipe.min.js'></script> 
+<script type='text/javascript' src='assets/js/jquery.nicescroll.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/codeprettifier/prettify.js'></script> 
+<script type='text/javascript' src='assets/plugins/easypiechart/jquery.easypiechart.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/sparklines/jquery.sparklines.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/form-toggle/toggle.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/form-wysihtml5/wysihtml5-0.3.0.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/form-wysihtml5/bootstrap-wysihtml5.js'></script> 
+<script type='text/javascript' src='assets/plugins/fullcalendar/fullcalendar.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/form-daterangepicker/daterangepicker.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/form-daterangepicker/moment.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.resize.min.js'></script> 
+<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.orderBars.min.js'></script> 
+<script type='text/javascript' src='assets/demo/demo-index.js'></script> 
+<script type='text/javascript' src='assets/js/application.js'></script> 
+<script type='text/javascript' src='assets/demo/demo.js'></script> 
 </body>
 </html>
