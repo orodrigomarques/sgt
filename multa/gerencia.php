@@ -122,12 +122,12 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
             $novaMulta->bindValue(":pagamentoMulta", $pagamentoMulta, PDO::PARAM_STR);
 
             $novaMulta->execute();
-            echo $novaMulta->rowCount();
-              var_dump($novaMulta);
-               echo $novaMulta->errorCode();
-              exit();
+            //echo $novaMulta->rowCount();
+              //var_dump($novaMulta);
+               //echo $novaMulta->errorCode();
+              //exit();
 
-         //  $retorno = 'inserido';
+           $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
             exit($e);
