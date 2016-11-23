@@ -23,6 +23,7 @@ $filtroAit = '';
 $nomeInfracao = '';
 $filtroPago = '';  
 $filtroModalidade = '';
+$placaVeiculo = '';
 if (isset($_POST['cd_modalidade']) && !empty($_POST['cd_modalidade'])) {
     $tipo_veiculo = $_POST['cd_modalidade'];
     $filtroModalidade = "AND cd_modalidade = $tipo_veiculo "; 
@@ -47,7 +48,9 @@ if (isset($_POST['pago']) && !empty($_POST['pago'])) {
     $filtroPago = "AND dt_pagamento_multa != '' ";}
 }
 
-
+if (isset($_POST['cd_placa']) && !empty($_POST['cd_placa'])) {
+    $placaVeiculo = $_POST['cd_placa'];
+}
 
 // PAGINAÇÃO
 $pagina = (isset($_GET['pagina']) && !empty($_GET['pagina']) ? $_GET['pagina'] : 1);
@@ -61,10 +64,11 @@ $limit = "LIMIT $inicio, $fim";
 
 try {
     $contador = $conexao->prepare("SELECT count(*) as qtd FROM multa "
-            . "WHERE nm_infracao LIKE :nomeInfracao "  
+            . "WHERE nm_infracao LIKE :nomeInfracao AND cd_placa LIKE :placaVeiculo "  
             . $filtroModalidade . $filtroAit . $filtroPago. " " . $limit);
 
     $contador->bindValue(":nomeInfracao", '%' . $nomeInfracao . '%');
+     $contador->bindValue(":placaVeiculo", '%' . $placaVeiculo . '%');
     $contador->execute();
 } catch (Exception $e) {
     echo $e;
@@ -77,12 +81,12 @@ $ultima_pagina = ceil((int) $qtd['qtd'] / $registros);
 
 try {
     $multas = $conexao->prepare("SELECT * FROM multa "
-            . "WHERE nm_infracao LIKE :nomeInfracao "
+            . "WHERE nm_infracao LIKE :nomeInfracao AND cd_placa LIKE :placaVeiculo "
             . $filtroModalidade . $filtroAit . $filtroPago . "ORDER BY nm_infracao ASC " . $limit);
  
 
     $multas->bindValue(":nomeInfracao", '%' . $nomeInfracao . '%');
-
+$multas->bindValue(":placaVeiculo", '%' . $placaVeiculo . '%');
     $multas->execute();
 } catch (Exception $e) {
     echo $e;
@@ -124,7 +128,7 @@ try {
                                         <div id="example_wrapper" class="dataTables_wrapper" role="grid">
                                             <form name="multas" method="POST" id="multas">
                                               
-                                <div class="col-sm-4">                                        
+                                <div class="col-sm-3">                                        
                                     <select name="cd_modalidade" id="cd_modalidade" class="form-control" >
                                         <option value='' >Tipo do Serviço..</option>
                                         <?php
@@ -141,6 +145,9 @@ try {
                                         <?php } ?>                                              
                                     </select>
                                 </div>
+                                                <div class="col-xs-2">
+                                                        <input class="form-control" name="cd_placa" placeholder="Placa" value="<?php echo($placaVeiculo); ?>" type="text">
+                                                    </div>
                                                 <div class="col-xs-2">
                                                     <input class="form-control" name="nm_infracao" id="nm_infracao" placeholder="Infração" value="<?php echo($nomeInfracao); ?>" type="text" >
                                                 </div>
@@ -167,6 +174,7 @@ try {
                                                     <thead>
                                                         <tr role="row">
                                                             <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Tipo do seviço</th>		
+                                                            <th role="columnheader" tabindex="2" aria-controls="example" rowspan="1" colspan="1" aria-label="" style="width:150px;">Placa do Veiculo</th>
 
                                                             <th class="sorting_asc" role="columnheader" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width:150px;">Infração</th>		
                                                             <th role="columnheader" tabindex="2" aria-controls="example" rowspan="1" colspan="1" aria-label="" style="width:150px;">Numero AIT</th>
@@ -192,13 +200,14 @@ try {
                                             if($tipoServico['cd_modalidade'] == $multa['cd_modalidade']){?>
                      <td style="width:10%" class=""><?php echo $tipoServico['nm_modalidade'] ; ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <?php }} ?>
+                                                                                                                                <td style="width:10%" class=""><?php echo($multa['cd_placa']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
-                                                                <td style="width:20%" class=""><?php echo($multa['nm_infracao']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td style="width:15%" class=""><?php echo($multa['nm_infracao']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td style="width:10%" class=""><?php echo($multa['cd_ait']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td style="width:10%" class=""><?php echo strftime('%d/%m/%y', strtotime($multa['dt_vencimento_infracao'])); ?></td>
                                                                 <td style="width:10%" class=""><?php if($multa['dt_pagamento_multa']=='0000-00-00'){echo 'Não Pago';}else{ echo strftime('%d/%m/%y', strtotime($multa['dt_pagamento_multa'])); } ?></td>
 
-                                                                <td style="width:40%" class="center">
+                                                                <td style="width:30%" class="center">
 
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($multa['id_multa']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($multa['id_multa']); ?>')" class="btn btn-primary"><i class="icon-pencil">&nbsp;&nbsp;Editar</i> </a>
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($multa['id_multa']); ?>&acao=visualizar" onClick="buscaPessoa('<?php echo($multa['id_multa']); ?>')" class="btn btn-success"><i class="icon-eye-open">&nbsp;&nbsp;Visualizar</i> </a>
