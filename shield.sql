@@ -30,6 +30,7 @@ CREATE TABLE multa(
   id_multa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   cd_ait INT NOT NULL UNIQUE,
   nm_modalidade VARCHAR(30),
+  cd_placa VARCHAR(8) NOT NULL,
   cd_modalidade INT,
   nm_infracao VARCHAR(50),
   dt_infracao DATE NOT NULL,
@@ -55,6 +56,7 @@ CREATE TABLE processo(
   id_processo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   cd_processo INT NOT NULL UNIQUE,
   aa_processo VARCHAR(4) NOT NULL,
+  cd_placa VARCHAR(8) NOT NULL,
   dt_relato_denuncia DATE NOT NULL,
   dt_apresentacao_defesa DATE,
   dt_apresentacao_relatorio DATE,
@@ -238,8 +240,6 @@ CREATE TABLE veiculo(
   cd_veiculo INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   cd_pessoa INT NOT NULL,
   nm_tipo_pessoa VARCHAR(30) NOT NULL,
-  cd_ait INT,
-  cd_processo INT,
   cd_modalidade INT NOT NULL,
   cd_associacao INT NOT NULL,
   cd_placa VARCHAR(8) NOT NULL UNIQUE,
@@ -259,8 +259,6 @@ CREATE TABLE veiculo(
   ds_alvara VARCHAR(50),
   dt_emissao_alvara DATE,
   dt_validade_alvara DATE,
-  CONSTRAINT fkveiculo_cd_ait FOREIGN KEY(cd_ait) REFERENCES multa(cd_ait),
-  CONSTRAINT fkveiculo_cd_processo FOREIGN KEY(cd_processo) REFERENCES processo(cd_processo),
   CONSTRAINT fkcd_modalidade FOREIGN KEY(cd_modalidade) REFERENCES tipoVeiculo(cd_modalidade),
   CONSTRAINT fkcd_associacao FOREIGN KEY(cd_associacao) REFERENCES associacao(cd_associacao),
   CONSTRAINT cnm_UF
@@ -301,8 +299,10 @@ ALTER TABLE
   `veiculo` ADD CONSTRAINT `fkveiculo_cd_pessoa` FOREIGN KEY(`cd_pessoa`) REFERENCES `pessoa`(`cd_pessoa`);
 ALTER TABLE
   `veiculo` ADD CONSTRAINT `fkveiculo_nm_tipo_pessoa` FOREIGN KEY(`nm_tipo_pessoa`) REFERENCES `pessoa`(`nm_tipo_pessoa`);
-
-
+ALTER TABLE
+  `multa` ADD CONSTRAINT `fkmulta_cd_placa` FOREIGN KEY(`cd_placa`) REFERENCES `veiculo`(`cd_placa`) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE
+  `processo` ADD CONSTRAINT `fkprocesso_cd_placa` FOREIGN KEY(`cd_placa`) REFERENCES `veiculo`(`cd_placa`) ON UPDATE CASCADE ON DELETE CASCADE;
 CREATE TABLE vistoria(
   cd_vistoria INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   cd_placa VARCHAR(8) NOT NULL,  
