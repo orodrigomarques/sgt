@@ -22,11 +22,11 @@ $tipo_veiculo = '';
 $filtroAit = '';
 $nomeInfracao = '';
 $filtroPago = '';  
-
-if (isset($_POST['nm_modalidade']) && !empty($_POST['nm_modalidade'])) {
-    $tipo_veiculo = $_POST['nm_modalidade'];
+$filtroModalidade = '';
+if (isset($_POST['cd_modalidade']) && !empty($_POST['cd_modalidade'])) {
+    $tipo_veiculo = $_POST['cd_modalidade'];
+    $filtroModalidade = "AND cd_modalidade = $tipo_veiculo "; 
 }
-
 
 if (isset($_POST['nm_infracao']) && !empty($_POST['nm_infracao'])) {
     $nomeInfracao = $_POST['nm_infracao'];
@@ -61,10 +61,9 @@ $limit = "LIMIT $inicio, $fim";
 
 try {
     $contador = $conexao->prepare("SELECT count(*) as qtd FROM multa "
-            . "WHERE nm_modalidade LIKE  :tipo_veiculo AND nm_infracao LIKE :nomeInfracao "
-            . $filtroAit . $filtroPago. " " . $limit);
+            . "WHERE nm_infracao LIKE :nomeInfracao "  
+            . $filtroModalidade . $filtroAit . $filtroPago. " " . $limit);
 
-    $contador->bindValue(":tipo_veiculo", '%' . $tipo_veiculo . '%');
     $contador->bindValue(":nomeInfracao", '%' . $nomeInfracao . '%');
     $contador->execute();
 } catch (Exception $e) {
@@ -78,9 +77,9 @@ $ultima_pagina = ceil((int) $qtd['qtd'] / $registros);
 
 try {
     $multas = $conexao->prepare("SELECT * FROM multa "
-            . "WHERE nm_modalidade LIKE  :tipo_veiculo AND  nm_infracao LIKE :nomeInfracao "
-            . $filtroAit . $filtroPago . "ORDER BY nm_modalidade ASC " . $limit);
-    $multas->bindValue(":tipo_veiculo", '%' . $tipo_veiculo . '%');
+            . "WHERE nm_infracao LIKE :nomeInfracao "
+            . $filtroModalidade . $filtroAit . $filtroPago . "ORDER BY nm_infracao ASC " . $limit);
+ 
 
     $multas->bindValue(":nomeInfracao", '%' . $nomeInfracao . '%');
 
@@ -124,24 +123,24 @@ try {
                                     <div class="panel-body collapse in">
                                         <div id="example_wrapper" class="dataTables_wrapper" role="grid">
                                             <form name="multas" method="POST" id="multas">
-                                                <div class="col-sm-2">                                                    
-                                                    <select name="nm_modalidade" id="nm_modalidade" class="form-control">
-                                                        <option value='' >Tipo do Serviço...</option>
-                                                        <?php
-                                                        try {
-                                                            $tipoveiculos = $conexao->prepare("SELECT * FROM tipoVeiculo ");
-
-                                                            $tipoveiculos->execute();
-                                                        } catch (Exception $e) {
-                                                            echo $e;
-                                                            exit();
-                                                        }
-                                                        ?>
-                                                        <?php while ($tipoveiculo = $tipoveiculos->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                            <option value='<?php echo $tipoveiculo['nm_modalidade']; ?>'><?php echo $tipoveiculo['nm_modalidade']; ?></option>
-<?php } ?>                                              
-                                                    </select>
-                                                </div>
+                                              
+                                <div class="col-sm-4">                                        
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
+                                        <option value='' >Tipo do Serviço..</option>
+                                        <?php
+                                        try {
+                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
+                                            $tipoServicos->execute();
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' <?php echo ($tipoServico['cd_modalidade'] == $tipo_veiculo) ? 'selected' : ''; ?>><?php echo $tipoServico['nm_modalidade']; ?>  </option>
+                                        <?php } ?>                                              
+                                    </select>
+                                </div>
                                                 <div class="col-xs-2">
                                                     <input class="form-control" name="nm_infracao" id="nm_infracao" placeholder="Infração" value="<?php echo($nomeInfracao); ?>" type="text" >
                                                 </div>
@@ -180,7 +179,19 @@ try {
                                                     <tbody role="alert" aria-live="polite" aria-relevant="all">
     <?php while ($multa = $multas->fetch(PDO::FETCH_ASSOC)) { ?>
                                                             <tr class="gradeA odd">
-                                                                <td style="width:15%" class=""><?php echo($multa['nm_modalidade']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                 <?php
+                                        try {
+                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
+                                            $tipoServicos->execute();
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { 
+                                            if($tipoServico['cd_modalidade'] == $multa['cd_modalidade']){?>
+                     <td style="width:10%" class=""><?php echo $tipoServico['nm_modalidade'] ; ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <?php }} ?>
 
                                                                 <td style="width:20%" class=""><?php echo($multa['nm_infracao']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td style="width:10%" class=""><?php echo($multa['cd_ait']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
