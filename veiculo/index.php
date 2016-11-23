@@ -212,8 +212,8 @@ try {
                                                                             <p>Descrição: <?php echo $multa['nm_infracao']; ?></p>
                                                                             <p>Data da infração: <?php echo $multa['dt_infracao']; ?></p>
                                                                             <p>Data do pagamento: <?php
-                                                                if ($multa['dt_pagamento_multa'] == '') {
-                                                                    echo 'Sem resultado';
+                                                               if ($multa['dt_pagamento_multa'] == '0000-00-00') {
+                                                                    echo 'SEM PAGAMENTO';
                                                                 } else {
                                                                     echo $multa['dt_pagamento_multa'];
                                                                 }
