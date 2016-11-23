@@ -366,7 +366,7 @@ if (isset($_POST['cd_pessoa']) && $_POST['cd_pessoa'] != '') {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">CEP</label>
                                 <div class="col-sm-4">
-                                    <input name="cd_cep" id="cd_cep" type="text" class="form-control" onblur="pesquisacep(this.value);" value="<?php echo $cep ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
+                                    <input name="cd_cep" id="cd_cep" type="text" class="form-control" maxlength="9" onkeypress="javascript: mascara(this, mascaraCEP);" onblur="pesquisacep(this.value);" value="<?php echo $cep ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
                                 </div>
                             </div>
 

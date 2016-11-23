@@ -24,6 +24,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+             auditoria("Multa id ".$id." deletada" );
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -126,7 +127,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
               var_dump($novaMulta);
                echo $novaMulta->errorCode();
               exit();
-
+              auditoria("Multa id ".$conexao->lastInsertId()." Inserida" );
          //  $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -158,7 +159,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-
+            auditoria("Dados do multa id ".$id." atualizados" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;

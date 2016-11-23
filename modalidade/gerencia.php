@@ -25,6 +25,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+            auditoria("Tipo de Veiculo id ".$id." deletado" );
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -69,7 +70,7 @@ if (isset($_POST['cd_modalidade']) && $_POST['cd_modalidade'] != '') {
                 // echo $novoUsuario->rowCount();
                 //var_dump($novoUsuario);
 
-
+                auditoria("Tipo de veiculo id ".$conexao->lastInsertId()." Inserido" );
                 $retorno = 'inserido';
             } catch (Exception $e) {
                 echo $e;
@@ -89,7 +90,7 @@ if (isset($_POST['cd_modalidade']) && $_POST['cd_modalidade'] != '') {
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-
+            auditoria("Dados do tipo de veiculo id ".$id." atualizado" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;

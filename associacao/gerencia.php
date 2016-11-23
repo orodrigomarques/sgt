@@ -4,7 +4,7 @@ include '../include/funcoes.php';
 include '../include/conexao/conecta.php';
 $conexao = conecta();
 validaAcesso(); 
-        
+
 
     if(isset($_GET['acao']) && $_GET['acao'] != ''){
         
@@ -24,6 +24,7 @@ validaAcesso();
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+            auditoria("Associação id ".$id." deletada" );
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -39,7 +40,7 @@ validaAcesso();
             $numero = $associacao['ds_numero'];
             $complemento = $associacao['ds_complemento'];
             $cep = $associacao['cd_cep'];
-            $bairro = $associacao['nm_bairro'];
+            $bairro = utf8_decode($associacao['nm_bairro']);
             $municipio = $associacao['nm_municipio'];
             $uf = $associacao['nm_UF'];
             $telefone = $associacao['cd_telefone'];
@@ -49,7 +50,7 @@ validaAcesso();
 
     if ($acao == 'novo') {
 
-        $id = 0;
+            $id = 0;
             $razao = "";
             
             $local = "";
@@ -67,13 +68,12 @@ validaAcesso();
 
 if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
             $id = $_POST['cd_associacao'];;
-            $razao = $_POST['nm_razao_social'];
-           
+            $razao = $_POST['nm_razao_social'];           
             $local = $_POST['nm_local'];
             $numero = $_POST['ds_numero'];;
             $complemento = $_POST['ds_complemento'];
             $cep = $_POST['cd_cep'];;
-            $bairro = $_POST['nm_bairro'];
+            echo $bairro = $_POST['nm_bairro'];            
             $municipio = $_POST['nm_municipio'];
             $uf = $_POST['nm_UF'];
             $telefone = $_POST['cd_telefone'];;
@@ -82,8 +82,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
 
 
 
-    if (empty($id)) {
-
+    if (empty($id)) {        
 
         try {
             $novaAssociacao = $conexao->prepare("INSERT INTO associacao (nm_razao_social, nm_local, ds_numero, ds_complemento, cd_cep,"
@@ -105,7 +104,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
             // echo $novoUsuario->rowCount();
             //var_dump($novoUsuario);
 
-
+            auditoria("Associação id ".$conexao->lastInsertId()." Inserida" );
             $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -133,7 +132,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-
+            auditoria("Dados da associação id ".$id." atualizados" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;
@@ -194,7 +193,7 @@ if(isset($_POST['cd_associacao']) && $_POST['cd_associacao'] != ''){
             <div class="form-group">
                 <label class="col-sm-2 control-label">CEP</label>
                 <div class="col-sm-4">
-                    <input name="cd_cep" id="cd_cep" type="text" class="form-control" onblur="pesquisacep(this.value);" value="<?php echo $cep?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
+                    <input name="cd_cep" id="cd_cep" type="text" class="form-control" maxlength="9" onkeypress="javascript: mascara(this, mascaraCEP);" onblur="pesquisacep(this.value);" value="<?php echo $cep?>" <?php if($acao == 'visualizar'){?>readonly="readonly" <?php };?> required/>
                 </div>
             </div>
             

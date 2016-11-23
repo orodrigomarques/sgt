@@ -34,7 +34,7 @@
         $auditoria->bindValue(":ip", $_SERVER['REMOTE_ADDR']);
         $auditoria->execute();
         echo $auditoria->errorCode();
-        echo $auditoria->queryString;
+        echo $auditoria->queryString;        
 
         }  catch (Exception $ex){
             return $ex->getMessage();
