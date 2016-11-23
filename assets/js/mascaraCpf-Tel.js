@@ -44,6 +44,14 @@ function mascaraRG(v){
 
         return v
 }
+
+function mascaraCEP(v){
+        v = v.replace(/\D/g, "") //Remove tudo o que não é dígito
+        v = v.replace(/(\d{5})(\d)/, "$1-$2") //Coloca ponto entre o terceiro e o quarto dígitos
+        v = v.replace(/(\d{3})(\d)/, "$1$2") //Coloca ponto entre o terceiro e o quarto dígitos
+        
+        return v
+}
 function mascaraValor(v){
    v = v.replace(/\D/g,"");
  	v = new String(Number(v));
