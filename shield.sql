@@ -43,10 +43,9 @@ CREATE TABLE infracao(
   id_infracao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
   cd_infracao INT NOT NULL,
   nm_tipo_multa VARCHAR(1) NOT NULL,
-  nm_infracao VARCHAR(20) NOT NULL,  
+  nm_infracao VARCHAR(50) NOT NULL,  
   qt_pontuacao INT NOT NULL, 
-  vl_infracao DOUBLE NOT NULL,
-CHECK(vl_infracao > 0)
+  vl_infracao VARCHAR(9) NOT NULL
 );
 CREATE TABLE tipoVeiculo(
   cd_modalidade INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
