@@ -24,6 +24,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+            auditoria("Processo id ".$id." deletada" );
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -119,7 +120,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
             // echo $novoUsuario->rowCount();
             //var_dump($novoUsuario);
 
-
+            auditoria("Processo id ".$conexao->lastInsertId()." Inserida" );
             $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -149,7 +150,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-
+            auditoria("Dados do processo id ".$id." atualizados" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;

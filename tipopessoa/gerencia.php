@@ -23,6 +23,8 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+            auditoria("Tipo de pessoa id: ".$id." deletada" );
+            
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -68,7 +70,7 @@ if (isset($_POST['cd_tipo_pessoa']) && $_POST['cd_tipo_pessoa'] != '') {
             // echo $novoUsuario->rowCount();
             //var_dump($novoUsuario);
 
-
+            auditoria("Tipo de pessoa id: ".$conexao->lastInsertId()." Inserida" );
             $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -87,7 +89,7 @@ if (isset($_POST['cd_tipo_pessoa']) && $_POST['cd_tipo_pessoa'] != '') {
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-
+            auditoria("Tipo de pessoa id ".$id." atualizados" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;

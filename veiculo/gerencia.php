@@ -24,6 +24,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                     location.href=\"index.php\"</script>";
+            auditoria("Veiculo id ".$id." deletado" );
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -160,6 +161,7 @@ if (isset($_POST['cd_veiculo']) && $_POST['cd_veiculo'] != '') {
             // var_dump($novoVeiculo);
             // echo $novoVeiculo->errorCode();
             //  exit();
+            auditoria("Veiculo id ".$conexao->lastInsertId()." Inserido" );
             $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -218,7 +220,7 @@ if (isset($_POST['cd_veiculo']) && $_POST['cd_veiculo'] != '') {
             // var_dump($atualizarProcesso);
             // echo $atualizarProcesso->errorCode();
             //exit();
-
+            auditoria("Dados do veiculo id ".$id." atualizados" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;

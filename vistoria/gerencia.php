@@ -24,6 +24,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+            auditoria("Vistoria id ".$id." deletada" );
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -94,6 +95,7 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
             //  var_dump($novaVistoria);
           // echo $novaVistoria->errorCode();
            //  exit();
+            auditoria("vistoria id ".$conexao->lastInsertId()." Inserida" );
           $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -116,7 +118,7 @@ if (isset($_POST['cd_vistoria']) && $_POST['cd_vistoria'] != '') {
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-
+             auditoria("Dados da vistoria id ".$id." atualizados" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;

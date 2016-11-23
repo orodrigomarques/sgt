@@ -23,6 +23,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         } else {
             echo "<script>alert('Registro excluido com sucesso!');
                    location.href=\"index.php\"</script>";
+            auditoria("Recurso id ".$id." deletado" );
         }
     }
     if ($acao == 'visualizar' || $acao == 'editar') {
@@ -75,9 +76,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
     $notificacao = $_POST['dt_notificacao_recurso'];
     $arquivoDeprot = $_POST['dt_arquivo_deprot'];
     $observacoes = $_POST['ds_observacao_recurso'];
-
-
-
+    
     if (empty($id)) {
 
 
@@ -100,7 +99,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
             // echo $novoUsuario->rowCount();
             //var_dump($novoUsuario);
 
-
+            auditoria("Recurso id ".$conexao->lastInsertId()." Inserida" );
             $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
@@ -127,7 +126,7 @@ if (isset($_POST['id_recurso']) && $_POST['id_recurso'] != '') {
 //                var_dump($atualizarUsuario);
 //                echo $atualizarUsuario->errorCode();
 //                exit();
-
+            auditoria("Dados do multa id ".$id." atualizados" );
             $retorno = 'alterado';
         } catch (Exception $e) {
             echo $e;

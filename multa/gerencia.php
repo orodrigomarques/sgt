@@ -98,9 +98,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
     $descricao = $_POST['ds_observacao'];
     $pagamentoMulta = $_POST['dt_pagamento_multa'];
     ;
-
-
-
+    
     if (empty($id)) {
 
 
@@ -127,7 +125,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
               //var_dump($novaMulta);
                //echo $novaMulta->errorCode();
               //exit();
-
+            auditoria("Multa id ".$conexao->lastInsertId()." Inserida" );
            $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
