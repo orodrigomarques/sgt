@@ -33,8 +33,8 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $multa = $pegaMultas->fetch(PDO::FETCH_ASSOC);
 
         $id = $multa['id_multa'];
-        $tipoVeiculo = $multa['nm_modalidade'];
-        $prefixo = $multa['cd_modalidade'];
+        $tipoVeiculo = $multa['cd_modalidade'];
+        $prefixo = $multa['cd_prefixo'];
         $placa = $multa['cd_placa'];
         $nomeInfracao = $multa['nm_infracao'];
         $dataInfracao = $multa['dt_infracao'];
@@ -65,9 +65,29 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
 
 if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
     $id = $_POST['id_multa'];
-    $tipoVeiculo = $_POST['nm_modalidade'];
-    $prefixo = $_POST['cd_modalidade'];
+   
     $placa = $_POST['cd_placa'];
+    
+     try {
+                                            $testes = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_placa = '$placa' AND c.cd_modalidade = t.cd_modalidade");
+                                            $testes->execute();
+                                            while ($teste = $testes->fetch(PDO::FETCH_ASSOC)) { 
+                                         
+                                            $tipoVeiculo = $teste['cd_modalidade'];}
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        try {
+                                            $prefixoVeiculos = $conexao->prepare("SELECT DISTINCT cd_prefixo FROM veiculo where cd_placa = '$placa'");
+                                            $prefixoVeiculos->execute();
+                                            while ($prefixoVeiculo = $prefixoVeiculos->fetch(PDO::FETCH_ASSOC)) { 
+                                         
+                                            $prefixo = $prefixoVeiculo['cd_prefixo'];}
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
     $nomeInfracao = $_POST['nm_infracao'];
     $dataInfracao = $_POST['dt_infracao'];
     $horaInfracao = $_POST['hr_infracao'];
@@ -84,12 +104,14 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
 
 
         try {
-            $novaMulta = $conexao->prepare("INSERT INTO multa (nm_modalidade, cd_modalidade,cd_placa, nm_infracao, dt_infracao, hr_infracao,"
+            $novaMulta = $conexao->prepare("INSERT INTO multa ( cd_placa, cd_prefixo, cd_modalidade, nm_infracao, dt_infracao, hr_infracao,"
                     . "dt_vencimento_infracao, cd_ait, nm_agente, ds_observacao, dt_pagamento_multa) "
-                    . "VALUES ( :tipoVeiculo, :prefixo,:placa, :nomeInfracao, :dataInfracao, :horaInfracao, :dataVencimentoInfracao, :numeroAit, :nomeAgente, :descricao, :pagamentoMulta )");
-            $novaMulta->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
-            $novaMulta->bindValue(":prefixo", $prefixo, PDO::PARAM_STR);
+                    . "VALUES (  :placa, :prefixo, :tipoVeiculo, :nomeInfracao, :dataInfracao, :horaInfracao, :dataVencimentoInfracao, :numeroAit, :nomeAgente, :descricao, :pagamentoMulta )");
+            
+            
             $novaMulta->bindValue(":placa", $placa, PDO::PARAM_STR);
+            $novaMulta->bindValue(":prefixo", $prefixo, PDO::PARAM_STR);
+            $novaMulta->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
             $novaMulta->bindValue(":nomeInfracao", $nomeInfracao, PDO::PARAM_STR);
             $novaMulta->bindValue(":dataInfracao", $dataInfracao, PDO::PARAM_STR);
             $novaMulta->bindValue(":horaInfracao", $horaInfracao, PDO::PARAM_STR);
@@ -100,23 +122,26 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
             $novaMulta->bindValue(":pagamentoMulta", $pagamentoMulta, PDO::PARAM_STR);
 
             $novaMulta->execute();
-            // echo $novoUsuario->rowCount();
-            //var_dump($novoUsuario);
+            echo $novaMulta->rowCount();
+              var_dump($novaMulta);
+               echo $novaMulta->errorCode();
+              exit();
 
-
-            $retorno = 'inserido';
+         //  $retorno = 'inserido';
         } catch (Exception $e) {
             echo $e;
             exit($e);
         }
     } else {
         try {
-            $atualizarMulta = $conexao->prepare("UPDATE multa SET nm_modalidade = :tipoVeiculo, cd_modalidade = :prefixo, cd_placa = :placa, nm_infracao = :nomeInfracao, dt_infracao = :dataInfracao,"
+            $atualizarMulta = $conexao->prepare("UPDATE multa SET  cd_placa = :placa, cd_prefixo = :prefixo, cd_modalidade = :tipoVeiculo,  nm_infracao = :nomeInfracao, dt_infracao = :dataInfracao,"
                     . " hr_infracao = :horaInfracao, dt_vencimento_infracao = :dataVencimentoInfracao, cd_ait = :numeroAit , nm_agente = :nomeAgente, ds_observacao = :descricao, dt_pagamento_multa = :pagamentoMulta "
                     . "WHERE id_multa = :id");
-            $atualizarMulta->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
-            $atualizarMulta->bindValue(":prefixo", $prefixo, PDO::PARAM_STR);
+            
+            
             $atualizarMulta->bindValue(":placa", $placa, PDO::PARAM_STR);
+            $atualizarMulta->bindValue(":prefixo", $prefixo, PDO::PARAM_STR);
+            $atualizarMulta->bindValue(":tipoVeiculo", $tipoVeiculo, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":nomeInfracao", $nomeInfracao, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":dataInfracao", $dataInfracao, PDO::PARAM_STR);
             $atualizarMulta->bindValue(":horaInfracao", $horaInfracao, PDO::PARAM_STR);
@@ -180,33 +205,54 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
 
                             <form id="formMulta" name="formMulta"  action="gerencia.php" method="post"  class="form-horizontal" />
                             <input type="hidden" name="id_multa" id="id_multa" value="<?php echo($id); ?>">
+                            
+                                <?php if ($acao != 'novo') { ?>
                             <div class="form-group">                                                    
-                                <label class="col-sm-2 control-label">Tipo de Serviço</label>
+                                <label class="col-sm-2 control-label">Tipo do Serviço</label>
                                 <div class="col-sm-4">                                        
-                                    <select name="nm_modalidade" id="nm_modalidade" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> required>
-                                        <option value='' >Tipo do Serviço...</option>
+                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" disabled="disabled" required>
+                                        
                                         <?php
                                         try {
-                                            $tipoveiculos = $conexao->prepare("SELECT * FROM tipoVeiculo ");
-
-                                            $tipoveiculos->execute();
+                                            $tipoServicos = $conexao->prepare("SELECT DISTINCT c.cd_modalidade, t.nm_modalidade FROM veiculo c , tipoVeiculo t where c.cd_placa = '$placa' AND c.cd_modalidade = t.cd_modalidade");
+                                            $tipoServicos->execute();
+                                            
+                                            
                                         } catch (Exception $e) {
                                             echo $e;
                                             exit();
                                         }
                                         ?>
-                                        <?php while ($tipoveiculo = $tipoveiculos->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $tipoveiculo['nm_modalidade']; ?>' <?php echo ($tipoveiculo['nm_modalidade'] == $tipoVeiculo) ? 'selected' : ''; ?>><?php echo $tipoveiculo['nm_modalidade']; ?>  </option>
+                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' selected><?php echo $tipoServico['nm_modalidade']; ?>  </option>
                                         <?php } ?>                                              
                                     </select>
                                 </div>
-                            </div>
-                             <div class="form-group">
+                            </div> 
+
+
+<div class="form-group">
                                  <label class="col-sm-2 control-label">Prefixo</label>
                                  <div class="col-sm-4">
-                                     <input name="cd_modalidade" id="cd_modalidade" type="text" class="form-control" value="<?php echo $prefixo ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required/>
+                                     <?php
+                                        try {
+                                            $Prefixos = $conexao->prepare("SELECT DISTINCT cd_prefixo FROM veiculo where cd_placa = '$placa'");
+                                            $Prefixos->execute();
+                                            
+                                            
+                                        } catch (Exception $e) {
+                                            echo $e;
+                                            exit();
+                                        }
+                                        ?>
+                                        <?php while ($Prefixo = $Prefixos->fetch(PDO::FETCH_ASSOC)) { ?>
+                                     <input name="cd_prefixo" id="cd_prefixo" type="text" class="form-control" value="<?php echo $Prefixo['cd_prefixo'] ?>" readonly="readonly" </>
+                                        <?php } ?>  
                                  </div>
                              </div>
+
+ <?php } ?> 
+                             
                             <div class="form-group">                                                    
                                 <label class="col-sm-2 control-label">Placa do Veiculo</label>
                                 <div class="col-sm-4">                                        
@@ -235,7 +281,7 @@ if (isset($_POST['id_multa']) && $_POST['id_multa'] != '') {
                                         <option value='' >Descrição...</option>
                                         <?php
                                         try {
-                                            $decricoes = $conexao->prepare("SELECT * FROM infracao ");
+                                            $decricoes = $conexao->prepare("SELECT DISTINCT nm_infracao FROM infracao ");
 
                                             $decricoes->execute();
                                         } catch (Exception $e) {
