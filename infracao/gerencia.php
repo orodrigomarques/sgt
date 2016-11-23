@@ -35,7 +35,7 @@ if (isset($_GET['acao']) && $_GET['acao'] != '') {
         $id = $infracao['id_infracao'];
         $codigoInfracao = $infracao['cd_infracao'];
         $tipoMulta = $infracao['nm_tipo_multa'];
-        $cd_ait = $infracao['cd_ait'];        
+       // $cd_ait = $infracao['cd_ait'];        
         $descricao = $infracao['nm_infracao'];
         $pontos = $infracao['qt_pontuacao'];
         $valor = $infracao['vl_infracao'];
@@ -57,7 +57,7 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
     $id = $_POST['id_infracao'];
     $codigoInfracao = $_POST['cd_infracao'];
         $tipoMulta = $_POST['nm_tipo_multa'];
-        $cd_ait = $_POST['cd_ait'];        
+        //$cd_ait = $_POST['cd_ait'];        
         $descricao = $_POST['nm_infracao'];
         $pontos = $_POST['qt_pontuacao'];
         $valor = $_POST['vl_infracao'];
@@ -68,12 +68,12 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
 
 
         try {
-            $novaInfracao = $conexao->prepare("INSERT INTO infracao (cd_infracao, nm_tipo_multa, cd_ait, nm_infracao, qt_pontuacao,"
+            $novaInfracao = $conexao->prepare("INSERT INTO infracao (cd_infracao, nm_tipo_multa, nm_infracao, qt_pontuacao,"
                     . "vl_infracao ) "
-                    . "VALUES ( :codigoInfracao, :tipoMulta, :cd_ait, :descricao, :pontos, :valor )");
+                    . "VALUES ( :codigoInfracao, :tipoMulta, :descricao, :pontos, :valor )");
             $novaInfracao->bindValue(":codigoInfracao", $codigoInfracao);
             $novaInfracao->bindValue(":tipoMulta", $tipoMulta, PDO::PARAM_STR);
-            $novaInfracao->bindValue(":cd_ait", $cd_ait);
+           // $novaInfracao->bindValue(":cd_ait", $cd_ait);
             $novaInfracao->bindValue(":descricao", $descricao, PDO::PARAM_STR);
             $novaInfracao->bindValue(":pontos", $pontos);
             $novaInfracao->bindValue(":valor", $valor);
@@ -90,12 +90,12 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
         }
     } else {
         try {
-            $atualizarInfracao = $conexao->prepare("UPDATE infracao SET cd_infracao = :codigoInfracao, nm_tipo_multa = :tipoMulta, cd_ait = :cd_ait, nm_infracao = :descricao,"
+            $atualizarInfracao = $conexao->prepare("UPDATE infracao SET cd_infracao = :codigoInfracao, nm_tipo_multa = :tipoMulta, nm_infracao = :descricao,"
                     . " qt_pontuacao = :pontos, vl_infracao = :valor "
                     . "WHERE id_infracao = :id");
             $atualizarInfracao->bindValue(":codigoInfracao", $codigoInfracao);
             $atualizarInfracao->bindValue(":tipoMulta", $tipoMulta, PDO::PARAM_STR);
-            $atualizarInfracao->bindValue(":cd_ait", $cd_ait);
+         //   $atualizarInfracao->bindValue(":cd_ait", $cd_ait);
             $atualizarInfracao->bindValue(":descricao", $descricao, PDO::PARAM_STR);
             $atualizarInfracao->bindValue(":pontos", $pontos);
             $atualizarInfracao->bindValue(":valor", $valor);
@@ -184,26 +184,26 @@ if (isset($_POST['id_infracao']) && $_POST['id_infracao'] != '') {
                             </div>
                             
 <div class="form-group">                                                    
-                                <label class="col-sm-2 control-label">Numero AIT</label>
+                                <!--<label class="col-sm-2 control-label">Numero AIT</label>
                                 <div class="col-sm-4">                                        
-                                    <select name="cd_ait" id="cd_ait" class="form-control" <?php if ($acao == 'visualizar') { ?>disabled="disabled" <?php }; ?> >
+                                    <select name="cd_ait" id="cd_ait" class="form-control" <?php// if ($acao == 'visualizar') //{ ?>disabled="disabled" <?php// }; ?> >
                                         <option value='' >Numero AIT...</option>
                                         <?php
-                                        try {
-                                            $codigoAits = $conexao->prepare("SELECT * FROM multa ");
+                                       // try {
+                                           // $codigoAits = $conexao->prepare("SELECT * FROM multa ");
 
-                                            $codigoAits->execute();
-                                        } catch (Exception $e) {
-                                            echo $e;
-                                            exit();
-                                        }
+                                           // $codigoAits->execute();
+                                       // } catch (Exception $e) {
+                                          //  echo $e;
+                                          //  exit();
+                                      //  }
                                         ?>
-<?php while ($codigoAit = $codigoAits->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $codigoAit['cd_ait']; ?>' <?php echo ($codigoAit['cd_ait'] == $cd_ait) ? 'selected' : ''; ?>><?php echo $codigoAit['cd_ait']; ?>  </option>
-<?php } ?>                                              
+<?php// while ($codigoAit = $codigoAits->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value='<?php// echo $codigoAit['cd_ait']; ?>' <?php //echo ($codigoAit['cd_ait'] == $cd_ait) ? 'selected' : ''; ?>><?php// echo $codigoAit['cd_ait']; ?>  </option>
+<?php// } ?>                                              
                                     </select>
                                 </div>
-                            </div>
+                            </div> --->
                             
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Quantidade de Pontos</label>
