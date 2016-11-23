@@ -26,20 +26,20 @@ $hora_envio = date('H:i:s');
 	}
 	</style>
     <html>
-        <table width='510' border='1' cellpadding='1' cellspacing='1' bgcolor='#CCCCCC'>
+        <table align=center border=1px>
             <tr>
-              <td>
+              <td colspan=2 align=center>CONTATO
 			    <tr>
-                 <td width='350'>Nome:$nome</td>
+                 <td>Nome:$nome</td>
                 </tr>
                 <tr>
-                  <td width='320'>E-mail:<b>$email</b></td>
+                  <td>E-mail:<b>$email</b></td>
 	            </tr>
 				<tr>
-                  <td width='320'>Telefone:<b>$telefone</b></td>
+                  <td>Telefone:<b>$telefone</b></td>
                 </tr>
 	      <tr>
-                  <td width='500'>Mensagem:$msg</td>
+                  <td>Mensagem:$msg</td>
                 </tr>
             </td>
           </tr>
