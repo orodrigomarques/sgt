@@ -4,28 +4,22 @@ include '../include/head.php';
 include '../include/funcoes.php';
 validaAcesso();
 $conexao = conecta();
-
 if (isset($_GET['retorno']) && $_GET['retorno'] == 'inserido') {
-
     echo "<script>alert('Registro inserido com sucesso!');
                     location.href=\"index.php\"</script>";
 }
-
 if (isset($_GET['retorno']) && $_GET['retorno'] == 'alterado') {
-
     echo "<script>alert('Registro alterado com sucesso!');
                     location.href=\"index.php\"</script>";
 }
-
 //WHERE
 $modelo = '';
 $placaVeiculo = '';
 $filtroModalidade = '';
 $modalidade = "";
-
 if (isset($_POST['cd_modalidade']) && !empty($_POST['cd_modalidade'])) {
     $modalidade = $_POST['cd_modalidade'];
-    $filtroModalidade = "AND cd_modalidade = $modalidade "; 
+    $filtroModalidade = "AND cd_modalidade = $modalidade ";
 }
 if (isset($_POST['nm_modelo']) && !empty($_POST['nm_modelo'])) {
     $modelo = $_POST['nm_modelo'];
@@ -33,21 +27,17 @@ if (isset($_POST['nm_modelo']) && !empty($_POST['nm_modelo'])) {
 if (isset($_POST['cd_placa']) && !empty($_POST['cd_placa'])) {
     $placaVeiculo = $_POST['cd_placa'];
 }
-
 //End WHERE
 // PAGINAÇÃO
 $pagina = (isset($_GET['pagina']) && !empty($_GET['pagina']) ? $_GET['pagina'] : 1);
 $registros = 10;
-
 $inicio = ($pagina - 1) * $registros;
 $fim = $registros; //$pagina * $registros;
-
 $limit = "LIMIT $inicio, $fim";
-
 try {
     $contador = $conexao->prepare("SELECT count(*) as qtd FROM veiculo "
             . "WHERE nm_modelo LIKE  :modelo AND cd_placa LIKE  :placaVeiculo "
-            . $filtroModalidade." " . $limit);
+            . $filtroModalidade . " " . $limit);
     $contador->bindValue(":modelo", '%' . $modelo . '%');
     $contador->bindValue(":placaVeiculo", '%' . $placaVeiculo . '%');
     $contador->execute();
@@ -55,19 +45,15 @@ try {
     echo $e;
     exit();
 }
-
 $qtd = $contador->fetch(PDO::FETCH_ASSOC);
 $ultima_pagina = ceil((int) $qtd['qtd'] / $registros);
 //End PAGINAÇÃO
-
-
 try {
     $veiculos = $conexao->prepare("SELECT * FROM veiculo "
             . "WHERE nm_modelo LIKE  :modelo AND cd_placa LIKE  :placaVeiculo            
-           " .$filtroModalidade. " ORDER BY nm_modelo ASC " . $limit);
+           " . $filtroModalidade . " ORDER BY nm_modelo ASC " . $limit);
     $veiculos->bindValue(":modelo", '%' . $modelo . '%');
     $veiculos->bindValue(":placaVeiculo", '%' . $placaVeiculo . '%');
-
     $veiculos->execute();
 } catch (Exception $e) {
     echo $e;
@@ -77,11 +63,11 @@ try {
 
 
 <body class="">
-<?php include '../include/header.php'; ?>
+    <?php include '../include/header.php'; ?>
 
     <div id="page-container">
 
-    <?php include '../include/menu.php'; ?>
+        <?php include '../include/menu.php'; ?>
 
 
         <div id="page-content">
@@ -110,22 +96,22 @@ try {
                                         <div id="example_wrapper" class="dataTables_wrapper" role="grid">
                                             <form name="veiculos" method="POST" id="veiculos">
                                                 <div class="col-sm-4">                                        
-                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" >
-                                        <option value='' >Tipo do Serviço..</option>
-                                        <?php
-                                        try {
-                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
-                                            $tipoServicos->execute();
-                                        } catch (Exception $e) {
-                                            echo $e;
-                                            exit();
-                                        }
-                                        ?>
-                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' <?php echo ($tipoServico['cd_modalidade'] == $modalidade) ? 'selected' : ''; ?>><?php echo $tipoServico['nm_modalidade']; ?>  </option>
-                                        <?php } ?>                                              
-                                    </select>
-                                </div>
+                                                    <select name="cd_modalidade" id="cd_modalidade" class="form-control" >
+                                                        <option value='' >Tipo do Serviço..</option>
+                                                        <?php
+                                                        try {
+                                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
+                                                            $tipoServicos->execute();
+                                                        } catch (Exception $e) {
+                                                            echo $e;
+                                                            exit();
+                                                        }
+                                                        ?>
+                                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                            <option value='<?php echo $tipoServico['cd_modalidade']; ?>' <?php echo ($tipoServico['cd_modalidade'] == $modalidade) ? 'selected' : ''; ?>><?php echo $tipoServico['nm_modalidade']; ?>  </option>
+                                                        <?php } ?>                                              
+                                                    </select>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-xs-3">
                                                         <input class="form-control" name="nm_modelo" placeholder="Modelo" value="<?php echo($modelo); ?>" type="text">
@@ -139,7 +125,7 @@ try {
                                                 </div>
                                             </form>
 
-<?php if ($veiculos->rowCount() > 0) { ?>
+                                            <?php if ($veiculos->rowCount() > 0) { ?>
                                                 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables dataTable sortable" id="example" aria-describedby="example_info">
                                                     <thead>
                                                         <tr role="row">
@@ -151,119 +137,48 @@ try {
                                                     </thead>
 
                                                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-    <?php while ($veiculo = $veiculos->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                        <?php while ($veiculo = $veiculos->fetch(PDO::FETCH_ASSOC)) { ?>
                                                             <tr class="gradeA odd">
                                                                 <td style="width:10%" class=""><?php echo($veiculo['nm_modelo']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td style="width:10%" class=""><?php echo($veiculo['cd_placa']); ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
- <?php
-                                        try {
-                                            $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
-                                            $tipoServicos->execute();
-                                        } catch (Exception $e) {
-                                            echo $e;
-                                            exit();
-                                        }
-                                        ?>
-                                        <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) { 
-                                            if($tipoServico['cd_modalidade'] == $veiculo['cd_modalidade']){?>
-                     <td style="width:10%" class=""><?php echo $tipoServico['nm_modalidade'] ; ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                        <?php }} ?>
-                                                                <td style="width:40%" class="center">
+                                                                <?php
+                                                                try {
+                                                                    $tipoServicos = $conexao->prepare("SELECT * FROM  tipoVeiculo");
+                                                                    $tipoServicos->execute();
+                                                                } catch (Exception $e) {
+                                                                    echo $e;
+                                                                    exit();
+                                                                }
+                                                                ?>
+                                                                <?php while ($tipoServico = $tipoServicos->fetch(PDO::FETCH_ASSOC)) {
+                                                                    if ($tipoServico['cd_modalidade'] == $veiculo['cd_modalidade']) {
+                                                                        ?>
+                                                                        <td style="width:10%" class=""><?php echo $tipoServico['nm_modalidade']; ?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <?php }
+        } ?>
+                                                                <td style="width:23%" class="center">
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($veiculo['cd_veiculo']); ?>')" class="btn btn-primary"><i class="icon-pencil">&nbsp;&nbsp;Editar</i> </a>
                                                                     <a href="gerencia.php?id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>&acao=visualizar" onClick="buscaPessoa('<?php echo($veiculo['cd_veiculo']); ?>')" class="btn btn-success"><i class="icon-eye-open">&nbsp;&nbsp;Visualizar</i> </a>
         <!--                                                                    <a onClick="buscaUsuario('<?php echo($veiculo['cd_veiculo']); ?>');location.href='gerencia.php?acao=visualizar&id_usuario=<?php echo $veiculo['cd_veiculo']; ?>'" class="btn btn-success"><i class="icon-trash">&nbsp;&nbsp;Visualizar</i> </a>-->
                                                                     <a onClick="if (confirm('Tem certeza que deseja excluir este registro?')) {
-                                                                                location.href = 'gerencia.php?acao=excluir&id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>'
-                                                                            }" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
-                                                                    <button type="button" data-toggle="modal" data-target="#myModal<?php echo $veiculo['cd_placa']; ?>"  class="btn btn-inverse" ><i class="icon-eye-open">&nbsp;&nbsp;Ver Multas</i></button>
-                                                                    <button type="button" data-toggle="modal" data-target="#myModalProcesso<?php echo $veiculo['cd_placa']; ?>"  class="btn btn-inverse" ><i class="icon-eye-open">&nbsp;&nbsp;Ver Processos</i></button>
+                                                                                        location.href = 'gerencia.php?acao=excluir&id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>'
+                                                                                    }" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
+                                                                    <td style="width:1%" class="center">
+                                                                    <form name="multas" method="POST" id="multas" action="../multa/index.php">
+                                                                        <input type="hidden" name="cd_placa" value="<?php echo $veiculo['cd_placa']; ?>" />    
+                                                                        <button class="btn btn-default" ><i class="icon-eye-open">Ver Multas</i></button></form>
+                                                                    </td>
+                                                                                                                                        <td style="width:1%" class="center">
 
+                                                                        <form name="processos" method="POST" id="processos" action="../processo/index.php">
+                                                                        <input type="hidden" name="cd_placa" value="<?php echo $veiculo['cd_placa']; ?>" />    
+                                                                        <button class="btn btn-default" ><i class="icon-eye-open">Ver Processos</i></button></form>
+                                                                        </td>
                                                                 </td>
                                                             </tr>
-        <?php
-        $cd_placaMulta = $veiculo['cd_placa'];
 
-        try {
-            $multas = $conexao->prepare("SELECT * FROM multa where cd_placa = :cd_placa");
 
-            $multas->bindValue(":cd_placa", $cd_placaMulta, PDO::PARAM_STR);
-
-            $multas->execute();
-        } catch (Exception $e) {
-            echo $e;
-            exit();
-        }
-        ?>
-
-                                                        <div class="modal fade" id="myModal<?php echo $veiculo['cd_placa']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <?php
-        if ($multas->rowCount() == 0) {
-            echo 'Não há multas para esse veiculo';
-        }
-        ?>
-                                                                        <?php while ($multa = $multas->fetch(PDO::FETCH_ASSOC)) { ?> 
-                                                                            <h4 class="modal-title text-center" id="myModalLabel">AIT Nº: <?php echo $multa['cd_ait']; ?></h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>Descrição: <?php echo $multa['nm_infracao']; ?></p>
-                                                                            <p>Data da infração: <?php echo $multa['dt_infracao']; ?></p>
-                                                                            <p>Data do pagamento: <?php
-                                                               if ($multa['dt_pagamento_multa'] == '0000-00-00') {
-                                                                    echo 'SEM PAGAMENTO';
-                                                                } else {
-                                                                    echo $multa['dt_pagamento_multa'];
-                                                                }
-                                                                            ?></p>
-                                                                        <?php } ?>   </div> 
-                                                                </div>
-                                                            </div>
-                                                        </div> 
-
-    <?php
-        $cd_placaProcesso = $veiculo['cd_placa'];
-
-        try {
-            $processos = $conexao->prepare("SELECT * FROM processo where cd_placa = :cd_placaProcesso");
-
-            $processos->bindValue(":cd_placaProcesso", $cd_placaProcesso, PDO::PARAM_STR);
-
-            $processos->execute();
-        } catch (Exception $e) {
-            echo $e;
-            exit();
-        }
-        ?>
-
-                                                        <div class="modal fade" id="myModalProcesso<?php echo $veiculo['cd_placa']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabelProcesso">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <?php
-        if ($processos->rowCount() == 0) {
-            echo 'Não há processos para esse veiculo';
-        }
-        ?>
-                                                                        <?php while ($processo = $processos->fetch(PDO::FETCH_ASSOC)) { ?> 
-                                                                            <h4 class="modal-title text-center" id="myModalLabelProcesso">Nº do Processo: <?php echo $processo['cd_processo']; ?></h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>Ano do Processo: <?php echo $processo['aa_processo']; ?></p>
-                                                                            <p>Resultado do processo: <?php if ($processo['ds_resultado'] == '') {
-                                                                    echo 'Sem resultado';
-                                                                } else {
-                                                                    echo $processo['ds_resultado'];
-                                                                } ?></p>
-                                                                        <?php } ?>   </div> 
-                                                                </div>
-                                                            </div>
-                                                        </div> 
-
-                                                    <?php } ?>                                                    </tbody>
+    <?php } ?>                                                    </tbody>
                                                 </table>
 
                                                 <div style="float:left">
@@ -271,7 +186,7 @@ try {
                                                 </div>
                                             <?php } else { ?>
                                                 <div style="margin-left:10px">Nenhum documeto encontrado.</div>
-                                            <?php } ?>
+<?php } ?>
                                         </div>		                     
 
                                         <div class="tab-pane active" style="text-align:right;" id="dompaginate">
@@ -281,7 +196,6 @@ try {
 
                                                 <?php
                                                 $inicio_paginacao = ($pagina - 2 < 1) ? 1 : $pagina - 2;
-
                                                 if ($pagina > 1) {
                                                     ?>
                                                     <li><a href="?pagina=<?php echo($pagina - 1); ?>&nome=<?php echo($modelo); ?>"><i class="icon-angle-left"></i>&nbsp;</a></li>
