@@ -151,11 +151,11 @@ try {
             <?php }
         } ?>
                                                                 <td style="width:23%" class="center">
-                                                                    <a href="gerencia.php?id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($veiculo['cd_veiculo']); ?>')" class="btn btn-primary"><i class="icon-pencil">&nbsp;&nbsp;Editar</i> </a>
-                                                                    <a href="gerencia.php?id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>&acao=visualizar" onClick="buscaPessoa('<?php echo($veiculo['cd_veiculo']); ?>')" class="btn btn-success"><i class="icon-eye-open">&nbsp;&nbsp;Visualizar</i> </a>
+                                                                    <a href="./veiculo/gerencia.php?id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>&acao=editar" onClick="buscaPessoa('<?php echo($veiculo['cd_veiculo']); ?>')" class="btn btn-primary"><i class="icon-pencil">&nbsp;&nbsp;Editar</i> </a>
+                                                                    <a href="./veiculo/gerencia.php?id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>&acao=visualizar" onClick="buscaPessoa('<?php echo($veiculo['cd_veiculo']); ?>')" class="btn btn-success"><i class="icon-eye-open">&nbsp;&nbsp;Visualizar</i> </a>
         <!--                                                                    <a onClick="buscaUsuario('<?php echo($veiculo['cd_veiculo']); ?>');location.href='gerencia.php?acao=visualizar&id_usuario=<?php echo $veiculo['cd_veiculo']; ?>'" class="btn btn-success"><i class="icon-trash">&nbsp;&nbsp;Visualizar</i> </a>-->
                                                                     <a onClick="if (confirm('Tem certeza que deseja excluir este registro?')) {
-                                                                                        location.href = 'gerencia.php?acao=excluir&id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>'
+                                                                                        location.href = './veiculo/gerencia.php?acao=excluir&id=<?php echo base64_encode($veiculo['cd_veiculo']); ?>'
                                                                                     }" class="btn btn-danger"> <i class="icon-trash">&nbsp;&nbsp;Excluir</i> </a>
                                                                     <td style="width:1%" class="center">
                                                                     <form name="multas" method="POST" id="multas" action="../multa/index.php">
@@ -228,25 +228,14 @@ try {
 
     </div> <!-- page-container -->
     <script type='text/javascript' src='assets/js/jquery-1.10.2.min.js'></script> 
-<script type='text/javascript' src='assets/js/bootstrap.min.js'></script> 
-<script type='text/javascript' src='assets/js/enquire.js'></script>
+
+
 <script type='text/javascript' src='assets/js/jquery.cookie.js'></script> 
-<script type='text/javascript' src='assets/js/jquery.touchSwipe.min.js'></script> 
 <script type='text/javascript' src='assets/js/jquery.nicescroll.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/codeprettifier/prettify.js'></script> 
-<script type='text/javascript' src='assets/plugins/easypiechart/jquery.easypiechart.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/sparklines/jquery.sparklines.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-toggle/toggle.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-wysihtml5/wysihtml5-0.3.0.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-wysihtml5/bootstrap-wysihtml5.js'></script> 
-<script type='text/javascript' src='assets/plugins/fullcalendar/fullcalendar.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-daterangepicker/daterangepicker.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/form-daterangepicker/moment.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.resize.min.js'></script> 
-<script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.orderBars.min.js'></script> 
-<script type='text/javascript' src='assets/demo/demo-index.js'></script> 
+
+
+
 <script type='text/javascript' src='assets/js/application.js'></script> 
-<script type='text/javascript' src='assets/demo/demo.js'></script>
+
 </body>
 </html>
