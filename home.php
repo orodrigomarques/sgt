@@ -63,7 +63,7 @@ try {
     
 	<head>
 		
-                <link href="./assets/js/easy-autocomplete.min.css" rel="stylesheet" type="text/css">
+                <link href="./assets/css/easy-autocomplete.min.css" rel="stylesheet" type="text/css">
                 <script src="./assets/js/jquery-1.11.2.min.js"></script>
                 <script src="./assets/js/jquery.easy-autocomplete.min.js" type="text/javascript" ></script>
 	</head>
