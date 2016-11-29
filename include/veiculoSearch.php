@@ -19,10 +19,10 @@ if(isset($_GET['dataType'])) {
 $found_countries = array();
 
 foreach ($countries as $key => $country) {
-$teste =implode("", $country);
-	if ($phrase == "" || stristr($teste, $phrase) != false) {
+$placas =implode("", $country);
+	if ($phrase == "" || stristr($placas, $phrase) != false) {
 		array_push($found_countries	, $country);
-	}
+        }
 }
 
 
@@ -48,23 +48,7 @@ switch($dataType) {
 
 	break;
 
-	case "xml":
- 	    $xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n";
-		$xml .= '<data>';
-
-		foreach($found_countries as $key => $country) {
-			$xml .= '<country>' . $country . '</country>';
-		}
-
-		$xml .= '</data>';
-
-
-		header('Content-Type: text/xml');
-		echo $xml;
-	break;
-
-	default:
-	break;
+	
 
 }
 
