@@ -198,7 +198,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
 
                             <form id="formProcesso" name="formProcesso"  action="gerencia.php" method="post"  class="form-horizontal" />
                             <input type="hidden" name="id_processo" id="id_processo" value="<?php echo($id); ?>">
-                            <?php if ($acao != 'novo') { ?>
+                            
 
                               <div class="row">
                                 <div class="col-md-3">
@@ -234,7 +234,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
                                   </div>
 
 
-
+                                <?php if ($acao != 'novo') { ?>
                                 <div class="col-md-4">
                                 <label><strong>Tipo do Serviço</strong></label>
                                     <select name="cd_modalidade" id="cd_modalidade" class="form-control" disabled="disabled" required>
