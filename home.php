@@ -86,7 +86,7 @@ try {
                                                         <input id="cd_placa" class="form-control" name="cd_placa" placeholder="Placa" value="<?php echo($placaVeiculo); ?>" type="text">
                                                     </div>
                                                     <div class="col-xs-2">
-                                                        <button style="float:left" class="btn-primary btn">Buscar</button>
+                                                        <button style="float:left" class="btn btn-primary"><i class="icon-search"></i></button>
                                                     </div><br /><br /><br />
                                                 </div>
                                             </form>                 
@@ -228,6 +228,7 @@ try {
 
     </div> <!-- page-container -->
     <script type='text/javascript' src='assets/js/jquery-1.10.2.min.js'></script> 
+<script type='text/javascript' src='assets/js/bootstrap.min.js'></script> 
 
 
 <script type='text/javascript' src='assets/js/jquery.cookie.js'></script> 
