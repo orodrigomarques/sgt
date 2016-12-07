@@ -206,7 +206,7 @@ if (isset($_POST['id_processo']) && $_POST['id_processo'] != '') {
 
                                       <input style="color:blue;height:50px; font-size:30px" type="number" name="cd_processo" id="cd_processo" class="form-control" value="<?php echo($codigoProcesso); ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> required>
                                   </div>
-                                  <div class="col-md-1">
+                                  <div class="col-md-2">
                                       <label><strong>Ano do Processo</strong></label>
                                         <input style="color:blue;height:50px; font-size:30px" name="aa_processo" id="aa_processo" type="text" class="form-control"  value="<?php echo $anoProcesso ?>" <?php if ($acao == 'visualizar') { ?>readonly="readonly" <?php }; ?> pattern="[0-9]{4}" title="No minimo quatro caracteres (Apenas numeros)." required/>
                                       </div>
