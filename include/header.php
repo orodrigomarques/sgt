@@ -14,7 +14,7 @@
         			<li class="username">
                         <a href="#">
 <!--        				    <div class="pull-left"><img class="userimg" src="../assets/demo/avatar/dangerfield.png" alt="Jeff Dangerfield" /></div>-->
-        				    <div class="pull-right"><h5>Olá, <?php echo $_SESSION['nomeUsuario'] ?>!</h5><small>Logged in as <span>john275</span></small></div>
+        				    <div class="pull-right"><h5>Olá, <?php echo $_SESSION['nomePessoa'] ?>!</h5><small>Logado como <span><?php echo $_SESSION['nomeUsuario'] ?></span></small></div>
                         </a>
         			</li>
         			<li class="userlinks">
